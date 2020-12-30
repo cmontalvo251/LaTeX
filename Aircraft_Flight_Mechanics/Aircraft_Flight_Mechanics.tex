@@ -5,11 +5,12 @@
 \usepackage[usenames,dvipsnames]{color}
 %\usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{datetime}
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{hyperref}
 \usepackage{enumitem}
-\usepackage{wrapfig}							% allows wrapping text around figures
+\usepackage{wrapfig}		%					allows wrapping text around figures
 \usepackage{multicol}
 %\usepackage{cite}
 %\usepackage[labelfont=bf]{caption}
@@ -17,15 +18,15 @@
 \titleformat{\section}[block]{\large\bfseries}{\thesection}{1em}{}
 \usepackage{framed}
 \usepackage{setspace}
-\def\beq{\begin{equation*}}
-\def\eeq{\end{equation*}}
+\def\beq{\begin{equation}}
+\def\eeq{\end{equation}}
 \def\beqn{\begin{matrix}}
 \def\eeqn{\end{matrix}}
 
 \setlength{\marginparwidth}{0pt}
 
- % Define commands to assure consistent treatment throughout document
-% \newcommand{\eqnref}[1]{(\ref{#1})}
+% Define commands to assure consistent treatment throughout document
+\newcommand{\eqnref}[1]{(\ref{#1})}
  \newcommand{\class}[1]{\texttt{#1}}
  \newcommand{\package}[1]{\texttt{#1}}
  \newcommand{\file}[1]{\texttt{#1}}
@@ -49,8 +50,9 @@
   Carlos Montalvo \\
 \vspace{22 mm}
 \end{singlespace}
-{\itshape University of South Alabama}
-{\bf Copyright $\copyright$ Carlos Jos\'{e} Montalvo 2015}
+{\itshape University of South Alabama}\\
+{\bf Copyright $\copyright$ Carlos Jos\'{e} Montalvo}
+\\ Last Update: \today
 \end{center}
 
 \newpage
@@ -58,7 +60,10 @@
 \section*{Manuscript Changes}
 
 \begin{enumerate}[itemsep=-5pt]
-  \item December 10th, 2020 - Moved manuscript to public Github repo
+\item December 10th, 2020 - Moved manuscript to public Github repo
+\item December 30th, 2020 - Added datetime to title page. Added
+  section headers to RC aircraft design. Wrote text all the way to
+  airfoil selection. 
 \end{enumerate}
 
 \newpage
@@ -655,6 +660,175 @@ following relationships:
 The control scheme defined above is a conventional inner loop-outer
 loop control of a fixed wing aircraft using a PID tracking
 controller.
+
+\section{Radio Controlled Aircraft Design}
+
+Many principles for large aircraft design can be applied to smaller
+radio controlled aircraft but understand that many of the aerodynamic
+principles are not quite well defined for slow and small
+aircraft. These aircraft have low Reynolds number which often exhibits
+odd phenomena. For example, airfoil selection is really not so much a
+design point other than ease of manufacturing rather than maximizing
+lift coefficient. Remember that Reynolds number can be defined from
+the equation below where $\rho$ is the density at sea-level (1.225
+kg/$m^3$ in SI units), $V$ is
+the desired flight speed, $\bar{c}$ is the mean aerodynamic chord and
+$\mu_{\infty}$ is the viscosity of air which in SI units is 1.81e-5
+$kg/(m-s)$. 
+
+\beq
+Re = \frac{\rho V \bar{c}}{\mu_{\infty}}
+\eeq
+
+You can tell that flying a small aircraft ($\bar{c}$) and flying slow
+$(V)$ results in a low Reynolds number. Either way the procedure below
+has produced some great aircraft and the tools you'll learn along the
+way will help you in your future aerospace engineering career. If
+you're not an engineer then this text will at least give you an
+appreciation for what goes into aircraft design.
+
+\subsection{Vehicle Type Selection and Requirements}
+
+In the very beginning of your design you need to decide on the type of
+aircraft you want to build. Designing a glider versus an aerobatic
+airplane will result in vastly different engineering design
+decisions. For example, a glider is going to have very long slender
+wings while an aerobatic airplane is going to have somewhat shorter
+wings with large control surfaces. I suggest you select from the
+following types of aircraft and then move on: Gliders, Trainers, Sport
+Aerobatic, Racers. If you'd like to build a scale aircraft there isn't
+much to design since the shape of the aircraft is pretty much
+built. If you do go with a scale aircraft this textbook isn't really
+for you since you aren't really building a scratch build
+aircraft. You're more just copying someone else's design. In that case
+you may as well just buy a kit or watch some videos on balsa wood
+construction and an overview of all the electronics required for RC
+aircraft flight.
+
+If you selected one of the other styles you're ready to move onto to
+the next stage which is requirements. There is so much literature on
+Systems Engineering, top level requirements, functional
+requirements and derived requirements. The bottom line is you need to
+determine what you want your aircraft to do. Do you want it to fly
+straight up, upside down? Do you want the aircraft to be hand
+launched? Land on a runway? Determine what you want the aircraft to do
+and create a bulleted list of those requirements. Throughout the
+design you can refer to these requirements and make sure you are
+satisfying these requirements. If this is your first build then you
+may just have one requirement and that is to take off and land without
+crashing. But think a bit deeper. Do you want to turn the vehicle? Do
+you want full channel control for roll, pitch and yaw or just yaw
+control? Do you want landing gear? What sort of flying characteristics
+do you want? Be as specific as possible here. 
+
+\subsection{Initial Design - Hand Sketch and Aspect Ratio}
+
+Once you have an idea of what the aircraft type is and what the
+requirements are it's time to hand sketch your aircraft. Try and use
+engineering paper, french curves, a ruler and a compass. Make this
+hand sketch look nice so you can use it in your future design. Draw
+your sketch to scale. You might be wondering, ``how do I draw the
+aircraft without knowing what my wing loading or thrust to weight
+ratio is?". The answer comes from my late aircraft design professor
+Dr. Mikolowski (RIP). He would always say ``If it looks good, it flies
+good". After designing so many aircraft and seeing so many scratch
+builds from my students I can honestly say that this is true
+100\%. If you're reading this now it means that there is already over
+100 years of aircraft technology on the internet for you to research
+and see what other aircraft look like. Make your aircraft look like
+that but make sure it fits into your aircraft type and make sure it
+satisfies your requirements from above. If one of your requirements
+was to hand launch, then make sure your drawing reflects a vehicle
+without landing gear and a place to grab the aircraft. If you wanted
+full channel support make sure to include all the control
+surfaces. Think about where you want the propulsion system to go and
+how you're going to access the electronics before you fly. Think about
+what you want the wing to look like. Make it as big as you think it
+needs to fly. Use your intuition. This is an art. So much of
+engineering is an art.
+
+Once your aircraft sketch is complete (make sure to do a front view,
+side view and top view of your aircraft), it's time to take down some
+wing characteristics. This is why you need to draw your sketch to
+scale. Measure the length of the wing (wingspan $b$) and the chord at the
+root ($c_r$) and the tip ($c_t$). Compute the area of the wing ($S$) using
+the area of a trapezoid or rectangle depending on the shape of your
+wing. Once you have the wingspan and area you can compute the aspect
+ratio of your aircraft.
+
+\beq
+AR = \frac{b^2}{S}
+\eeq
+
+The general rule is that the larger the aspect ratio the more
+aerodynamically efficient your aircraft will be. This is why gliders
+have very long and slender wings. At the same time, high aspect ratio
+wings suffer from larger bending moments and can flex considerably in
+flight. Finally, it's important to compute the mean aerodynamic chord
+of the wing. This is basically the average chord of your wing. If you
+create a rectangular wing your mean aerodynamic chord is just the
+chord of the wing since it's constant. If not you'll need to integrate
+over the length of the wing using the formula below where y = 0 is the
+centerline of the vehicle and y=b/2 is the wingtip on the right side. 
+
+\beq
+\bar{c} = \frac{2}{S}\int^{b/2}_0 c^2 dy
+\eeq
+
+\subsection{Weight Estimate - Tabular Approach}
+
+Once you have an idea of the overall shape it's time to estimate how
+heavy the aircraft will be. First think about the fundamental
+components of an aircraft. If you're not familiar with any of the
+components below, just type the item into Google and you'll find
+numerous articles and Youtube Videos about each component.
+
+\begin{enumerate}[itemsep=-5pt]
+\item ESC - Electronic Speed Controller
+\item Battery - Assume for now that you'll be using a 1500mAh 3S 
+  Battery unless you're building a micro aircraft in which case you
+  might end up using a 600 mAh 2S or even a 300 mAh 1S. Think about
+  the size of your aircraft. You will do more sophisticated battery
+  design in the future.
+\item Motor and Propeller - Again select something that is in the
+  ballpark of the aircraft you're building. You'll do a redesign later.
+\item Servos
+\item Receiver
+\item Control Linkages and Servo Horns
+\item Fuselage
+\item Main Wing
+\item Tail both Horizontal and Vertical
+\item Payload
+\end{enumerate}
+
+For each of the components above you need to estimate the weight of
+these components. The only way to do that is to either look up the
+weight of similar aircraft to the one you're designing or find
+components that you think will work for your aircraft and add up all
+of the weights. The most difficult part is going to be estimating the
+empty weight of the aircraft which is just the structure of the
+aircraft. For these estimates you need to decide what materials you
+plan on using. Is your aircraft made out of foam, balsa, carbon fiber
+or some type of combination. Perform an initial material selection and
+then use that to estimate your weight. Create a table in a spreadsheet
+type program or a numerical computer program so that you can go back
+and change weights as your design progresses. Use the spreadsheet or
+numerical program to compute the total weight of your aircraft. This
+is your maximum takeoff weight.
+
+\subsection{Airfoil Selection and 2D and 3D Lift}
+
+\subsection{Wing Cube Loading and Thrust to Weight Ratio}
+
+\subsection{Stability and Control, Center of Mass and Static Margin}
+
+\subsection{Re-Design - Iteration and Detailed Sketch}
+
+\subsection{Computer Aided Design}
+
+\subsection{Purchase Components}
+
+\subsection{Takeoffs are Optional, Landings are Not}
 
 \newpage
 
