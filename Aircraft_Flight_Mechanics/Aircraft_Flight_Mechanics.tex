@@ -63,8 +63,8 @@
 \begin{enumerate}[itemsep=-5pt]
 \item December 10th, 2020 - Moved manuscript to public Github repo
 \item December 30th, 2020 - Added datetime to title page. Added
-  section headers to RC aircraft design. Wrote text all the way to
-  airfoil selection. Added a references section.
+  section headers to RC aircraft design. Wrote text all the way
+  through the airfoil selection. Added a references section.
 \end{enumerate}
 
 \newpage
@@ -72,7 +72,10 @@
 \section*{Changes Needed}
 
 \begin{enumerate}[itemsep=-5pt]
-\item Need a section on how to design an RC aircraft
+\item Need to finish section on how to design an RC aircraft
+\item It would be nice to include some plots on RC aircraft design
+  sections
+\item I think an example RC aircraft design example would be good
 \end{enumerate}
 
 \tableofcontents
@@ -380,7 +383,7 @@ the body frame.
 \begin{Bmatrix} X_W \\ Y_W \\ Z_W \end{Bmatrix} = mg \begin{Bmatrix}
 -s_{\theta} \\ s_{\phi}c_{\theta} \\ c_{\phi}c_{\theta} \end{Bmatrix}
 \end{equation}
-\subsection{Aerodynamics}
+\subsection{Aerodynamics}\label{s:aerodynamics}
 Aircraft aerodynamics are written using a taylor series expansion
 about a trim point\cite{Phillips,AndersonD}. That is, the aerodynamic forces are given by
 \begin{equation}
@@ -686,7 +689,9 @@ $(V)$ results in a low Reynolds number. Either way the procedure below
 has produced some great aircraft and the tools you'll learn along the
 way will help you in your future aerospace engineering career. If
 you're not an engineer then this text will at least give you an
-appreciation for what goes into aircraft design.
+appreciation for what goes into aircraft design. If you'd much rather
+watch youtube videos than read this document, feel free to watch my
+Youtube playlist on radio controlled aircraft design\cite{RCYoutube}
 
 \subsection{Vehicle Type Selection and Requirements}
 
@@ -820,9 +825,128 @@ is your maximum takeoff weight.
 
 \subsection{Airfoil Selection and 2D and 3D Lift}
 
+The section \ref{s:aerodynamics} details the aerodynamic forces on the
+aircraft. In this stage of design we will only be looking at the lift
+equation.
+\begin{equation}
+L = \frac{1}2\rho {V}^2 S C_L
+\end{equation}
+The coefficient of lift $C_L$ is the lift coefficient of the
+aircraft. This coefficient is a function of Reynolds number, angle of
+attack, airfoil shape and wing shape. Recall that the angle of attack
+is the angle between the zero lift line of the airfoil and the free
+stream air. Breaking the velocity vector into components yields the
+equation below where $w$ is the airspeed along the z-axis of the
+vehicle and $u$ is the velocity along the x-axis. 
+\begin{equation}\label{e:aoa}
+\alpha = tan^{-1}\left(\frac{w} {u} \right)
+\end{equation}
+Using the angle of attack as a parameter, the lift coefficient can be
+expanded to the following:
+\beq
+C_L = C_{L\alpha}(\alpha-\alpha_0)
+\eeq
+The parameter $\alpha_0$ is the angle of attack that results in zero
+lift. This is a function of the airfoil shape. The parameter
+$C_{L\alpha}$ is the lift curve slope and is a function of airfoil
+shape, wing shape and Reynolds number. In order to remove, wing shape
+from the design, the aspect ratio is used to convert the wing lift to
+a sectional airfoil coefficient.
+\beq\label{e:ar_equation}
+C_{L\alpha} = \frac{C_{l\alpha}}{1+\frac{C_{l\alpha}}{\pi e AR}}
+\eeq
+The parameter $e$ is an efficiency parameter which is often assumed to
+be 80-90\%. The coefficient, $C_{l\alpha}$ is the airfoil lift curve
+slope which is different than the wing lift curve slope. The wing lift curve slope
+will always be smaller than the airfoil lift curve slope. This is
+because of an effect called wing tip vortices. Wing tip vortices are
+an aerodynamic effect where high pressure from the bottom of the wing
+moves around the wingtips to the area of low pressure. The only way to
+mitigate these vortices is by installing winglets or increasing the
+aspect ratio. Note that winglets increase drag and weight which is why
+you don't typically see them on RC aircraft. The coefficient
+$C_{l\alpha}$ is then simply a function of airfoil shape and
+Reynolds number. This is what is often referred to as 2D lift. It is
+the lift of airfoils which are two dimensional rather than 3D lift
+which is over an entire wing. It is at this point that airfoil
+selection and design can be used. The website \url{airfoiltools.com}
+is a great resource for plotting lift curve slopes of various airfoil
+shapes as a function of Reynolds number. I also have a great Youtube
+video on how to use XFLR5 (pronounced X-Flyer
+Five)\cite{XFLR5_tutorial}. A more comprehensive guide on XFLR5 can be
+found in \cite{XFLR5_Guidelines} while the software itself can be
+downloaded in \cite{XFLR5}. The basics of airfoil selection then break
+down into the following 
+process.
 
+First, using your max takeoff weight and cruise flight speed, compute
+the lift coefficient required in cruise. This assumes that lift equals
+weight. 
+\beq
+C_L = \frac{2W}{\rho V^2 S}
+\eeq
+Then using your flight speed and chord length, compute the Reynolds number
+of your aircraft. Use this Reynolds number and airfoiltools or XFLR5
+to compute the sectional lift characteristics of various
+airfoils. Airfoil selection can be as complicated as you make it but
+you're looking for the highest lift to drag ratio airfoil. Another
+simple way is to just select the airfoil with the highest sectional
+lift coefficient. Another item to consider is manufacturing. Some
+airfoils may be feasible for full sized aircraft but not for RC
+flyers. My recommendation is to build an aircraft with a Clark-Y
+airfoil. They are easy to cut with balsa or shape with foam and have
+good lift to drag characteristics. Note that this airfoil is
+cambered. If you want to fly upside down I suggest you use a symmetric
+airfoil like a NACA 0012 or NACA 0014 is you need a bit more thickness
+to fit a wing spar through the airfoil.
+Once you have your airfoil selected, use the lift curve slope to
+estimate $C_{l\alpha}$ by fitting a linear trend line to the portion
+of the graph before stall. Also make sure to take note of what the
+zero lift angle of attack is. You can then compute the wing lift curve
+slope by using equation \ref{e:ar_equation}. Once you have
+$C_{L\alpha}$, you can compute the angle of attack needed for
+cruise. Make sure to convert $\alpha_0$ to radians before you use the
+equation below.
+\beq
+\alpha = \frac{C_L}{C_{L\alpha}}+\alpha_0
+\eeq
+The resulting answer will be in radians and needs to be converted to
+degrees to make sure you are not close to stall. Typically in cruise,
+the angle of attack is only a few degrees with perhaps 8 degrees on
+the high end. If the answer you receive is higher than that it can
+mean a few things which may involve a redesign.
+\begin{enumerate}[itemsep=-5pt]
+  \item The simplest way to get more lift is to fly faster. The
+    problem is you need a bigger motor which will increase your weight
+    which will require more lift and more angle of attack. Flying
+    faster will also change your Reynolds number. 
+  \item You can increase the aspect ratio of your wing which will make
+    your aircraft more efficient. The problem is that will increase
+    the bending moment at the root creating the need for stronger
+    materials at the root which also increases weight. This will also
+    change your mean aerodynamic chord which will change your Reynolds
+    number. 
+  \item You can increase the area of the wing. This will also increase
+    drag and weight but if the material you are using has a high lift
+    to weight ratio then adding more wing area might be a good
+    option. Depending on how you change the aircraft wing shape, the
+    aspect ratio and/or the mean aerodynamic chord might change
+    meaning you'll have to recompute the wing lift curve slope as well
+    as the Reynolds number. 
+  \item If you are using a symmetric airfoil it's possible you could
+    forgo flying upside down and switch to a cambered airfoil which
+    has more lift.
+\end{enumerate}
 
-\subsection{Wing Cube Loading and Thrust to Weight Ratio}
+Regardless of what you do make sure you angle of attack in cruise is
+low which will reduce drag. It's optimal to fly at the aircraft's
+highest lift to drag ratio but radio controlled aircraft don't
+typically do that. Once you have redesigned your vehicle to fit within
+tolerable limits it's time to look at some aircraft performance
+characteristics which include the W/S (wing loading) and the T/W
+(thrust to weight ratio). 
+
+\subsection{Wing Loading and Thrust to Weight Ratio}
 
 \subsection{Stability and Control, Center of Mass and Static Margin}
 
