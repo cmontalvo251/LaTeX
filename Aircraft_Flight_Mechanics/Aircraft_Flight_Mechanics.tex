@@ -6,6 +6,7 @@
 %\usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{datetime}
+\usepackage{natbib} %REMOVE THIS IF YOU DON'T WANT BRACKETS ON YOUR PAPER
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{hyperref}
@@ -63,7 +64,7 @@
 \item December 10th, 2020 - Moved manuscript to public Github repo
 \item December 30th, 2020 - Added datetime to title page. Added
   section headers to RC aircraft design. Wrote text all the way to
-  airfoil selection. 
+  airfoil selection. Added a references section.
 \end{enumerate}
 
 \newpage
@@ -80,7 +81,7 @@
 
 \section{Particle Dynamics}
 For this formulation we start with Newton's Second Law with no
-approximations.
+approximations\cite{multibody}.
 \begin{equation}
 \sum\limits_{i=0}^N \vec{F}_{ji} = \frac{d\vec{p}_j}{dt}
 \end{equation}
@@ -256,7 +257,7 @@ simply zero. Therefore the equation can simply be written as
 \end{equation}
 \section{Aircraft Convention}
 Aircraft convention involves using the Newton-Euler equations of
-motion to describe the aircraft. Typically the position of the
+motion to describe the aircraft\cite{etkins}. Typically the position of the
 aircraft is written as 
 \begin{equation}
 {\bf C}_I(\vec{r}_C) = \begin{Bmatrix} x \\ y \\ z \end{Bmatrix}
@@ -381,7 +382,7 @@ the body frame.
 \end{equation}
 \subsection{Aerodynamics}
 Aircraft aerodynamics are written using a taylor series expansion
-about a trim point. That is, the aerodynamic forces are given by
+about a trim point\cite{Phillips,AndersonD}. That is, the aerodynamic forces are given by
 \begin{equation}
 \vec{F} = \vec{F}_0 + \frac{\partial \vec{F}}{\partial \vec{x}}(\vec{x}-\vec{x}_0)
 \end{equation}
@@ -769,7 +770,8 @@ of the wing. This is basically the average chord of your wing. If you
 create a rectangular wing your mean aerodynamic chord is just the
 chord of the wing since it's constant. If not you'll need to integrate
 over the length of the wing using the formula below where y = 0 is the
-centerline of the vehicle and y=b/2 is the wingtip on the right side. 
+centerline of the vehicle and y=b/2 is the wingtip on the right
+side\cite{caughey}. 
 
 \beq
 \bar{c} = \frac{2}{S}\int^{b/2}_0 c^2 dy
@@ -818,6 +820,8 @@ is your maximum takeoff weight.
 
 \subsection{Airfoil Selection and 2D and 3D Lift}
 
+
+
 \subsection{Wing Cube Loading and Thrust to Weight Ratio}
 
 \subsection{Stability and Control, Center of Mass and Static Margin}
@@ -828,7 +832,10 @@ is your maximum takeoff weight.
 
 \subsection{Purchase Components}
 
-\subsection{Takeoffs are Optional, Landings are Not}
+\subsection{Flying}
+
+\bibliographystyle{unsrt}
+\bibliography{../papers.bib}
 
 \newpage
 
