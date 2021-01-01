@@ -1,10 +1,12 @@
-\documentclass[11pt,a4paper,twoside,openright]{book}
+%\documentclass[11pt,a4paper,twoside,openright]{book}
+\documentclass{article}
 \usepackage{amsmath}
 \usepackage{geometry}
 \usepackage{fullpage}
 \usepackage[usenames,dvipsnames]{color}
 %\usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{datetime}
 \usepackage{natbib} %REMOVE THIS IF YOU DON'T WANT BRACKETS ON YOUR PAPER
 \usepackage{booktabs}
@@ -14,7 +16,7 @@
 \usepackage{wrapfig}		%					allows wrapping text around figures
 \usepackage{multicol}
 %\usepackage{cite}
-%\usepackage[labelfont=bf]{caption}
+\usepackage[font=normalsize,labelfont=bf]{caption}
 \usepackage{titlesec}
 \titleformat{\section}[block]{\large\bfseries}{\thesection}{1em}{}
 \usepackage{framed}
@@ -65,6 +67,7 @@
 \item December 30th, 2020 - Added datetime to title page. Added
   section headers to RC aircraft design. Wrote text all the way
   through the airfoil selection. Added a references section.
+\item December 31st, 2020 - Finished RC aircraft section.
 \end{enumerate}
 
 \newpage
@@ -76,6 +79,7 @@
 \item It would be nice to include some plots on RC aircraft design
   sections
 \item I think an example RC aircraft design example would be good
+\item I think a section on abbreviations would be good.
 \end{enumerate}
 
 \tableofcontents
@@ -776,10 +780,11 @@ create a rectangular wing your mean aerodynamic chord is just the
 chord of the wing since it's constant. If not you'll need to integrate
 over the length of the wing using the formula below where y = 0 is the
 centerline of the vehicle and y=b/2 is the wingtip on the right
-side\cite{caughey}. 
+side\cite{caughey}. The parameter $c(y)$ is the chord length as a
+function of y.
 
 \beq
-\bar{c} = \frac{2}{S}\int^{b/2}_0 c^2 dy
+\bar{c} = \frac{2}{S}\int^{b/2}_0 c(y)^2 dy
 \eeq
 
 \subsection{Weight Estimate - Tabular Approach}
@@ -941,22 +946,361 @@ mean a few things which may involve a redesign.
 Regardless of what you do make sure you angle of attack in cruise is
 low which will reduce drag. It's optimal to fly at the aircraft's
 highest lift to drag ratio but radio controlled aircraft don't
-typically do that. Once you have redesigned your vehicle to fit within
-tolerable limits it's time to look at some aircraft performance
-characteristics which include the W/S (wing loading) and the T/W
-(thrust to weight ratio). 
+typically do that. It is also important to compute the stall speed of
+your aircraft. You'd like this value to be as small as possible.
+\beq
+V_{stall} = \sqrt{\frac{2W}{\rho S C_{Lmax}}}
+\eeq
+In this case $C_{Lmax}$ is the maximum lift coefficient your aircraft
+can obtain before stalling. If the stall speed is too high for your
+design go back and redesign your vehicle. Once you have redesigned
+your vehicle to fit within tolerable limits it's time to look at some
+aircraft performance characteristics which include the W/S (wing
+loading) and the T/W (thrust to weight ratio). 
 
 \subsection{Wing Loading and Thrust to Weight Ratio}
 
-\subsection{Stability and Control, Center of Mass and Static Margin}
+The wing loading is defined as the weight of the aircraft over the
+main wing area (W/S). Intuitively though, it is the amount of lift
+required per square foot of wing area for your aircraft. If the wing
+loading is high it means you have a heavy aircraft with small wings
+which means you either need very high lift creating devices like flaps
+and cambered airfoils or the aircraft needs to fly very fast. You can
+imagine that warbirds and racers have higher wing loading then say a
+glider which has very low wing loading. In this case the aircraft can
+fly slow because the aircraft is light with larger wings. At this
+stage of the design you already know the maximum weight of the
+aircraft and the main wing area so it's simple to calculate. For
+larger aircraft, there is a standard wing loading for aircraft as well
+as another parameter called the wetted wing loading which is the
+weight divided by the wetted area of the wing. The wetted area is
+basically the surface area of the wing. For radio controlled aircraft
+though the wing cube loading is used to ensure the aircraft is of the
+correct type.
+\beq
+WCL = \frac{W}{S^{3/2}}
+\eeq
+Using the units of ounces for the weight and sqft for the area the
+table below can be used to ensure that your aircraft is in the correct
+ballpark\cite{WCL}.
+\begin{table}[H]
+  \begin{center}
+  \begin{tabular}{cc}
+    Type of Aircraft & WCL ($oz/ft^3$) \\
+    \hline
+    \hline
+    Gliders & under 4\\
+    \hline
+    Trainers & 5-7\\
+    \hline
+    Sport Aerobatic & 8-10\\
+    \hline
+    Racers & 11-13 \\
+    \hline
+    Scale & over 15 \\
+  \end{tabular}
+  \end{center}
+\end{table}
+After computing your WCL it is possible that for the type of aircraft
+you've designed, your value falls well outside the limits of the table
+above. In that case you must redesign your vehicle by changing the shape
+of the wings or choosing a different material to lighten up the
+aircraft. In my experience, if you are designing a racer or scale
+aircraft and you wing loading is smaller than above this is typically
+ok so long as you have enough thrust to fly fast. In this case you may
+just have a very fast trainer which isn't necessarily a bad thing. The
+danger is when trying to design a glider with a WCL of over 15. That
+aircraft will exhibit a very high stall speed and poor lift to drag
+ratio (L/D) characteristics. Once you are satisfied with your WCL you
+can move on to computing the thrust to weight ration (T/W).
 
-\subsection{Re-Design - Iteration and Detailed Sketch}
+For full-sized aircraft the T/W can range from 0.6 for passenger
+aircraft all the way up to 1.2 or higher for get aircraft. For R/C
+aircraft the same general rule applies. If your aircraft is a trainer
+with landing gear you can probably get away with a T/W of 0.6 but I
+would not recommend it. My recommendation would be to go no lower than
+0.8 which would mean your maximum take off thrust is 80\% of your
+maximum takeoff weight. In this configuration, the aircraft will
+accelerate down the runway until just over stall speed at which point
+the aircraft can takeoff. If you have strict runway requirements,
+airborne requirements like vertical flight or loops and snap rolls, I
+recommend increasing the size of your motor, ESC, battery, propeller
+combination to yield a T/W of at least 1.2. In this case, even if your
+wings are not very efficient, you can fly on thrust alone. You may not
+exhibit great aerodynamic performance and still have a high stall
+speed but worst case you can land the aircraft like a harrier which
+I've done before.
 
-\subsection{Computer Aided Design}
+Once you've selected your T/W you need to go find a
+battery/ESC/motor/propeller combination that yields the thrust you
+need. Tiger Motors website is typically very good at listing the
+motor, propeller and battery combination to give you a certain amount
+of thrust. Unfortunately, the hobbyist market is not using standard
+engineering units and thrust is reported in grams. My recommendation
+then is to use the following formula to compute your thrust required
+in grams. This assumes that 4.44 N = 1 lbf and that you are on Earth
+with 9.81~$m/s^2$ of gravitational acceleration. It'd be nice if the
+community just reported thrust in lbf but alas that is not the case. 
+
+\beq
+T_{grams} = (T/W)W_{lbf}/453.59
+\eeq
+
+Remember, when selecting a propulsion system, you will need to go back
+and update your weight estimate with the new values you've
+obtained. This may effect your wing area slightly and may even require
+you to choose a new motor if you were very off the first time you
+estimated the weight. This is an iterative process and every step
+builds on the previous step. The hope is that each iteration is not
+very different than the last. 
+
+\subsection{Stability and Control, Center of Mass, Aerodynamic Center and Static Margin}
+
+Stability and Control is a very large section of literature and could
+be taught over an entire semester. Stability just ensure the aircraft
+flies steady and level and is typically broken up into lateral (side
+to side) and longitdutinal (front to back) stability. Lateral
+stability in my opinion is more complex but to ensure you aircraft is
+laterally stable, just be sure your aircraft is symmetric about the
+left and right planes and also be sure that your tail surface provides
+adequate yaw stability through the use of a vertical tail or a V-tail
+if you opted for a combined control surface. Longitudinal stability
+involved two more calculations that must be done before the aircraft
+can be built. These two parameters are the center of mass and the
+aerodynamic center. The center of mass is a very simple quantity to
+compute by just using the center of mass formula shown below.
+\beq
+x_{cm} = \sum\frac{x_iW_i}{W}
+\eeq
+In the equation above, $x_i$ is the distance of a component from a
+reference point on the aircraft. I typically use the nose of the
+fuselage as the reference point. For standard aircraft the motor would
+have a negative distance from the reference point and the receiver and
+battery would have a positive value. The value $W_i$ is then the
+weight of each component. Placing servos, receivers and other
+electronics is a design parameter to move your center of mass while
+the fuselage is typically a parameter that must be estimated at this
+stage. My recommendation is to break the aircraft into fuselage, tail
+boom, tail and main wing components and treat each one as a
+component. You will notice that moving the main wing and battery
+drastically changes the center of mass.
+
+The next parameter is the aerodynamic center. The main wing looking
+from the top is basically a 2D distributed load. As such the center of
+lift must be computed. Assuming the main wing is symmetric, the
+aerodynamic center will lie on the center line of the aircraft. In
+this case the problem reduces to a 1D computation. In order to compute
+the center of lift along the x-axis (pointing towards the nose) you
+need to compute the weighted average of the center of lift of each
+airfoil. In this case if you have a symmetric airfoil, the center of
+lift is 1/4 of the chord length. If you have a cambered airfoil the
+center of lift is typically in the 30\% range so you can use 25\% for
+a symmetric airfoil and something slightly larger for a cambered
+airfoil. Once you determined the center of lift for the airfoil you
+can use the equation below for the aerodynamic center of the entire
+wing\cite{AndersonD,caughey}.
+\beq
+x_{ac} = \frac{2}{S}\int^{b/2}_0 x_{af}(y)c(y) dy
+\eeq
+The parameter $x_{af}(y)$ is the location of the center of lift of the
+airfoil as a function of y. Once you have the aerodynamic center and the
+center of mass you can compute the static margin of your aircraft.
+\beq
+S_{m} = \frac{x_{ac}-x_{cm}}{\bar{c}}
+\eeq
+The value of the static margin is not as important as the sign. If
+measuring from the nose of the aircraft the aerodynamic center must be
+behind the center of mass. To explain this think about stable
+aerodynamic vehicles like darts, or arrows. Notice that darts and
+arrows have fletching in the rear to create aerodynamic surfaces
+farther back. Unstable vehicles like frisbees and footballs have
+aerodynamic centers in front of the center of mass in which case they
+must spin in order to provide stability just like a bike tire or a
+dreidel. Using the equation above, if $x_{ac}$ is behind $x_{cm}$ it
+means that $x_{ac}$ is bigger or more positive than $x_{cm}$ in which
+case your static margin would be positive.
+\beq
+\begin{Bmatrix} S_m>0,~stable \\ S_m<0,~unstable \end{Bmatrix}
+\eeq
+If you perform these two calculations and find your static margin to
+be negative it means that you need to shift your battery and other
+components more towards the nose or move your wings backwards. Note
+that moving your wing backward will also shift your center of mass so
+try and move some components forward before shifting your wings
+around.
+
+The final stage of this design is Control. Aircraft in flight require
+3 control surfaces to provide roll, pitch and yaw control. These
+include the aileron, elevator and rudder. It's possible to fly
+aircraft without a rudder by performing a ``bank and yank" maneuever
+and it's also possible to combine elevators and ailerons into
+something called elevons. I've even seen some ruddervators. Whatever
+you decide to do make sure that you can adequately control all three
+axes or if one axis is uncontrollable be sure that that axis is
+stable. I've seen some aircraft that only have rudder and elevator and
+no ailerons. I find these aircraft hard to control but the idea is you
+move the rudder to yaw the aircraft which also rolls the aircraft
+allowing you to turn. It creates a very slow aircraft but it also
+reduces complexity if that is something you're interested in doing. 
+
+\subsection{Iteration, Detailed Sketch and Final Checks}
+
+This section in my opinion is absolutely essential. It involves going
+back and making sure that your current design satisfies your
+requirements you originally wrote in the first section of this
+design. Recompute your aspect ratio, and update your weight estimate
+based on any calculations you've obtained. This may be finding better
+estimates for parts or materials. You also need to create a better
+sketch and determine where EVERY component is going to go and what
+sort of support you will need. If you're building your aircraft out of
+balsa you will need detailed sketches on rib, spar and stringer
+placement. All of these updates will change your weight estimate which
+will change your WCL and your T/W. Be sure your WCL and T/W are within
+tolerable bounds. You also need to go back and compute you angle of
+attack during cruise and be sure you are not in a stall regime. Be
+realistic with your flight speed as well during cruise. Go back and
+compute your stall speed. Is it realistic? If not then go back and
+make some minor changes. Finally, be sure you aircraft is
+longitudinally and laterally stable and that you can control all 3
+axes or at least the uncontrollable axes are stable. Once you are
+certain the aircraft will fly you can begin purchasing components. 
+
+\subsection{Computer Aided Design (CAD)}
+
+This section is optional but sometimes it's just nice to have a CAD
+view of your aircraft especially if you are 3D printing parts or
+perhaps getting some component machined out of aluminum. Some CAD
+programs are even so powerful they will compute bending loads, center
+of mass and even drag. Use whatever tools are at your disposal to help
+you in the design. 
 
 \subsection{Purchase Components}
 
+I wanted to write an entire section on purchasing component to go over
+a few common mishaps. First, if you are using a LiPo battery be sure
+to familiarize yourself with the dangers of LiPo batteries. I've
+almost caught my entire lab on fire by charging a damaged LiPo but all
+batteries can technically catch fire. Please be careful. Furthermore,
+be sure you purchase an ESC with the right current rating. If you
+overload an ESC with too much current it will also catch on fire. The
+servos you buy have a torque rating. Be sure your servos can overcome
+the aerodynamic torque estimated in flight. Generally servos are sized
+by the size of the aircraft so you can just purchase servos that are
+designed for your particular size aircraft. The motor you purchase is
+going to need a mounting point. Consider designing a motor plate or
+even a firewall depending on the type of aircraft. When purchasing
+materials make sure to get them from a good brand. Companies like
+Flite Test sell really good double plated foam that is designed for RC
+aircraft. Purchasing Dollar Tree foam board is totally acceptable but
+just understand that after a crash or two the foam board won't work
+anymore. Also consider what type of glue you are planning on
+using. Certain types of glue can actually melt foam and hot glue can
+melt certain types of foam as well. CA glue is very good for balsa but
+will melt foam. Two part epoxy is strong but it weighs more than CA
+glue and takes a long time to set compared to other types of
+glue. Also be sure to be lenient on glue where you can. Glue just adds
+weight and that will reduce your performance. Finally, make sure your
+receiver supports the number of servos you plan on using and be sure
+that your transmitter and receiver are compatible. All of my aircraft
+use Spektrum technology but you may opt to use a different type of
+protocol.
+
+Finally, when all components come in be sure to test them. DOA stands
+for dead on arrival and so many components come DOA. Before you spend
+the time to install all your components in your aircraft and then
+throw the aircraft in the air make sure you test every component and
+be sure it works. I also suggest weighing each component on a small
+scale and updating your weight estimate to ensure everything is within
+tolerable bounds. 
+
+\subsection{Building}
+
+Once you have all necessary resources to build your aircraft I
+recommend starting with the fuselage or main wing and then installing
+all componets. I recommend taking pictures of your build in case you
+need to reference them later. Go slow. If you break something it will
+be expensive. Also remember that if the aircraft looks good it flies
+good. This means that gluing all components properly and having the
+aircraft be as smooth as possible will translate to better flight
+performance. 
+
 \subsection{Flying}
+
+Before you fly I recommend finding a pilot will more experience than
+yourself to check out the aircraft and make sure the aircraft has been
+built properly. You may even want to discuss your initial design
+before you even begin building to make sure there are no major
+critical issues. If you want to fly the aircraft yourself I suggest
+flying an aircraft using a simulator. My recommendation is the free
+program CRRCSim\cite{CRRCSim}. It is not a great simulator by any means but it will
+at least familiarize yourself with aircraft controls. Before you fly
+make sure to build yourself a pre and post flight check list. I've
+included my pre and post flight check list that I use before every
+flight test.
+
+\subsubsection{Day Before Flight Checklist}
+\begin{enumerate}[itemsep=-5pt]
+\item Assess the weather to ensure acceptable flight conditions
+  \begin{enumerate}[itemsep=-5pt]
+    \item No strong winds (insert windspeed conditions)
+    \item No rain or lighting
+  \end{enumerate}
+\item State and confirm the purpose of the flight test - Set clear
+  goals the aircraft should complete before test 
+\item Check for damage to the plane and if the moving parts are secured including motor and electronic speed control and all components
+\item Check for a full battery charge on plane and controller; charge
+  all electronics if not fully charged
+\item Perform Ground Safety Check List
+\item Take note of items that need to be repaired even if the flight test is not implemented
+\end{enumerate}
+
+\subsubsection{Ground Safety Check List}
+\begin{enumerate}[itemsep=-5pt]
+  \item Ensure that propellor is off
+  \item Turn on TX
+  \item Connect battery to aircraft
+  \item Ensure all control surfaces are operational and moving the
+    correct way
+  \item Spin up motor and be sure that motor is spinning the correct
+    way
+  \item Perform a range check where pilot moves control surfaces with
+    50\% or more throttle while walking away from aircraft. Ensure that pilot can move at least
+    300 feet away without any dropouts.
+  \item Remove battery and install propeller
+  \item Reconnect battery.
+  \item Using safety glasses, apply full throttle to TX and ensure
+    that adequate thrust is generated to fly aircraft. Leave full
+    throttle applied for at least 30 seconds to be sure no component. 
+    fails. Better to fail on the ground than in the air.
+\end{enumerate}
+
+\subsubsection{Preflight Checklist}
+
+\begin{enumerate}[itemsep=-5pt]
+\item Perform all “Day Before Flight” Checks
+\item Perform Ground Safety Checks
+\item Check for any damage to any components including the battery
+\item Install Prop
+\item Turn on TX
+\item Plug in main battery
+\item Confirm flight time and range distance
+\item Clear obstructions and make sure there is clear space for takeoff and landing
+\item Arm TX if the TX has an arm switch
+\item Ensure all control surfaces are operational and moving the correct way
+\item Apply throttle and fly
+\item Upon landing do everything in reverse order
+\end{enumerate}
+
+\subsubsection{Post Flight checklist}
+\begin{enumerate}[itemsep=-5pt]
+  \item Check plane for any damage
+  \item Check all moving parts are still secured
+  \item Check for battery overheating, discoloration, warping, or swelling
+  \item Check battery usage with a voltmeter
+  \item Check if the plane is able to power on again
+  \item Have PIC (pilot in command) give a post flight assessment
+  \item Put batteries in LiPo storage
+\end{enumerate}
 
 \bibliographystyle{unsrt}
 \bibliography{../papers.bib}
