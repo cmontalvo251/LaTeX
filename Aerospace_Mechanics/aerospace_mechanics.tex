@@ -94,7 +94,7 @@ Last Update: \today\\
 \item December 21st, 2021 - Moved CubeSAT abstract to introduction on
   CubeSATs. Imported entire Aircraft Mechanics textbook into here
 \item December 22nd, 2021 - Added a section on GNC design for
-  CubeSats. Added acknowledgements section.
+  CubeSats. Added acknowledgements section. 
 \end{enumerate}
 
 \section*{Changes Needed}
@@ -126,6 +126,7 @@ Last Update: \today\\
     precession, rotation of the Earth and swath angle from projection of
     a satellite onto the Earth. See pdf from the Air Force. A Google
     search will hopefully turn up the paper I'm thinking of.
+  \item Consider adding the section on pointing analysis
   \end{enumerate}
 \item General Changes
   \begin{enumerate}[itemsep=-5pt]
@@ -135,7 +136,7 @@ Last Update: \today\\
     functions into this manuscript
   \item Need to finish discrete dynamics section
   \item Need example ID and ADs
-  \item Need references from QP
+  \item Need to add parallel axis theorem for inertia computation
   \end{enumerate}
 \end{enumerate}
 
@@ -317,6 +318,7 @@ cross product. The skew symmetric operator is denoted by ${\bf
   -x_{Cj} \\ -y_{Cj} & x_{Cj} & 0 \end{bmatrix}
 \end{equation}
 \section{Rigid Bodies}
+
 At this point, many assumptions are made about the
 system of particles.
 \begin{enumerate}
@@ -448,7 +450,29 @@ derivative of angular velocity. Therefore the equation can simply be written as
   S}(\vec{\omega}_{B/I}){\bf I}_C\vec{\omega}_{B/I}
 \end{equation}
 
-\section{Aerospace Convention}
+\subsection{Inertia Estimation}
+
+There are several equations that can be used to compute the moment of
+inertia depending on the geometry of the vehicle. For this example
+we will look at a cuboid to demonstrate inertia
+calculations. Firstly, the total mass $m$ and size (length $l$,
+width $w$, and height $h$) are required. 
+\begin{equation}
+  \begin{matrix}
+    I_x = \frac{m}{12}(l^2 + w^2) \\
+    I_y = \frac{m}{12}(l^2 + d^2) \\
+    I_z = \frac{m}{12}(d^2 + w^2) \\
+  \end{matrix}
+\end{equation}
+
+Where $I_x$ is the cuboid’s moment of inertia around the x-axis, It
+can be seen that the moment of inertia about the y and z-axis are
+computed similarly, but by using different length parameters. Note
+that cross products of inertia are obtained by using the parallel axis
+theorem often caused by solar panels on satellites or payloads on
+aircraft and quadcopters.
+
+\subsection{Aerospace Convention}
 
 Aerospace convention involves using the Newton-Euler equations of
 motion to describe the vehicle\cite{etkins} as explained in the
@@ -1230,7 +1254,7 @@ or magnetic fields to accelerate propellants (usually gases).  These
 systems can be very fuel-efficient, however it does not generate
 enough thrust. These engines are great for deep space exploration
 where transit times can be very long and rapid maneuvers are not
-required.
+required\cite{qp8}.
 
 Chemical propulsion systems are  more effective in our
 environment. These systems involve the use of chemical reactions to
@@ -1261,7 +1285,7 @@ propellant, has a burn time of 75 s with a thrust of 3,300,000 lb.
 Even though solid rocket motors are simple and can be ignited in a
 moment's notice, their Isp  (specific impulse) is generally lower than
 liquid systems. Also, they cannot be readily throttled. Once ignited,
-the motor will burn to extinction. 
+the motor will burn to extinction\cite{qp9}. 
 
 It is important to note, however, that if propulsion is needed for the
 spacecraft it is necessary to work with the propulsion team to
@@ -1868,7 +1892,7 @@ cycle can be seen below.
   \includegraphics[height=70mm]{Figures/VandV}
   \end{center}
   \caption{Verification and Validation Diagram for a Systems
-    Engineering Life Cycle}
+    Engineering Life Cycle \cite{vandv}}
 \end{figure}
 The left side of the V\&V diagram highlights all of the required
 design while the right side details the build. 
@@ -1889,7 +1913,7 @@ attitude control and maneuver electronics subsystem on the Gemini Spacecraft.
   \begin{center}
   \includegraphics[height=70mm]{Figures/ACME_ID}
   \end{center}
-  \caption{ACME Interface Diagram from the Gemini Spacecraft}
+  \caption{ACME Interface Diagram from the Gemini Spacecraft\cite{qp10}}
 \end{figure}
 This is an example of an interface diagram for a small subsystem of a
 large systems engineering project. The spacecraft requires several
@@ -1908,7 +1932,7 @@ subsystems included in the diagram.
   \begin{center}
   \includegraphics[height=70mm]{Figures/NewHorizons_ID}
   \end{center}
-  \caption{New Horizons Interface Diagram}
+  \caption{New Horizons Interface Diagram\cite{qp11}}
 \end{figure}
 \subsection{Activity Diagrams}
 Activity diagrams are similar to a flowchart.  It is a tool for
@@ -1918,14 +1942,14 @@ defined using Control Flows. The Actions in an activity diagram can
 contain Input and Output Pins which act as buffers for items that flow
 from one action to another. Anything that can be produced, consumed,
 or conveyed by the system is considered to be an item. Physical
-materials, energy, power, data, and information are examples of items.
+materials, energy, power, data, and information are examples of items\cite{qp12}.
 
 Activity diagrams are useful for engineering modeling.  It conveys
 high-level functions and operations to the user. The main purpose of
 an activity diagram is to draw the activity or action flow of a
 system. Next, it is used to describe the sequence from one activity to
 another. Finally, an activity diagram describes the parallel,
-branched, and concurrent flow of the system.
+branched, and concurrent flow of the system \cite{qp13}.
 
 Activity diagrams are important to the design process because they
 maintain coherence throughout the project. If a system is composed of
@@ -2038,7 +2062,7 @@ integration scheme may be the best possibility for position
 estimation. Integration schemes, such as RK-11, are tedious but are
 commonly used in HEO. Since HEO’s have an enormous apogee compared to
 perigee, up to a 35:1 ratio, the need for an alternate means to
-determine position is imperative\cite{cassidis}.  
+determine position is imperative\cite{cassidis}\cite{qp2}.  
 
 Much like a HEO, any deep space trajectory will more than likely take
 the spacecraft outside of the GPS constellation. Therefore, in order
@@ -2087,6 +2111,174 @@ Note that the spacecraft is going to undergo multiple types of
 disturbances as explained in the dynamic model section.
 \end{enumerate}
 
+\subsection{Spacecraft Attitude Control}
+
+Attitude control is the means by which the orientation of the
+spacecraft is maintained within the orbit. Throughout the mission, the
+spacecraft experiences disturbance torques that are caused by a
+variety of sources, such as aerodynamics, gravity gradient, and solar
+radiation pressure discussed previously. These torques impart momentum
+which rotate the system away from its desired orientation. The purpose
+of attitude control is to reject these disturbance torques while
+simultaneously pointing towards a desired orientation. Possible active
+mechanisms for attitude control are magnetorquers, reaction wheels,
+thrust vector control, reaction control system, and control moment
+gyros.
+
+There are several components that can be used for the attitude control
+of a satellite. Selecting the proper component is dependent on the
+orbit and its apogee/perigee, the system's requirements, and the risks
+associated with the component. There are several steps involved with
+component selection. Typically the team will review the requirements
+and perform a preliminary risk analysis. This will generally help
+narrow down which components to use where. To determine the specific
+component, trade studies are conducted to compare the components from
+different manufacturers to determine the best one for the project at
+hand.
+
+\subsubsection{Magnetorquers}
+
+The first option for attitude control is a magnetorquer. A
+magnetorquer, or torque rod, is built from electromagnetic
+coils. These coils produce a magnetic field that interacts with
+another magnetic field, typically Earth’s, which in turn produces a
+torque upon the satellite\cite{qp14}. These components are used for changing
+the angular momentum of the satellite. In addition to attitude
+control, magnetorquers are also used for detumbling the
+satellite. Detumbling is a means of stabilizing the satellite after
+being inserted into the desired orbit\cite{qp15}. The International
+Geomagnetic Reference Field (IGRF) is a software that reports the
+magnetic field of the earth by using latitude, longitude, and altitude
+from a GPS. This magnetic field is then used to determine the proper
+magnetic field required by the magnetorquer to maneuver the
+satellite.
+
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=40mm]{Figures/Magnetorquers}
+  \end{center}
+  \caption{Example Magnetorquer\cite{qp16}}
+\end{figure}
+
+An example of magnetorquer effectiveness is its ability to detumble
+during an orbit, and how many orbits it will take to completely
+detumble the spacecraft. First, the magnetorquer will have a magnetic
+moment value associated with the physical parameters of the rod
+$\mu$. First the average torque is computed by taking the magnetic
+moment and multiplying it with the average field strength and the
+point (from IGRF model). Then, this average torque is multiplied by
+total time of the orbit $T_p$ to determine 
+the magnetorquer’s momentum effectiveness over one orbit. Note that
+the torque from the magnetorquer’s $\vec{M}_{MT}$ is substracted by
+the total disturbance torques $\vec{M}_D$ to obtain the total
+effectiveness of the magnetorquers. From this, it is possible to
+calculate the number of orbits it will take to detumble the spacecraft
+on an axis.  
+
+\begin{equation}
+  N_{orbits} = \frac{||\vec{H_S}||}{T_p(\vec{M}_{MT}-\vec{M}_D)}
+\end{equation}
+
+The magnetorquer effectiveness boils down to the difference in the
+total moment that the magnetorquers can produce and the total
+disturbance momentum during the orbit. Then, the number of orbits that
+it will take for the spacecraft to detumble in an axis is a function
+of the magnetorquer effectiveness divided by the initial angular
+momentum in each axis.
+
+\subsubsection{Reaction Wheels}
+
+Reaction wheels are mechanical disks, or flywheels, that rotate the
+satellite during orbit. The reaction wheels take in electrical power
+and provide a torque to the satellite\cite{qp18}. This electrical power is
+provided to a DC motor which then spins the reaction wheel. Because
+momentum must be conserved, angular momentum must also be
+conserved. Thus, by Newton’s third law, when the reaction wheel
+rotates one direction the satellite rotates in the other. So, a
+minimum of one reaction wheel is placed on each axis to control the
+rotation in all directions. The primary role of a reaction wheel is to
+point the satellite without the use of any fuel.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=40mm]{Figures/ReactionWheels}
+  \end{center}
+  \caption{Example Reaction Wheels\cite{qp19}}
+\end{figure}
+
+The inertia storage for reaction wheels is a parameter that can be
+used to seek out the best reaction wheels for the spacecraft. Once the
+inertia storage is computed, one can search for reaction wheels with
+the proper amount of inertia storage required. For example, if a
+reaction wheel with an inertia storage of 50 mNms is needed, one can
+go to Blue Canyon Technologies website to find the datasheets for
+their different reaction wheels. From there, it can be determined that
+the best fit would be the RWP050 reaction wheels\cite{qp20}.
+
+Once an estimate of the inertia of the satellite is obtained, they can
+be used to compute the required inertia storage of the reaction wheels. The 
+tip off rate for a spacecraft is the rate at which the spacecraft’s
+angular velocity is altered due to its deployment. The following
+equation shows how momentum can be calculated due to tip off.
+
+\begin{equation}
+||\vec{H}_S|| = max({\bf I}_S)\omega_{TOR}f
+\end{equation}
+where $\omega_{TOR}$ is typically set at 10 deg/s and f the factor of
+safety is typically set to 2.
+
+\subsubsection{Thrust Vector Control (TVC)}
+
+When aerodynamic control surfaces are ineffective, TVC is a solution
+to maintain the vehicle's correct attitude for the thrust duration. It
+accomplishes this goal by gimballing (rotating) the thrust chamber or
+by redirecting the exhaust-gas flow to develop torque \cite{qp21}. However,
+thrust vectoring only moves the vehicle in two directions. TVC is
+typically used to control pitch and yaw attitude on boosters and upper
+stages.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=70mm]{Figures/TVS}
+  \end{center}
+  \caption{TVC Diagram\cite{qp22}}
+\end{figure}
+%\subsubsection{Pointing Analysis}
+
+\subsubsection{Reaction Control System (RCS)}
+
+Reaction control systems are small thrusters. These thrusters alter
+the speed of the spacecraft's rotational or spinning motion. They are
+good for making quick turns and are used for getting to new
+orientations quickly. Reaction control thrusters are typically in
+"couples" or pairs of thrusters that together can spin the spacecraft
+without changing the lateral velocity. In addition, these thrusters
+usually work great with reaction wheels. When reaction wheels slow
+down, they produce a force. The RCS will oppose this force which
+allows the spacecraft to remain in the intended
+orientation\cite{qp23}.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/RCS}
+  \end{center}
+  \caption{Example RCS Thruster \cite{qp24}}
+\end{figure}
+
+\subsubsection{Control Moment Gyro}
+
+A CMG is a spinning rotor at a constant speed [25]. Similar to a
+reaction wheel, a CMG also has a spinning fly-wheel controlled by a
+brushless motor. However, the spin axis of a CMG can rotate with the
+help of a second motor placed on a gimbal axis. If the angular
+momentum can only rotate in a fixed plane, it is known as a single
+gimbal control moment gyros (SGCMG). GMCS are usually more efficient
+and produce higher torque than reaction wheels as the size of the unit
+increases\cite{qp26}.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/CMG}
+  \end{center}
+  \caption{Example CMG \cite{qp27}}
+\end{figure}
+
 \subsection{Spacecraft Attitude Determination}
 
 Attitude determination is a fundamental portion of the ADACS board and
@@ -2131,6 +2323,120 @@ and/or the Moon thus it is possible to design an
 attitude determination algorithm that utilizes the Sun's ephemeris data
 along with the Moon's ephemeris data in the event that the startracker
 is obscured by the Sun/Moon.
+
+\subsubsection{StarTracker}
+
+A star tracker is another critical component of attitude control. This
+device is a camera that points out from one face of the satellite. The
+camera is able to detect the stars in its field of view (FOV) and
+determine the location of the satellite based on this. Specifically,
+the star tracker images the “starscape” to identify the known planets
+and stars, and compares the imaged locations to the known locations
+using the SPICE Toolkit\cite{qp28}. NASA Jet Propulsion Laboratory (JPL) has
+produced the SPICE Toolkit for knowledge of the location of the
+planetary bodies and stars and specific times\cite{qp29}.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/StarTracker}
+  \end{center}
+  \caption{Example StarTracker \cite{qp30}}
+\end{figure}
+
+\subsubsection{Sun Sensors}
+
+A sun sensor is a device that senses the sun’s direction to measure
+the position of the sun with respect to the sensor’s position. There
+are three types of sun sensors. The first one is an analog sensor
+whose output signal is a continuous function of the Sun angle. Next is
+a sun presence sensor which provides a constant output signal when it
+senses the sunlight. The last one is a digital sensor that produces
+encoded discrete output that is measured by the sun angle function.
+
+Sun sensors work based on the entry of light into a thin slit on top
+of a rectangular chamber with the bottom part lined with a group of
+light-sensitive cells. The chamber casts an image of a thin line on
+the chamber bottom. The cells at the bottom of the rectangular chamber
+measure the distance of the image and the refraction angle by using
+the chamber height. The cells convert the incoming photons into
+electrons and develop voltages which are converted into digital
+signals. the direction of the sun can be computed when the sensors are
+perpendicular to each other \cite{qp31}.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/SunSensor}
+  \end{center}
+  \caption{Example Sun Sensor \cite{qp32}}
+\end{figure}
+
+\subsubsection{Inertial Measurement Unit}
+An inertial measurement unit (IMU) is a combination of three
+sensors. An accelerometer, rate gyro and magnetometer. A magnetometer
+is a device that measures the local magnetic field 
+\cite{qp33}. There are both scalar and vector magnetometers available. For a
+spacecraft, the vector magnetometer is the most appropriate. Vector
+magnetometers allow for a much more precise measurement of the
+magnetic field with respect to the scalar sensor. Therefore, we can
+gather a more accurate reading of the magnetic field around the
+satellite.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/Magnetometer}
+  \end{center}
+  \caption{Example Magnetometer \cite{qp34}}
+\end{figure}
+For the vector the magnetic field is measured in the all three axes
+with magnitude in units of Tesla’s. Using the IGRF model (see the
+magnetorquer section) the locally measured magnetic field can be
+compared with the known magnetic field for any given location within
+its orbit. Using the true data and the measured data, the spacecraft
+can compute its actual position to the measured position and make the
+correct adjustments.
+
+A rate gyroscope, commonly referred to as a rate gyro, is a tool that
+is used by spacecraft to measure angular velocity (x,y,z). Rate gyros
+are useful for determining the angle of the satellite’s orientation
+which can in turn be used to determine heading. Rate gyros are
+typically embedded in an Inertial Measurement Unit (IMU) which is a
+device that consists of three attitude estimation sensors:
+magnetometers, accelerometers, and rate gyros.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/RateGyro}
+  \end{center}
+  \caption{Example IMU with Integrated Rate Gyro \cite{qp35}}
+\end{figure}
+Accelerometers are sensors used to measure acceleration
+(Ax,Ay,Az). These sensors transmit acceleration data to a computer
+that integrates the information twice to get an estimated position
+(x,y,z). This sensor does not account for drift, thus, redundancy is
+important when using an accelerometer. These sensors as stated above
+are typically found within IMUs.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/Accelerometer}
+  \end{center}
+  \caption{Example Accelerometer \cite{qp36}}
+\end{figure}
+
+\subsubsection{Horizon Sensor}
+
+The horizon sensor is a sensor used by spacecraft in LEO to determine
+the location of the Earth’s horizon. There are two main types of
+horizon sensors: statics and scanning. A static horizon sensor is able
+to detect the infrared radiation emitting from the Earth’s surface to
+locate the horizon of Earth. Scanning horizon sensors are much more
+complicated and use a system consisting of a spinning mirror to direct
+light onto a bolometer. This bolometer can sense when the infrared
+signal is present or lost. So, as the mirror rotates and reflects
+infrared light into the bolometer, the bolometer is able to detect
+when the signal is present or lost to determine the edge of the
+horizon\cite{qp37}.  
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/HorizonSensor}
+  \end{center}
+  \caption{Example Horizon Sensor \cite{qp1}}
+\end{figure}
 
 \subsubsection{Low Earth Orbit}
 
@@ -2223,6 +2529,181 @@ simple to extract quaternions. This is due to the fact that for every
 orientation there exists two quaternions that represent this
 space. Thus, it is more ideal to obtain Euler angles from the
 transformation matrix and then convert them to quaternions.
+
+\subsection{Position Estimation}
+
+Position estimation is for determining the placement or location of
+the spacecraft in orbit. This can often be confused with attitude
+estimation, however, this can be clarified with an analogy. A human's
+posture is their attitude while their location, or place in reference
+to something else, is their position. This analogy can be transferred
+to spacecraft attitude and position. Position estimation is how
+mission control determines the location of the spacecraft in space. It
+is vital for the spacecraft to know its position in order for the on
+board sensors to work as intended. Position estimation is similar to
+attitude control in the sense that the orbit plays a large role in
+determining the proper component. The major options for attitude
+estimation are Global Positioning Systems and the Ground Station
+Network. 
+
+\subsubsection{Global Positioning System (GPS)}
+
+The Global Positioning System (GPS) was developed in order to allow
+accurate determination of geographical locations by military and civil
+users. It works by using satellites in Earth’s orbit to transmit data
+which makes it possible to measure the distance between the satellites
+and the operator. This form of signal communication is incredibly
+accurate and used heavily for attitude estimation. Up to 30 GPS
+satellites are currently in orbit, mostly in MEO, at altitudes around
+20,000 km. There will be between four and eight of them above any site
+on the Earth at any time\cite{qp38}. These satellites continuously emit
+coded high-frequency radio signals which may be received by special
+GPS receivers. These signals contain information about the exact
+orbits of the satellites and the time of atomic clocks onboard. When
+signals from three or more satellites are received, the GPS receiver
+will compute the best possible location of the user by
+triangulation. Much like when on Earth, a GPS can be used for
+navigation in space. The GPS receiver on board the satellite will also
+receive its longitude, latitude, and altitude as long as it is within
+the GPS constellation.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/GPS}
+  \end{center}
+  \caption{Example GPS Receiver \cite{qp32}}
+\end{figure}
+
+\subsubsection{Communications and the Ground Station Network (GSN)}
+
+There are several types of ground stations depending on the
+spacecraft’s distance from Earth. Ground services may be either
+Direct-to-Earth (DTE) or space relay. DTE ground stations are located
+on the Earth’s surface. They provide direct point-to-point access with
+antennas at ground stations. DTE services are great for missions
+needing frequent, short-duration contacts with high data transfer. 
+
+Space relay services involve an intermediate satellite that
+communicates with a ground station on the Earth’s surface. Relay
+communication satellites for low-Earth orbit spacecraft can be in
+Geosynchronous Equatorial Orbit (GEO), roughly 36,000 km from the
+surface of Earth, or in low-Earth orbit. Relays are important for
+providing communication and tracking when direct-to-ground
+communications are not feasible due to physical asset visibility
+constraints.  Space-based relay assets give missions full-time
+coverage and continuous access to communication and tracking
+services. 
+
+Finally, deep space communication is also possible. The Deep Space
+Network (DSN) is developed to conduct telecommunication and tracking
+operations with space missions in GEO. This includes missions at lunar
+distances, the Sun-Earth LaGrange points, and in highly elliptical
+Earth orbits, and even missions to other planets\cite{qp40}. The DSN network
+consists of three ground stations placed around 120 degrees apart on
+Earth which provides 360 degrees coverage\cite{qp41}.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=80mm]{Figures/DSNSC}
+  \end{center}
+  \caption{Deep Space Network Satellite Coverage \cite{qp42}}
+\end{figure}
+
+\subsection{Trade Studies}
+
+Tradeoffs and considerations are analysis tools used to compare
+different components. It is not always obvious which component is best
+for a subsystem function. As shown in the previous sections, there are several
+options for attitude control, attitude estimation, and position
+estimation. It may not stand out at first glance which components are
+the best, so it is up to the team to perform a proper tradeoff
+analysis, a.k.a a trade study. What this typically looks like is a
+comparison of the different parameters of the components. For example,
+if the GNC team decides to look at an integrated system for attitude
+estimation, a trade study can be conducted to compare the mass, power,
+volume, and momentum storage for different Blue Canyon Technologies
+XACT systems \cite{qp20}. It is important to keep this trade study organized
+and regularly updated, so it is recommended that a table is created to
+compare these parameters.  
+
+The name “tradeoff” comes from the fact that for a system it is
+typical that one feature must be compromised for the other. For
+example, to get more power, it is probably reasonable to assume that
+volume will be compromised because the size of the component will need
+to increase to fit a larger power supply. Another example may be that
+in order to increase the volume of a component to fit a larger
+payload, the mass will be compromised and may increase. These
+compromises especially become issues when they interfere with the
+subsystem requirements.
+
+\subsection{Risks}
+
+Risk assessments are arguably the most important task for the GNC
+team. It is crucial that the entire system is taken into consideration
+and assessed for possible failures because only one part needs to fail
+to cripple the whole mission. This includes non physical issues such
+as increased lead times on parts for example. The purpose of a risk
+assessment is to identify all possible risks, their severity and
+likelihood and to come up with mitigation strategies for those risks. 
+
+The purpose of risk assessments is to determine mitigation strategies
+so that the identified risks may be prevented. These mitigations are
+discussed amongst the team and heavily considered while designing the
+subsystem. Mitigation strategies can range anywhere from simply
+creating a preflight checklist to diverting control from one component
+to another in the event of a failure. These strategies are the main
+purpose of creating a risk analysis in the first place, so careful
+deliberation should be used when creating them. 
+
+The best way to conduct a risk assessment is by creating a risk table
+for the GNC subsystem. A risk table will list out the possible risks
+determined by the team and their subsequent mitigation strategies. It
+will also list out the likelihood and severity of each individual risk
+as decided by the team. These can be determined in any way deemed
+reasonable by the team, but is most often used on a scale of one to
+five for each category. These values can then be input into a risk
+criticality matrix which shows which risks are of the greatest threat
+level.  
+
+It is important that risk statements are written in a specific way to
+avoid any confusion or miscommunication between the different
+subteams. A risk statement consists of four parts: the condition,
+departure, asset and consequence. The condition is a single phrase
+that describes the current key fact-based situation or environment
+that is causing concern, doubt, anxiety, or uneasiness. The departure
+describes a possible change from the design or plan. It is an
+undesired event that is made credible or more likely as a result of
+the condition. The asset is an element of the system or plan. It
+represents the primary resource that is affected by the individual
+risk. The consequence is a single phrase that describes the
+foreseeable, credible negative impact(s) to meet performance
+requirements. A proper risk statement should utilize these four parts
+in a format similar to the following: “Given that [CONDITION], there
+is a possibility of [DEPARTURE] adversely impacting [ASSET], which can
+result in [CONSEQUENCE]”
+
+\subsection{Conclusions}
+
+The GNC subsystem's purpose is to know where the spacecraft is, where
+it needs to go, and determine how it will get there. These
+requirements are determined by the overall mission goal of the
+spacecraft. The system constraints are divided into three main
+categories: the attitude control, attitude estimation, and position
+estimation. The attitude control is how the spacecraft will maintain
+its current orientation during orbit. Magnetorquers, reaction wheels,
+thrust vector control, reaction control systems, and control moment
+gyros are all common components used to counteract the disturbance
+torques and maintain the desired orientation. Attitude estimation is
+how the spacecraft estimates its current orientation. This is commonly
+achieved by star trackers, sun sensors, magnetometers, rate gyros,
+accelerometers, and horizon sensors. Lastly, the position estimation
+is knowing the precise location of the satellite during its orbit. GPS
+and the GSN are the two most common methods for determining the
+satellites position.  
+
+Not only are the components important but one must also consider the
+trade-offs and risks associated with the mission. Risks must be
+assessed and properly mitigated in order to ensure the safety and
+success of the spacecraft. This is done by creating risk tables using
+if-then terminology.
 
 \section{Radio Controlled Aircraft Design}
 
