@@ -1738,17 +1738,33 @@ In the equation above $\epsilon$ denotes either roll $\phi$, pitch
 $\theta$ or yaw $\psi$ depending on which reaction wheel is being
 used. The Euler angles in this case would be obtained by converting
 the quaternions to Euler angles as defined in Section \ref{s:quat}.
-In order to design and select reaction wheels the maximum angular
-momentum of the satellite must be obtained by assuming the worst case angular
-velocity times the moment of inertia of the satellite.
+
+Often times however your reaction wheels are not pointed on the
+principal axis of inertia. In this case a Least Squares Regression
+model is needed. In this case the equation above is used to compute
+the desired torque to be placed on the satellite such that
 \begin{equation}
-  H_{required} = n||I_s\vec{\omega}_{MAX}||
+  \vec{M}_{desired} = -k_p(\epsilon_i-\epsilon_{desired})-k_d(\omega_i-\omega_{desired})
 \end{equation}
-With this reaction wheels can be selected based on this worst case
-scenario plus a safety factor of $n$ which is typcially set to 2 in
-spacecraft operations. If reaction wheels cannot be used in the event
-of saturation or other issues reaction control thrusters can be
-used. Typically a value of $|\vec{\omega}_{MAX}|=5^o/sec$ is used. 
+This equation is then equated to the equation for torque placed on the
+satellite where the angular accelerations are placed into a vector.
+\begin{equation}
+  \vec{M}_{desired} = \vec{M}_R = \sum\limits_{i=1}^{NR}
+  I^{B}_{Ri}\alpha_{Ri}\hat{n}_{Ri} = \begin{bmatrix}
+    I^{B}_{R1}\hat{n}_{R1} & \hdots &
+    I^{B}_{RNR}\hat{n}_{RNR} \end{bmatrix} \begin{Bmatrix} \alpha_1
+    \\ \vdots \\ \alpha_{NR} \end{Bmatrix} = {\bf J} \vec{\alpha}
+\end{equation}
+Since ${\bf J}$ is a $3\times{N_{RW}}$ matrix its impossible to simply
+invert the matrix and solve for the vector of angular accelerations
+$\vec{\alpha}$. In this case there are an infinite number of
+solutions. As such a minimization routine is required where the
+solution found also happens to be the lowest amount of angular
+acceleration. In this case, Lagrange's method was used to find the
+vector of angular accelerations \cite{lagrange}.
+\begin{equation}
+  \vec{\alpha} = {\bf J}^T\left({\bf J}{\bf J}^T\right)^{-1}\vec{M}_{desired}
+\end{equation}
 
 \subsubsection{Reaction Control Thrusters}
 
@@ -1770,8 +1786,10 @@ using a similar PD control law as the reaction wheels.
 \end{equation}
 Since ${\bf M}$ is a $3\times{N_P}$ matrix its impossible to simply
 invert the matrix and solve for the vector of pulses
-$\vec{\sigma}$. Instead, Lagrange's method was used to find the vector
-of pulses \cite{lagrange}.
+$\vec{\sigma}$. In this case there are an infinite number of
+solutions. As such a minimization routine is required where the
+solution found also happens to be the least amount of pulses. In this
+case, Lagrange's method was used to find the vector of pulses \cite{lagrange}.
 \begin{equation}
   \vec{\sigma} = {\bf M}^T\left({\bf M}{\bf M}^T\right)^{-1}\vec{M}_{desired}
 \end{equation}
