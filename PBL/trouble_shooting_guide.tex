@@ -1,0 +1,28 @@
+\section{Troubleshooting Guide}
+
+{\bf Is your CPX/CPB broken or not running code? Read below.}
+
+Now this is really important. Your CPX is a USB stick that can hold as
+many Python files as 2MB will allow but it can only run or execute one
+python script at a time. Furthermore it will only run two types of
+files. It will run code.py if it exists and if it can't find code.py
+it will run main.py If the CPX can't find main.py or code.py it will
+just not do anything. If you have two versions of main.py or a
+combination of main.py or code.py it will run one of them and not the
+other. Make sure you only have one version of main.py or code.by but
+not both! Some common things to check if your CPX isn't working.
+
+\begin{enumerate}[itemsep=-5pt]
+  \item Make sure you're using Mu in the right Mode
+  \item Make sure main.py or code.py is on the CIRCUITPY drive and not somewhere on your computer.
+  \item Make sure you are editing the right file in Mu. Do you have two versions of main.py?
+  \item Are you editing using Thonny or Spyder?
+  \item Are you editing a file on your computer? Make sure you are writing to the CIRCUITPY drive.
+  \item Unplug the CPX, close Mu and try again.
+  \item What if my CIRCUITPY drive doesn’t work anymore
+  \item First, try and reset the CPX to CPLAYBOOT and reflash the UF2 to see if that fixes it.
+  \item If that doesn’t work sometimes you just need to completely erase the CIRCUITPY drive so head over to this troubleshooting guide https://learn.adafruit.com/adafruit-circuit-playground-express/troubleshooting and follow some of the steps they tell you.
+  \item As a last resort you can try to download these UF2s and
+    hopefully it will fix all errors and mistakes -
+    \href{https://cdn-learn.adafruit.com/assets/assets/000/048/745/original/flash_erase_express.ino.circuitplay.uf2?1512152080}{CPX}, \href{https://cdn-learn.adafruit.com/assets/assets/000/082/950/original/CP_Bluefruit_QSPI_Erase.UF2?1572026649}{CPB}
+\end{enumerate}
