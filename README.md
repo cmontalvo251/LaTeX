@@ -8,7 +8,12 @@ If you have the space I strongly recommend you just run
 
 $ sudo apt-get install texlive-full
 
-If you don't have the space you can do
+No matter what you need biber and evince
+
+$ sudo apt-get install biber
+$ sudo apt-get install evince
+
+If you don't have the space to install texlive-full you can do
 
 $ sudo apt-get install texlive
 

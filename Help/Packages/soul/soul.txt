@@ -1,0 +1,59 @@
+soul.sty
+========
+
+This article describes the `soul' package, which
+provides hyphenatable letterspacing (spacing out),
+underlining, and some derivatives.
+All features are based upon a common mechanism 
+that allows to typeset text syllable by syllable,
+where the excellent TeX hyphenation algorithm is
+used to find the proper hyphenation points.
+Two examples show how to use the provided interface to
+implement things such as `an-a-lyz-ing syl-la-bles'.
+Although the package is optimized for LaTeX2e,
+it works with Plain TeX and with other
+packages, too.
+
+author          = "Melchior FRANZ"
+version         = "2.4"
+date            = "17 November 2002"
+address         = "Melchior FRANZ
+                   Rieder Hauptstrasse 52
+                   A-5212 SCHNEEGATTERN
+                   AUSTRIA"
+telephone       = "++43 7746 3109"
+URL             = "http://www.unet.univie.ac.at/~a8603365/"
+email           = "a8603365@unet.univie.ac.at"
+codetable       = "ISO/ASCII"
+keywords        = "spacing out, letterspacing, underlining, striking out,
+                   highlighting"
+supported       = "yes"
+
+
+
+COPYRIGHT NOTICE
+================
+This package is free software that can be redistributed and/or modified
+under the terms of the LaTeX Project Public License as specified
+in the file macros/latex/base/lppl.txt on any CTAN archive server,
+such as ftp://ftp.dante.de/.
+
+
+
+Extracting the package & processing the documentation
+=====================================================
+
+on Unix/Linux just run "make" to get the style file and the documentation;
+else generate the driver soul.ins (if you don't already have it):
+
+    $ latex soul.dtx
+
+You'll probably get an error message that you may ignore. Now generate
+the style file:
+
+    $ tex soul.ins
+
+And finally to produce the documentation run LaTeX three times:
+
+    $ latex soul.dtx
+    
