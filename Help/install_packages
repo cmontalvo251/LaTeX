@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#This program will install an sty package
+
+echo 'Invoke the command like this $ ./install_package filename'
+
+echo 'Filename needs to be in the Help/Packages folder and a zip folder must be in there'
+
+echo 'Unzipping the following file:' $1.zip
+unzip Packages/$1.zip
+echo 'Moving folder to Packages/'
+mv $1 Packages/
+echo 'Read the README for the package. Many are different'
+echo 'Typically the sty files go in /usr/local/share/texmf/'
+echo 'To help I will make a folder for you in the above folder'
+sudo mkdir /usr/local/share/texmf/tex/latex/$1
+echo 'Then make sure to run $ sudo mktexlsr'

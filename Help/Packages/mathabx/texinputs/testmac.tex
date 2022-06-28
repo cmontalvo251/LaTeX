@@ -1,0 +1,521 @@
+%
+% TESTMAC.tex (december 20, 2003)
+%
+\catcode`\@=11
+%
+% Page setup
+%
+%\magnification=\magstep1
+\voffset=0.12 true cm
+\hoffset=0.31 true cm
+\vsize=24.2 true cm
+\hsize=15.3 true cm
+\parindent=1.333em
+%
+% Heading
+%
+\font\nineit=cmti9
+\font\twelverm=cmr12
+\newif\iftitle
+\titlefalse
+\footline={\hfil}
+\headline={\iftitle\hfil\global\titlefalse
+	\ifodd\pageno\advance\pageno by 1\fi
+	\else\vbox{\line{\ifodd\pageno
+		{\nineit\@title}\hfil\llap{\tenrm\folio}
+		\else\rlap{\tenrm\folio}\hfill{\nineit\@title}%
+		\fi}\vskip6pt\hrule}\fi}
+%
+% Sectionning
+%
+\def\,{\ifmmode\mskip\thinmuskip\else\thinspace\fi}
+\def\dots{\ifmmode\ldots\else%
+	.\kern\fontdimen3\font
+	.\kern\fontdimen3\font
+	.\fi}
+%
+\def\french{\frenchspacing\language=1
+	\def\@textsep{~---~}%
+	\def\Author{Auteur~}\def\LastVersion{Derni\`ere version~}%
+	\def\today{\day\space\ifcase\month\or
+		janvier\or f\'evrier\or mars\or avril\or mai\or juin\or
+		juillet\or ao\^ut\or septembre\or octobre\or novembre\or
+		d\'ecembre\fi\space\number\day,\space\number\year}}%
+%
+\def\english{\frenchspacing\language=0
+	\let\@textsep\enspace
+	\def\Author{Author}\def\LastVersion{Last version}%
+	\def\today{\ifcase\month\or
+		January\or February\or March\or April\or May\or June\or
+		July\or August\or September\or October\or November\or
+		December\fi\space\number\day,\space\number\year}}%
+%
+\def\title#1{\gdef\@title{#1}}%
+\def\subtitle#1{\def\@subtitle{#1}}%
+\def\author#1{\def\@author{#1}}%
+%
+\def\maketitle{\global\titletrue{\parindent=0pt
+	\leavevmode
+	\ifx\@title\undefined\else{\twelverm\@title}\par\fi
+	\vskip 6pt
+	\hrule height 6pt
+	\vskip 6pt
+	\ifx\@subtitle\undefined\else\hfill{\twelverm\@subtitle}\par\fi
+	\ifx\@author\undefined\else\hfill{\rm\Author: \@author}\par\fi
+	\hfill{\rm\LastVersion: \today}}\vskip2\baselineskip}
+%
+\newcount\sectno
+\newcount\subsectno
+\def\section#1{\vskip\z@ plus\baselineskip
+	\penalty-250\vskip\z@ plus-\baselineskip
+	\bigbreak\noindent\ifx#1*%
+	\def\@tmp##1{{\bf##1}\par\nobreak\medskip}\else
+	\global\advance\sectno by 1
+	\global\subsectno=0
+	\def\@tmp{\the\sectno.\enspace{\bf#1}\par\nobreak\medskip}\fi
+	\@tmp}%
+\def\subsection#1{\medbreak\noindent\ifx#1*%
+	\def\@tmp##1{{\bf##1\unskip.}\@textsep\ignorespaces}\else
+	\global\advance\subsectno by 1
+	\def\@tmp{\the\subsectno.\enspace{\bf#1\unskip.}%
+	\@textsep\ignorespaces}\fi
+	\@tmp}%
+\def\description{\medbreak\bgroup
+	\def\item##1{\medbreak\hangindent\parindent\leavevmode
+		\hskip-\parindent{\bf##1.}\enspace\ignorespaces}%
+	\def\subitem##1{\smallbreak\hangindent2\parindent\leavevmode
+		{\it##1.}\enspace\ignorespaces}%
+	\def\subsubitem##1{\par\hangindent3\parindent\leavevmode
+		\hskip\parindent{##1.}\enspace\ignorespaces}%
+	\let\itemitem=\subitem}%
+\def\enddescription{\egroup\medbreak}%
+\def\cs#1{\hbox{\tt\string#1}}%
+%
+% verbatim
+%
+\newdimen\tabindent\tabindent=2em
+\let\verbatimsep\quad
+{\obeyspaces\gdef {\leavevmode\space}%
+\catcode`\^^I=\active\gdef^^I{\hskip\tabindent}}%
+\def\rawverbatim{%
+	\def\@numberedverbatimpar{\def\par{\ifvmode
+		\endgraf\vskip\baselineskip\advance\count@ by 1
+		\else\endgraf\fi}%
+		\everypar={\advance\count@ by 1\leavevmode
+		\llap{\the\count@\verbatimsep}}}%
+	\def\@verbatimpar{\def\par{\ifvmode
+		\endgraf\vskip\baselineskip\else\endgraf\fi}%
+		\everypar={}}}%
+\def\smartverbatim{%
+	\def\@numberedverbatimpar{%
+		\def\par{\ifvmode\endgraf
+			\ifdim\lastskip<\medskipamount
+			\removelastskip\penalty-100\medskip
+			\@verbatimskiptrue\fi\else\endgraf\fi}%
+		\everypar={\advance\count@ by 1\leavevmode
+			\@ifverbatimskip
+			\llap{\the\count@\verbatimsep}%
+			\@verbatimskipfalse\fi}}%
+	\def\@verbatimpar{%
+		\def\par{\ifvmode\endgraf
+			\ifdim\lastskip<\medskipamount
+			\removelastskip\penalty-100\medskip\fi
+			\else\endgraf\fi}%
+		\everypar={}}}%
+%
+\def\@verbatimskiptrue{\let\@ifverbatimskip\iftrue}%
+\def\@verbatimskipfalse{\let\@ifverbatimskip\iffalse}%
+\smartverbatim
+\def\verb{\bgroup\tt\uncatcodespecials\obeyspaces\@verb}%
+\def\verbatim{\medbreak\bgroup
+	\rightskip=0\p@ minus 1000\p@
+	\tt\uncatcodespecials\obeyspaces
+	\catcode`\^^I=\active\@verbatim}%
+\def\@verbatim#1{\ifx#1[%
+	\@verbatimskiptrue
+	\@numberedverbatimpar\obeylines\let\@next=\@@verbatim
+	\else\@verbatimpar\obeylines\parindent=0\p@
+	\def\@next{\@@@verbatim#1}\fi\@next}%
+\def\@@verbatim#1]{\setbox0=\hbox{#1\verbatimsep}\parindent=\wd0
+	\count@=0\@@@verbatim}%
+\def\verbatimfile#1{\ifx#1[\let\@next\@verbatimfile
+	\else\def\@next{\@@verbatimfile{\input #1}}\fi\@next}%
+\def\@verbatimfile#1]#2{\@@verbatimfile{[#1]\input #2}}%
+{\catcode`\|=0\catcode`\\=12
+|gdef|@verb#1\endverb{#1|egroup}%
+|gdef|@@@verbatim#1\endverbatim{#1|egroup|medbreak}%
+|gdef|@@verbatimfile#1{|verbatim #1|relax\endverbatim}}%
+\def\uncatcodespecials{\def\do##1{\catcode`##1=12 }\dospecials}%
+%
+\long\def\comments#1\endcomments{}%
+\def\fuzzytext{\tolerance=9999\hfuzz=3em\vfuzz=0.1pt}%
+\def\normaltext{\tolerance=200\hfuzz=0.1pt\vfuzz=0.1pt}%
+\def\newpage{\par\vfill\eject}%
+\newdimen\shadeshift\shadeshift=1pt
+\def\shadedtext#1{{\setbox0=\hbox{#1}\leavevmode
+	\vtop to 0pt{\rlap{\special{color push rgb 0.75 0.75 0.75}%
+	\kern0.1em\lower0.1em\copy0
+	\special{color pop}}\vss}\box0}}%
+\long\def\shadedparagraph#1\par{{\setbox0=\vbox{\hsize=\hsize#1}%
+	\noindent\leavevmode
+	\vtop to 0pt{\rlap{\special{color push rgb 0.75 0.75 0.75}%
+	\kern0.1em\lower0.1em\copy0
+	\special{color pop}}\vss}\box0\par}}%
+%
+% font tests
+%
+\newcount\n\newcount\m
+\def\mixfrom#1to#2.{\medbreak\noindent
+%	{\it (Random generator by Donald Arseneau.)}\par\noindent
+	{\count255=#2%
+	\advance\count255 by -#1%
+	\n=0\loop\ifnum\n<25 \m=0%
+	{\loop\ifnum\m<43\setrannum{\count@}{#1}{#2}%
+		\char\count@
+		\advance\m by 1
+		\repeat}
+	\advance\n by 1\endgraf\noindent
+	\repeat}\medbreak}
+%
+\def\compare#1#2{\medbreak\noindent{%
+	\font\ftestfont=#1\font\stestfont=#2%
+	\count255=0%
+	{\bf#1\unskip/\ignorespaces#2}
+	\par\nobreak\medskip\noindent
+	{\loop\ifnum\count255<256
+	{\ftestfont\char\count255
+	\stestfont\char\count255}
+	\advance\count255 by 1\repeat}}\medbreak}
+%
+\def\docomparison#1#2from#3to#4.{\medbreak\noindent{%
+	\font\ftestfont=#1\font\stestfont=#2%
+	\count255=#3%
+	\count0=#4\advance\count0 by 1
+	{\bf#1\unskip/\ignorespaces#2}
+	\par\medskip\noindent
+	{\loop\ifnum\count255<\count0
+	{\ftestfont\char\count255
+	\stestfont\char\count255$_{_{\the\count255}}$}
+	\advance\count255 by 1\repeat}}\medbreak}
+%
+\def\usuals#1{\medbreak\noindent{\bf#1\unskip.}~---~{%
+	\font\testfont=#1\testfont\setbaselineskip
+	\let\-=\allowbreak\unskip
+	A\-B\-C\-D\-E\-F\-G\-H\-I\-J\-K\-L\-M\-%
+	N\-O\-P\-Q\-R\-T\-S\-U\-V\-W\-X\-Y\-Z \-
+	a\-b\-c\-d\-e\-f\-g\-h\-i\-j\-k\-l\-m\-%
+	n\-o\-p\-q\-r\-s{}\-t\-u\-v\-w\-x\-y\-z \-
+	\AE\-\OE\-\O
+	\ae\-\oe\-\o\-\ss
+	+\-=\-\# @ 1\-2\-3\-4\-5\-6\-7\-8\-9\-0 \-\$ \&  () []%
+	\medbreak}}
+\def\kerningtable[#1,#2][#3,#4]{\medbreak\noindent{\parindent=0pt
+	\m=#4 \advance\m by -#3 \advance\m by 1
+	\dim=\hsize \divide\dim by \m
+	\m=#1 \advance\m by -1
+	\n=#3 \advance\n by -1
+	{\loop\leavevmode
+		\ifnum\m<#2
+		\advance\m by 1
+		{\loop
+			\ifnum\n<#4
+			\advance\n by 1
+			\setbox0\hbox{\char\m\char\n}%
+			\setbox1\hbox{\char\m\null\char\n}%
+			\hbox to \dim{\char\m\char\n
+			\ifdim\wd0=\wd1\else{\rm*}\fi\hss}%
+		\repeat}\endgraf
+	\repeat}%
+	}\medbreak}%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\hyphenation{prom-i-nent}
+
+%\newcount\m \newcount\n
+\newcount\p \newdimen\dim
+\chardef\other=12
+
+\def\hours{\n=\time \divide\n 60
+  \m=-\n \multiply\m 60 \advance\m \time
+  \twodigits\n\ heures \twodigits\m\ minutes}
+
+\def\twodigits#1{\ifnum #1<10 0\fi \number#1}
+
+\def\startfont{\tracinglostchars=0
+	\fuzzytext
+%	\tolerance=1000
+%	\raggedbottom
+	\parindent=0pt
+%	\newlinechar=`@
+%	\hyphenpenalty=200
+%	\doublehyphendemerits=30000
+	\font\testfont=\fontname
+%	\spaceskip=0pt
+	%  \leftline{{\bf\fontname\unskip}\ (tel que le \today, \`a \hours)}
+	%  \nobreak\medskip\nobreak
+	\testfont %\setbaselineskip
+%	\ifdim\fontdimen6\testfont<10pt \rightskip=0pt plus 20pt
+%	\else\rightskip=0pt plus 2em \fi
+%	\spaceskip=\fontdimen2\testfont % space between words (\raggedright)
+%	\xspaceskip=\fontdimen2\testfont
+%	\advance\xspaceskip by\fontdimen7\testfont
+	}
+
+\def\setbaselineskip{\setbox0=\hbox{\n=0
+	\loop\char\n \ifnum \n<255 \advance\n 1 \repeat}
+	\baselineskip=6pt \advance\baselineskip\ht0
+	\advance\baselineskip\dp0 }
+
+\def\setchar#1{{\escapechar-1\message{\string#1 character = }%
+	\def\do##1{\catcode`##1=\other}\dospecials
+	\read-1 to\next
+	\expandafter\finsetchar\next\next#1}}
+\def\finsetchar#1#2\next#3{\global\chardef#3=`#1
+	\ifnum #3=`\# \global\chardef#3=#2 \fi}
+\def\promptthree{\setchar\background
+	\setchar\starting \setchar\ending}
+
+\def\mixture{\promptthree \domix\mixpattern}
+\def\alternation{\promptthree \domix\altpattern}
+\def\mixpattern{\0\1\0\0\1\1\0\0\0\1\1\1\0\1}
+\def\altpattern{\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0}
+\def\domix#1{\par\chardef\0=\background \n=\starting
+	\loop \chardef\1=\n #1\endgraf
+	\ifnum \n<\ending \advance\n 1 \repeat}
+
+\def\£{\discretionary{\background}{\background}{\background}}
+\def\series{\promptthree \£\doseries\starting\ending\par}
+\def\doseries#1#2{\n=#1\loop\char\n\£\ifnum\n<#2\advance\n 1 \repeat}
+\def\complower{\£\doseries{`a}{`z}\doseries{'31}{'34}\par}
+\def\compupper{\£\doseries{`A}{`Z}\doseries{'35}{'37}\par}
+\def\compdigs{\£\doseries{`0}{`9}\par}
+\def\alphabet{\setchar\background\complower}
+\def\ALPHABET{\setchar\background\compupper}
+
+\def\lowers{\docomprehensive\complower{`a}{`z}{'31}{'34}}
+\def\uppers{\docomprehensive\compupper{`A}{`Z}{'35}{'37}}
+\def\digits{\docomprehensive\compdigs{`0}{`4}{`5}{`9}}
+\def\docomprehensive#1#2#3#4#5{\par\chardef\background=#2
+	\loop{#1} \ifnum\background<#3\m=\background\advance\m 1
+	\chardef\background=\m \repeat \chardef\background=#4
+	\loop{#1} \ifnum\background<#5\m=\background\advance\m 1
+	\chardef\background=\m \repeat}
+
+\def\names{ {\AA}ngel\aa\ Beatrice Claire
+	Diana \'Erica Fran\c{c}oise Ginette H\'el\`ene Iris
+	Jackie K\=aren {\L}au\.ra Mar{\'\i}a N\H{a}ta{\l}{\u\i}e {\O}ctave
+	Pauline Qu\^eneau Roxanne Sabine T\~a{\'\j}a Ur\v{s}ula
+	Vivian Wendy Xanthippe Yv{\o}nne Z\"azilie\par}
+\def\punct{\par\dopunct{min}\dopunct{pig}\dopunct{hid}
+	\dopunct{HIE}\dopunct{TIP}\dopunct{fluff}
+	\$1,234.56 + 7/8 = 9\% @ \#0\par}
+\def\dopunct#1{#1,\ #1:\ #1;\ `#1'\ ?`#1?\ !`#1!\ (#1)\ [#1]\ #1*\ #1.\par}
+
+\def\bigtest{\sample
+	hamburgefonstiv HAMBURGEFONSTIV\par
+	\names \punct \lowers \uppers \digits}
+
+\def\math{\textfont1=\testfont \skewchar\testfont=\skewtrial
+ \mathchardef\Gamma="100 \mathchardef\Delta="101
+ \mathchardef\Theta="102 \mathchardef\Lambda="103 \mathchardef\Xi="104
+ \mathchardef\Pi="105 \mathchardef\Sigma="106 \mathchardef\Upsilon="107
+ \mathchardef\Phi="108 \mathchardef\Psi="109 \mathchardef\Omega="10A
+ \def\ii{i} \def\jj{j}
+ \def\\##1{|##1|+}\mathtrial
+ \def\\##1{##1_2+}\mathtrial
+ \def\\##1{##1^2+}\mathtrial
+ \def\\##1{##1/2+}\mathtrial
+ \def\\##1{2/##1+}\mathtrial
+ \def\\##1{##1,{}+}\mathtrial
+ \def\\##1{d##1+}\mathtrial
+ \let\ii=\imath \let\jj=\jmath \def\\##1{\hat##1+}\mathtrial}
+\newcount\skewtrial \skewtrial='177
+\def\mathtrial{$\\A \\B \\C \\D \\E \\F \\G \\H \\I \\J \\K \\L \\M \\N \\O
+ \\P \\Q \\R \\S \\T \\U \\V \\W \\X \\Y \\Z \\a \\b \\c \\d \\e \\f \\g
+ \\h \\\ii \\\jj \\k \\l \\m \\n \\o \\p \\q \\r \\s \\t \\u \\v \\w \\x \\y
+ \\z \\\alpha \\\beta \\\gamma \\\delta \\\epsilon \\\zeta \\\eta \\\theta
+ \\\iota \\\kappa \\\lambda \\\mu \\\nu \\\xi \\\pi \\\rho \\\sigma \\\tau
+ \\\upsilon \\\phi \\\chi \\\psi \\\omega \\\vartheta \\\varpi \\\varphi
+ \\\Gamma \\\Delta \\\Theta \\\Lambda \\\Xi \\\Pi \\\Sigma \\\Upsilon
+ \\\Phi \\\Psi \\\Omega \\\partial \\\ell \\\wp$\par}
+\def\mathsy{\begingroup\skewtrial='060 % for math symbol font tests
+ \def\mathtrial{$\\A \\B \\C \\D \\E \\F \\G \\H \\I \\J \\K \\L
+	\\M \\N \\O \\P \\Q \\R \\S \\T \\U \\V \\W \\X \\Y \\Z$\par}
+ \math\endgroup}
+
+\def\oct#1{\hbox{\rm\'{}\kern-.2em\it#1\/\kern.05em}} % octal constant
+\def\hex#1{\hbox{\rm\H{}\tt#1}} % hexadecimal constant
+\def\setdigs#1"#2{\gdef\h{#2}% \h=hex prefix; \0\1=corresponding octal
+ \m=\n \divide\m by 64 \xdef\0{\the\m}%
+ \multiply\m by-64 \advance\m by\n \divide\m by 8 \xdef\1{\the\m}}
+\def\testrow{\setbox0=\hbox{\penalty 1\def\\{\char"\h}%
+ \\0\\1\\2\\3\\4\\5\\6\\7\\8\\9\\A\\B\\C\\D\\E\\F%
+ \global\p=\lastpenalty}} % \p=1 if none of the characters exist
+\def\oddline{\cr
+	\noalign{\nointerlineskip}
+	\multispan{19}\hrulefill&
+	\setbox0=\hbox{\lower 2.3pt\hbox{\hex{\h x}}}\smash{\box0}\cr
+	\noalign{\nointerlineskip}}
+\newif\ifskipping
+\def\evenline{\loop\skippingfalse
+	\ifnum\n<256 \m=\n \divide\m 16 \chardef\next=\m
+	\expandafter\setdigs\meaning\next \testrow
+	\ifnum\p=1 \skippingtrue \fi\fi
+	\ifskipping \global\advance\n 16 \repeat
+	\ifnum\n=256 \let\next=\endchart\else\let\next=\morechart\fi
+	\next}
+\def\morechart{\cr\noalign{\hrule\penalty5000}
+	\chartline \oddline \m=\1 \advance\m 1 \xdef\1{\the\m}
+	\chartline \evenline}
+\def\chartline{&\oct{\0\1x}&&\:&&\:&&\:&&\:&&\:&&\:&&\:&&\:&&}
+\def\chartstrut{\lower4.5pt\vbox to14pt{}}
+\def\table{\bigbreak\global\n=0
+	\halign to\hsize\bgroup
+		\chartstrut##\tabskip0pt plus10pt&
+		&\hfil##\hfil&\vrule##\cr
+		\lower6.5pt\null
+		&\hbox to 0pt{\hss\rm\fontname\hss}
+		&&\oct0&&\oct1&&\oct2&&\oct3&&\oct4
+		&&\oct5&&\oct6&&\oct7&\evenline}
+\def\endchart{\cr\noalign{\hrule}
+	\raise11.5pt\null&&&\hex 8&&\hex 9&&\hex A&&\hex B&
+	&\hex C&&\hex D&&\hex E&&\hex F&\cr\egroup\bigbreak\par}
+\def\:{\setbox0=\hbox{\char\n}%
+	\ifdim\ht0>7.5pt\reposition
+	\else\ifdim\dp0>2.5pt\reposition\fi\fi
+	\box0\global\advance\n 1 }
+\def\reposition{\setbox0=\vbox{\kern2pt\box0}\dim=\dp0
+	\advance\dim 2pt \dp0=\dim}
+\def\centerlargechars{
+	\def\reposition{\setbox0=\hbox{$\vcenter{\kern2pt\box0\kern2pt}$}}}
+
+\def\text{{%\advance\baselineskip-4pt
+%\setbox0=\hbox{abcdefghijklmnopqrstuvwxyz}
+%\ifdim\hsize>2\wd0 \ifdim 15pc>2\wd0 \hsize=15pc \else \hsize=2.5\wd0 \fi\fi
+On November 14, 1885, Senator \& Mrs.~Leland Stanford called
+together at their San Francisco mansion the 24~prominent men who had
+been chosen as the first trustees of The Leland Stanford Junior University.
+They handed to the board the Founding Grant of the University, which they
+had executed three days before. This document---with various amendments,
+legislative acts, and court decrees---remains as the University's charter.
+In bold, sweeping language it stipulates that the objectives of the University
+are ``to qualify students for personal success and direct usefulness in life;
+and to promote the publick welfare by exercising an influence in behalf of
+humanity and civilization, teaching the blessings of liberty regulated by
+law, and inculcating love and reverence for the great principles of
+government as derived from the inalienable rights of man to life, liberty,
+and the pursuit of happiness.'' \moretext
+(!`THE DAZED BROWN FOX QUICKLY GAVE 12345--67890 JUMPS!)\par}}
+\def\moretext{?`But aren't Kafka's Schlo{\ss} and {\AE}sop's {\OE}uvres
+often na{\"\i}ve vis-\`a-vis the d{\ae}monic ph{\oe}nix's official r\^ole
+in fluffy souffl\'es? }
+\def\omitaccents{\let\moretext=\relax}
+\def\sample{\table\text}
+\def\UsualTest#1{{\def\fontname{#1 }\startfont\sample\names}}
+\english
+\def\LaTeX{L\kern-.36em%
+        {\setbox\z@\hbox{T}%
+         \vbox to\ht\z@{\hbox{$\rm\scriptstyle A$}%
+                        \vss}%
+        }%
+        \kern-.15em%
+        \TeX}
+\catcode`\@=12
+
+% RANDOM.TEX       v.1   (Donald Arseneau)
+% Generating "random" numbers in TeX. 
+%
+% Random integers are generated in the range 1 to 2147483646 by the
+% macro \nextrandom.  The result is returned in the counter \randomi.
+% Do not change \randomi except, perhaps, to initialize it at some
+% random value.  If you do not initialize it, it will be initialized
+% using the time and date.  (This is a sparse initialization, giving
+% fewer than a million different starting values, but you should use
+% other sources of numbers if they are available--just remember that
+% most of the numbers available to TeX are not at all random.)
+%
+% The \nextrandom command is not very useful by itself, unless you
+% have exactly 2147483646 things to choose from.  Much more useful
+% is the \setrannum command which sets a given counter to a random
+% value within a specified range.  There are three parameters:
+% \setrannum {<counter>} {<minimum>} {<maximum>}.  For example, to
+% simulate a die-roll: \setrannum{\die}{1}{6} \ifcase\die... .
+%
+% If you need random numbers that are not integers, you will have to
+% use dimen registers and \setrandimen.  For example, to set a random
+% page width: \setrandimen \hsize{3in}{6.5in}.  The "\pointless" macro
+% will remove the "pt" that TeX gives so you can use the dimensions
+% as pure `real' numbers.  In that case, specify the range in pt units.
+% For example,
+%   \setrandimen\answer{2.71828pt}{3.14159pt}
+%   The answer is \pointless\answer.
+%
+% The random number generator is the one by Lewis, Goodman, and Miller
+% (1969) and used as "ran0" in "Numerical Recipies" using Schrage's
+% method for avoiding overflows.  The multiplier is 16807 (7^5), the
+% added constant is 0, and the modulus is 2147483647 (2^{31}-1).  The
+% range of integers generated is 1 - 2147483646.  A smaller range would
+% reduce the complexity of the macros a bit, but not much--most of the
+% code deals with initialization and type-conversion.  On the other hand,
+% the large range may be wasted due to the sparse seed initialization.
+
+\newcount\randomi % the random number seed (while executing)
+\global\randomi\catcode`\@  % scratch variable during definitions
+\catcode`\@=11
+
+\def\nextrandom{\begingroup
+ \ifnum\randomi<\@ne % then initialize with time
+    \global\randomi\time
+    \global\multiply\randomi388 \global\advance\randomi\year
+    \global\multiply\randomi31 \global\advance\randomi\day
+    \global\multiply\randomi97 \global\advance\randomi\month
+    \message{Randomizer (from random.tex) initialized to \the\randomi.}%
+    \nextrandom \nextrandom \nextrandom
+ \fi
+ \count@ii\randomi
+ \divide\count@ii 127773 % modulus = multiplier * 127773 + 2836
+ \count@\count@ii
+ \multiply\count@ii 127773
+ \global\advance\randomi-\count@ii % random mod 127773
+ \global\multiply\randomi 16807
+ \multiply\count@ 2836
+ \global\advance\randomi-\count@
+ \ifnum\randomi<\z@ \global\advance\randomi 2147483647\relax\fi
+ \endgroup
+}
+
+\countdef\count@ii=2 % use only in boxes!
+\ifx\@tempcnta\undefined \csname newcount\endcsname \@tempcnta \fi
+\ifx\@tempcntb\undefined \csname newcount\endcsname \@tempcntb \fi
+
+\def\setrannum#1#2#3{% count register, minimum, maximum
+ \@tempcnta#3\advance\@tempcnta-#2\advance\@tempcnta\@ne
+ \@tempcntb 2147483645 %  =  m - 2  =  2^{31} - 3
+ \divide\@tempcntb\@tempcnta
+ \getr@nval
+ \advance\ranval#2\relax
+ #1\ranval
+}
+
+\def\setrandim#1#2#3{% dimen register, minimum length, maximum length
+ \dimen@#2\dimen@ii#3\relax
+ \setrannum\ranval\dimen@\dimen@ii
+ #1\ranval sp\relax
+}
+
+\def\getr@nval{% The values in \@tempcnta and \@tempcntb are parameters
+ \nextrandom
+ \ranval\randomi \advance\ranval\m@ne \divide\ranval\@tempcntb
+ \ifnum\ranval<\@tempcnta\else \expandafter\getr@nval \fi
+}
+
+\def\pointless{\expandafter\PoinTless\the}
+{\catcode`p=12 \catcode`t=12 
+\gdef\PoinTless#1pt{#1}}
+
+\catcode`\@=\randomi
+\global\randomi=0
+\newcount\ranval
+
+\endinput
