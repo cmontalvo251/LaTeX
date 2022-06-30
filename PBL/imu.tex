@@ -60,7 +60,26 @@ There will be folders for some and just floating .mpy files for others which are
 In the code above lines 1-6 import all the modules with line 5 importing the accelerometer on board the CPX and line 6 importing the external sensor wired up to SDA and SCL. Line 8 creates an I2C object using the SDA and SCL pins from the alligator clips and line 11 creates the sensor object. I also include lines 14-17 to include the onboard accelerometer. Notice I can access both sensors no problem. In the while loop line 20 checks the accelerometer on the CPX, line 21 checks the accelerometer on the breakout board and line 22 checks the angular velocity on the breakout board. Lines 23 and 24 print to serial and output to the plotter. Note that some lines are commented out because I wanted to try one thing at a time.
 
 With both accelerometers printing to the Plotter I could move the CPX and the breakout board in unison and get the following output.
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=\textwidth]{Figures/imu_mu.png}
+  \end{center}
+\end{figure}
+Notice that there are 6 numbers printed and 6 lines on the plotter. Both the CPX and the breakout board have little XYZ cartesian coordinate systems. I had to line them up properly before I started moving them. My suggestion would be for you to get some hot glue or 3M tape and place both breakout board and CPX on some sort of hard material like plywood, masonite, or even a cutting board. Anything to keep everything together.
 
+Once you’ve done this, try uncommenting the line of code that prints the angular velocity. When I do that and move the breakout board around I can measure the angular velocity of each axis. The units are in radians per second but it’s pretty obvious just from the magnitude of the graph.
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=\textwidth]{Figures/imu_mag.png}
+  \end{center}
+\end{figure}
+The final part is to get the LIS3MDL (magnetometer) to work. The starting point for me was the \href{https://learn.adafruit.com/lis3mdl-triple-axis-magnetometer/python-circuitpython}{Adafruit Learn page}, along with the simple example from \href{https://github.com/adafruit/Adafruit_CircuitPython_LIS3MDL/blob/master/examples/lis3mdl_simpletest.py}{Adafruit's Github}. After that I was able to create \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Accelerometer/external_lis3mdl.py}{my own code}. The only difference in your code is that the address will be 0x1c instead of 0x1e.
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{Figures/imu_code_mag.png}
+  \end{center}
+\end{figure}
+The code is almost identical to the code before except all the LIS3DH and LSM6DS33 code is commented out. Instead I have code to grab the magnetometer (LIS3MDL) at address 0x1E. Line 25 then calls the magnetometer and prints it. 
 
 \subsection{Assignment}
 
