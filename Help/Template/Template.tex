@@ -1,0 +1,69 @@
+%%HEADER STUFF
+
+\documentclass[11pt,letterpaper]{amsart}  %always need this. this mean that the document will be an asmart 
+%with a base font size of 11pt (other examples include , article,report, and book)
+%the base fonts that can be used are 10-12pt font. letterpaper sets the page size
+%\usepackage{aiaa-tc}                % See geometry.pdf to learn the layout options. There are lots.
+%\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+\usepackage[parfill]{parskip}   %use this to allow paragraph starts with just a blank line
+\usepackage{graphicx}
+\usepackage{amssymb}
+%\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\pagestyle{headings} %adds a header/footer combination (plain - just a #,headings)
+
+
+%%%%%BEGIN PAPER%%%%%
+
+\title{The Title goes here}
+\author{and my name goes here}
+
+\begin{document} %start the body of the text
+\thispagestyle{plain} %change just this page
+
+%Insert table of contents
+\maketitle  %use this to actually display the title and author
+
+\tableofcontents
+
+\section{First Section}
+
+Ok LaTex Tutorial here we go. To type just type. For a new paragraph just make a blank line.
+
+See?
+
+Non-printing character do weird things but a slash \textbackslash will help like this \#
+
+For example we could do this... \TeX or we would do this... \TeX{}which creates space \\ Note that double slash makes new line.
+
+If you want the date just type \today
+
+Some more commands need parameters. Like \textsl{this}  for italics.
+
+Clearly you see that %fkdls;fjdkls;ajkdls;% is a comment.
+
+Oops it commented the whole line!
+
+\section{Some stuff}
+blah blah
+\section{some more stuff}
+\ldots{} and here it ends
+
+\end{document}  
+
+%%%%%%%%%%END OF PAPER%%%%%
+
+So I can put whatever I want here and nothing will show up.
+
+Just to note the commands that the Typeset buttons executes are
+
+latex Template.tex
+dvipdf Template.dvi
+open Template.pdf
+
+I created a script in this Dropbox/Blackbox called tex2pdf 
+
+% Copyright - Carlos Montalvo 2015
+% You may freely distribute this file but please keep my name in here
+% as the original owner
