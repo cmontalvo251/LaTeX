@@ -77,6 +77,7 @@ Last Update: \today\\
   CubeSats. Added acknowledgements section.
 \item June 2nd, 2022 - Added some items to changes needed and fixed
   two references
+\item July 30th, 2022 - Included a derivation of direct measurement of Euler Angles using an IMU.
 \end{enumerate}
 
 \section*{Changes Needed}
@@ -1649,7 +1650,7 @@ which consists of a GPS (Global Positioning System) and an IMU
 An inertial measurement unit (IMU) is a combination of three
 sensors. An accelerometer, rate gyro and magnetometer. A magnetometer
 is a device that measures the local magnetic field in the body frame
-$\hat{\beta}_{\Earth} = [\hat{\beta}_x,\hat{\beta}_y,\hat{\beta}_z]^T$\cite{qp33}. Note that the $\hat{}$ implies a measurement rather than the truth signal. Measurements from sensors are prone to bias, drift, scale factor, misalignment, noise and other sources of error that must be accounted for.
+$\hat{\beta}_{B} = [\hat{\beta}_x,\hat{\beta}_y,\hat{\beta}_z]^T$\cite{qp33}. Note that the $\hat{}$ implies a measurement rather than the truth signal. Measurements from sensors are prone to bias, drift, scale factor, misalignment, noise and other sources of error that must be accounted for.
 \begin{figure}[H]
   \begin{center}
   \includegraphics[height=50mm]{Figures/Magnetometer}
@@ -1678,11 +1679,88 @@ $B/I$.
 \end{figure}
 As mentioned before, the IMU consists of 3 sensors all returning 3 measurments. This results in 9 scalar quantities being returned from this sensor which is where the term 9DOF gets it origin. In reality DOF means Degrees of Freedom which is contrary to the standard 6DOF simulation models explained above. However, the sensor community chooses to coin the term 9DOF to highlight the 9 different scalar values returned from IMUs. It is possible to obtain a 10DOF sensor which also returns pressure or temperature data. 
 
-\subsubsection{Euler Angle Estimation via IMU}
+\subsubsection{Global Positioning System (GPS)}
 
-Using an IMU it is possible to obtain Euler Angles. Recall that Euler angles are a 3D transformation from the Inertial frame to the Body Frame (See Section \ref{s:Euler_Angles}). 
+The Global Positioning System (GPS) was developed in order to allow
+accurate determination of geographical locations by military and civil
+users. It works by using satellites in Earth’s orbit to transmit data
+which makes it possible to measure the distance between the satellites
+and the operator. This form of signal communication is incredibly
+accurate and used heavily for attitude estimation. Up to 30 GPS
+satellites are currently in orbit, mostly in MEO, at altitudes around
+20,000 km. There will be between four and eight of them above any site
+on the Earth at any time\cite{qp38}. These satellites continuously emit
+coded high-frequency radio signals which may be received by special
+GPS receivers. These signals contain information about the exact
+orbits of the satellites and the time of atomic clocks onboard. When
+signals from three or more satellites are received, the GPS receiver
+will compute the best possible location of the user by
+triangulation. Much like when on Earth, a GPS can be used for
+navigation in space. The GPS receiver on board the satellite will also
+receive its longitude, latitude, and altitude as long as it is within
+the GPS constellation.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/GPS}
+  \end{center}
+  \caption{Example GPS Receiver \cite{qp32}}
+\end{figure}
 
-\subsubsection{Low Earth Orbit Attitude Estimation}
+\subsection{Euler Angle Estimation via IMU}
+
+Using an IMU it is possible to obtain Euler Angles assuming a Flat Earth Approximation. Recall that Euler angles are a 3D transformation from the Inertial frame to the Body Frame (See Section \ref{s:Euler_Angles}). The angle $\phi$ and $\theta$ can directly be measured via the accelerometer by creating a relationship between the gravity vector in the inertial and body frames. The heading angle can be measured by creating a relationship between the magnetic field in the body frame and the inertial frame using a magnetometer. The rate gyro can be used to integrate the angular velocity to obtain Euler angles as well but is prone to drift. The accelerometer though is prone to errors when the vehicle experiences large acceleration loads. Thus, typically the Euler angles from the rate gyro are fused with the estimates from the magnetometer and the accelerometer. Still, some errors can still exist and the Euler angles can be fused with estimates from GPS but that will be explored in a separate section. First, let's examine the direct estimation of roll and pitch using the accelerometer. 
+
+\subsubsection{Direct Measurement of Roll and Pitch}
+
+Understand that the gravity vector in the inertial frame can be written as ${\bf C}_I(\vec{g}) = [0,0,g]^T$. However, since the first rotation in the Euler angle sequence is about the z-axis, the gravity vector in the A frame and Inertial (I) frames are identical. That is, ${\bf C}_A(\vec{g}) = {\bf C}_I(\vec{g})$. Normalizing the gravity vector yields ${\bf C}_A(\bar{g})=[0,0,1]^T$. The measurement from the accelerometer must also be normalized such that $\bar{a}_{B/I}=\hat{a}_{B/I}/||\hat{a}_{B/I}||$. Since the aircraft is always experiencing gravity, and the accelerometer is measuring the acceleration vector a relationship can be obtained between the gravity vector in the A frame and the acceleration vector in the body frame. Note that an assumption is being made here. It is assumed that the only acceleration being experienced is gravity. Therefore, if any external accelerations are experienced by the vehicle via thrust or aerodynamics, this equation is not valid. Still, for small UAV applications these equations can be accurate if fused properly with the rate gyro measurements. 
+\begin{equation}
+{\bf C}_B(\bar{a}_{B/I}) = {\bf T}_{NRB}^T{\bf T}_{ANR}^T{\bf C}_A(\bar{g}) = \begin{Bmatrix} -s_{\theta} \\ s_{\phi}c_{\theta} \\ c_{\phi}c_{\theta}\end{Bmatrix}
+\end{equation}
+The equation above takes the normalized gravity vector in the A frame and rotates it to the body frame through the no roll frame. Since the rotation is from the A frame to the body frame, only two rotations are required. Notice also that the first row can be used to obtain the pitch angle. 
+\begin{equation}
+\theta = -sin^{-1}(\bar{a}_x)
+\end{equation}
+The roll angle can then be obtained by taking the second two rows and dividing them together to get a tangent function. 
+\begin{equation}
+\phi = tan^{-1}\left(\frac{\bar{a}_y}{\bar{a}_z}\right)
+\end{equation}
+Note that this equation is only valid if $c_{\theta} \neq \pi/2$. This means the vehicle cannot fly straight up. For quadcopters and airplanes this is pretty typical for standard and level flight. For rockets however, either the IMU must be placed in an orientation that doesn't result in this singularity at launch or quaternions must be used. For spacecraft an entirely different algorithm is needed and is explained in a different section. 
+
+Note that the pitch angle equation is written using the inverse sine function. Often times it is beneficial to compute the pitch angle using the inverse tangent function so that the {\it atan2} function may be utilized on a microcontroller which determines the quadrant of the angle more robustly. To do this the gravity vector must be written in the no roll frame. 
+\begin{equation}
+{\bf C}_{NR}(\bar{g}) = {\bf T}_{ANR}^T{\bf C}_A(\bar{g}) = \begin{Bmatrix} -s_{\theta} \\ 0 \\ c_{\theta}\end{Bmatrix}
+\end{equation}
+Then the acceleration vector is rotated to no roll frame as well from the body frame
+\begin{equation}
+{\bf C}_{NR}(\bar{a}_{B/I}) = {\bf T}_{NRB}{\bf C}_B(\bar{a}_{B/I}) = \begin{Bmatrix} \bar{a}_x \\ \bar{a}_y c_{\phi} - \bar{a}_z s_{\phi} \\ \bar{a}_y s_{\phi} + \bar{a}_z c_{\phi} \end{Bmatrix}
+\end{equation}
+Setting the two equations above equal to each other and diving the first row by the second row results in a tangent equation for pitch. This result is shown in the equation below.
+\begin{equation}
+\theta = -tan^{-1}\left(\frac{\bar{a}_x}{\bar{a}_y s_{\phi} + \bar{a}_z c_{\phi}}\right)
+\end{equation}
+Notice that these equations for pitch can be constructed by drawing a right triangle with the gravity vector as the hypotenuse. The sine function is the opposite side of the triangle divided by the hypotenuse which is 1 since the gravity vector was normalized while the inverse tangent function is the opposite side over the adjacent side. 
+
+\subsubsection{Direct Measurement of Yaw}
+
+In order to obtain the yaw angle of the vehicle through a direct measurement, the magnetometer is used. First it is assumed that the magnetic field strength is a constant through the flight of the vehicle and that it is oriented along the x-axis in the inertial frame of the Flat Earth Approximation. Remember that the x-axis is North using the Flat Earth Approximation. The magnetic field vector of the Earth is then normalized to unity. 
+\begin{equation}
+{\bf C}(\bar{\beta}_{\Earth}) = \begin{Bmatrix} 1 \\ 0 \\ 0 \end{Bmatrix}
+\end{equation}
+Again, in order to get a tangent function for the yaw angle estimation, the magnetic field of the Earth is written in the A frame. 
+\begin{equation}
+{\bf C}_A(\bar{\beta}_{\Earth}) = {\bf T}_{IA}^T{\bf C}_I(\bar{\beta}_{\Earth}) = \begin{Bmatrix} c_{\psi} \\ -s_{\psi} \\ 0 \end{Bmatrix}
+\end{equation}
+The magnetic field measurment of the magnetometer is then written in the A frame as well. However, the magnetometer measures the magnetic field in the body frame. Thus 2 rotations are requires to get from the body frame to the A frame. Again the magnetometer measurement is normalized.
+\begin{equation}
+{\bf C}_A(\bar{\beta}_{B}) = {\bf T}_{ANR}{\bf T}_{NRB}{\bf C}_B(\bar{\beta}_B)=\begin{Bmatrix} \bar{\beta}_x c_{\phi} + \bar{\beta}_y s_{\theta}s_{\phi} + \bar{\beta}_z c_{\phi}s_{\theta} \\ \bar{\beta}_y c_{\phi} - \bar{\beta}_z s_{\phi} \\ -\bar{\beta}_x s_{\theta} + \bar{\beta}_y s_{\phi}c_{\theta} + \bar{\beta}_z c_{\phi} c_{\theta} \end{Bmatrix}
+\end{equation}
+The two equations for magnetic field in the A frame can then be equated. In this case, the second row is divided by the first row to obtain a tangent relationship for yaw. The result for yaw is shown below.
+\begin{equation}
+\psi = tan^{-1}\left(\frac{\bar{\beta}_z s_{\phi} - \bar{\beta}_y c_{\phi}}{\bar{\beta}_x c_{\phi} + \bar{\beta}_y s_{\theta}s_{\phi} + \bar{\beta}_z c_{\phi}s_{\theta}}\right)
+\end{equation}
+
+
+\subsection{Low Earth Orbit Attitude Estimation}
 
 In LEO the main algorithm begins with obtaining the magnetic field in
 the body frame using magnetometers $\vec{\beta}_B$. Using the IGRF
@@ -1752,34 +1830,7 @@ orientation there exists two quaternions that represent this
 space. Thus, it is more ideal to obtain Euler angles from the
 transformation matrix and then convert them to quaternions.
 
-\subsubsection{Global Positioning System (GPS)}
-
-The Global Positioning System (GPS) was developed in order to allow
-accurate determination of geographical locations by military and civil
-users. It works by using satellites in Earth’s orbit to transmit data
-which makes it possible to measure the distance between the satellites
-and the operator. This form of signal communication is incredibly
-accurate and used heavily for attitude estimation. Up to 30 GPS
-satellites are currently in orbit, mostly in MEO, at altitudes around
-20,000 km. There will be between four and eight of them above any site
-on the Earth at any time\cite{qp38}. These satellites continuously emit
-coded high-frequency radio signals which may be received by special
-GPS receivers. These signals contain information about the exact
-orbits of the satellites and the time of atomic clocks onboard. When
-signals from three or more satellites are received, the GPS receiver
-will compute the best possible location of the user by
-triangulation. Much like when on Earth, a GPS can be used for
-navigation in space. The GPS receiver on board the satellite will also
-receive its longitude, latitude, and altitude as long as it is within
-the GPS constellation.
-\begin{figure}[H]
-  \begin{center}
-  \includegraphics[height=50mm]{Figures/GPS}
-  \end{center}
-  \caption{Example GPS Receiver \cite{qp32}}
-\end{figure}
-
-\subsubsection{Spacecraft Position Estimation using a Ground Station Network (GSN)}
+\subsection{Spacecraft Position Estimation using a Ground Station Network (GSN)}
 
 There are several types of ground stations depending on the
 spacecraft’s distance from Earth. Ground services may be either
