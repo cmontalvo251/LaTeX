@@ -45,29 +45,9 @@ Last Update: \today\\
 {\bf Copyright $\copyright$ Carlos Jos\'{e} Montalvo}
 \end{center}
 
-%%  \title{\bf Guidance Navigation and Control for Small Sats}
-
-%%  \author{Carlos Montalvo\thanks{Assistant Professor, Department of Mechanical
-%%     Engineering, cmontalvo@southalabama.edu}\\
-%%    {\normalsize\itshape Facility for Aerospace Systems and Technology
-%%      (FAST)}\\
-%%    {\normalsize\itshape College of Engineering, University of South Alabama}\\
-%%    {\normalsize\itshape 150 Jaguar Dr.}\\
-%%    {\normalsize\itshape Shelby Hall Rm. 3125}\\
-%% {\normalsize\itshape    Mobile, AL USA, 36688}\\}
-%%  \date{}
-
 \linespread{1}
 
 \newpage
-
-%% \begin{document}
-
-%% \maketitle
-
-% \begin{abstract}
-
-% \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -548,19 +528,19 @@ The transformation from the inertial frame to the body frame involves
 three unique rotations. The first is a rotation about the z-axis such
 that
 \begin{equation}
-{\bf C}_A(\vec{v}_{C/I}) = \begin{bmatrix} cos(\psi) & sin(\psi) & 0
+{\bf C}_A(\vec{v}_{C/I}) = [{\bf T}_{IA}]^T{\bf C}_I(\vec{v}_{C/I})= \begin{bmatrix} cos(\psi) & sin(\psi) & 0
   \\ -sin(\psi) & cos(\psi) & 0 \\ 0 & 0 & 1 \end{bmatrix} {\bf C}_I(\vec{v}_{C/I})
 \end{equation}
-this rotation is called the yaw or heading rotation. From here the
-intermediate frame is rotated about the y-axis such that
+this rotation is called the yaw or heading rotation. Note that the matrix $[{\bf T_{IA}}]$ is a matrix that rotates a vector from the A frame to the inertial frame. The transpose of this matrix rotates a vector from the inertial frame to the A frame. From here the
+intermediate frame (A frame) is rotated about the y-axis such that
 \begin{equation}
-{\bf C}_{NR}(\vec{v}_{C/I}) = \begin{bmatrix} cos(\theta) & 0 &
+{\bf C}_{NR}(\vec{v}_{C/I}) = [{\bf T}_{ANR}]^T{\bf C}_A(\vec{v}_{C/I})=\begin{bmatrix} cos(\theta) & 0 &
   -sin(\theta) \\ 0 & 1 & 0 \\ sin(\theta) & 0 & cos(\theta) \end{bmatrix} {\bf C}_A(\vec{v}_{C/I})
 \end{equation}
-this rotation is called the pitch angle rotation. Finally the no roll
+this rotation is called the pitch angle rotation. Finally the (NR) no roll
 frame is rotated through the x-axis such that
 \begin{equation}
-{\bf C}_{B}(\vec{v}_{C/I}) = \begin{bmatrix} 1 & 0 & 0 \\ 0 & cos(\phi) & sin(\phi)
+{\bf C}_{B}(\vec{v}_{C/I}) = [{\bf T}_{NRB}]^T{\bf C}_{NR}(\vec{v}_{C/I})=\begin{bmatrix} 1 & 0 & 0 \\ 0 & cos(\phi) & sin(\phi)
   \\ 0 & -sin(\phi) & cos(\phi) \end{bmatrix} {\bf C}_{NR}(\vec{v}_{C/I})
 \end{equation}
 A Figure of this is shown below.
@@ -571,12 +551,16 @@ A Figure of this is shown below.
   \caption{Six Degree of Freedom Schematic}
 \end{figure}
 Putting all of these 2-D rotations together creates a
-transformation matrix from body to inertial. Standard shorthand
+transformation matrix from body to inertial. 
+\begin{equation}
+{\bf C}_{B}(\vec{v}_{C/I}) = [{\bf T}_{NRB}]^T[{\bf T}_{ANR}]^T[{\bf T}_{IA}]^T{\bf C}_{I}(\vec{v}_{C/I}) = [{\bf T}_{IB}]^T{\bf C}_{I}(\vec{v}_{C/I})
+\end{equation}
+Note again that the inverse of this matrix is given below using the properties of matrix transposes. Standard shorthand
 notation is used for trigonometric functions: $ cos(\alpha) \equiv
 c_{\alpha} $ , $ sin(\alpha) \equiv s_{\alpha} $ , and $ tan(\alpha)
 \equiv t_{\alpha} $.
 \begin{equation}\label{e:TIB}
-{\bf T}_{IB}(\phi,\theta,\psi) = \begin{bmatrix} c_{\theta}c_{\psi} &
+{\bf T}_{IB}(\phi,\theta,\psi) = {\bf T}_{IA}{\bf T}_{ANR}{\bf T}_{NRB}=\begin{bmatrix} c_{\theta}c_{\psi} &
 s_{\phi}s_{\theta}c_{\psi}-c_{\phi}s_{\psi} &
 c_{\phi}s_{\theta}c_{\psi} + s_{\phi}s_{\psi} \\ c_{\theta}s_{\psi} &
 s_{\phi}s_{\theta}s_{\psi} + c_{\phi}c_{\psi} &
@@ -1650,7 +1634,187 @@ aerospace vehicles use to accomplish this. Satellites
 use reaction wheels and gimbaled thrusters to name a few while
 aircraft use aerodynamic surfaces.
 
-\subsection{Control Schemes}
+\subsection{Vehicle State Estimation}
+
+Vehicle State estimation is a fundamental portion of GNC and
+requires the vehicle to determine it's orientation with respect to an
+inertial frame as well as its position from an inertial reference
+point. Some sensors are specific to the vehicle application but here
+this section will discuss a standard INS (Inertial Navigation System)
+which consists of a GPS (Global Positioning System) and an IMU
+(Inertial Measurement Unit).
+
+\subsubsection{Inertial Measurement Unit}
+
+An inertial measurement unit (IMU) is a combination of three
+sensors. An accelerometer, rate gyro and magnetometer. A magnetometer
+is a device that measures the local magnetic field in the body frame
+$\hat{\beta}_{\Earth} = [\hat{\beta}_x,\hat{\beta}_y,\hat{\beta}_z]^T$\cite{qp33}. Note that the $\hat{}$ implies a measurement rather than the truth signal. Measurements from sensors are prone to bias, drift, scale factor, misalignment, noise and other sources of error that must be accounted for.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/Magnetometer}
+  \end{center}
+  \caption{Example Magnetometer \cite{qp34}}
+\end{figure}
+A rate gyroscope, commonly referred to as a rate gyro measures the
+angular velocity also in the body frame $\hat{\omega}_{B/I}=[\hat{g}_x,\hat{g}_y,\hat{g}_z]^T$. 
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/RateGyro}
+  \end{center}
+  \caption{Example IMU with Integrated Rate Gyro \cite{qp35}}
+\end{figure}
+Accelerometers are sensors used to measure acceleration at a point P
+on a rigid body $\hat{a}_{B/I}=[\hat{a}_x,\hat{a}_y,\hat{a}_z]^T$. For simplicity however, it
+is assumed that point P on the rigid body is the center of mass point
+C therefore the accelerometer is measuring the acceleration of the
+body itself in the body frame with respect to an inertial frame
+$B/I$. 
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/Accelerometer}
+  \end{center}
+  \caption{Example Accelerometer \cite{qp36}}
+\end{figure}
+As mentioned before, the IMU consists of 3 sensors all returning 3 measurments. This results in 9 scalar quantities being returned from this sensor which is where the term 9DOF gets it origin. In reality DOF means Degrees of Freedom which is contrary to the standard 6DOF simulation models explained above. However, the sensor community chooses to coin the term 9DOF to highlight the 9 different scalar values returned from IMUs. It is possible to obtain a 10DOF sensor which also returns pressure or temperature data. 
+
+\subsubsection{Euler Angle Estimation via IMU}
+
+Using an IMU it is possible to obtain Euler Angles. Recall that Euler angles are a 3D transformation from the Inertial frame to the Body Frame (See Section \ref{s:Euler_Angles}). 
+
+\subsubsection{Low Earth Orbit Attitude Estimation}
+
+In LEO the main algorithm begins with obtaining the magnetic field in
+the body frame using magnetometers $\vec{\beta}_B$. Using the IGRF
+model the locally measured magnetic field can be 
+compared with the known magnetic field for any given location within
+its orbit. Using the true data and the measured data, the spacecraft
+can compute its actual position to the measured position and make the
+correct adjustments. A Sun measurement is then taken using a Sun
+sensor $\vec{S}_B$. Once those two independent 
+body frame measurements are taken the inertial reference vectors must
+be obtained from a database. Startrackers have this database built in;
+however, for the magnetic field and the Sun vector these must be
+obtained from a separate database as discussed in Section
+\ref{s:ephemeris}. The idea is that if the position of the Earth is
+known then the position of the Sun with respect to the Earth is also
+known. The magnetic field vector can be 
+obtained from the IGRF model as discussed in Section
+\ref{s:magnetic_field}. The magnetic field vector in the inertial
+frame is given as $\vec{\beta}_I$. Note that the IGRF model requires
+the latitude and longitude to be known. Thus, in LEO a GPS is required
+to feed into the database. The inertial Sun vector $\vec{S}_I$ only
+requires the Julian time which can be obtained from GPS as well. The julian time is
+based on the julian day as explained in Section \ref{s:ephemeris}.
+
+The initial attitude determination algorithm itself requires two
+independent vectors. As stated previously, startrackers provided a
+large enough aperture and enough stars to produce the full
+quaternion by obtaining multiple unique vectors to unique
+stars. Multiple solar sensors or multiple magnetometers unfortunately
+do not obtain non-unique vectors and the algorithm fails. In LEO this
+is typically done with solar sensors and magnetometers but it can be
+done with star trackers. In deep space it is typically done with
+startrackers but it could be possible to obtain a Moon vector that
+would require a Moon sensor.
+
+The derivation below is done for the LEO case with a Sun and magnetic
+field measurement. The derivation is identical for the deep space case
+with a Moon sensor simply by substituting the magnetic field
+measurment with a Moon measurement. Every vector is first normalized to obtain
+$\hat{\beta}_B,\hat{\beta}_I,\hat{S}_B,\hat{S}_I$. A triad is then created
+from body frame vectors using the equations below.
+\begin{equation}
+  \begin{matrix} \hat{f}_1 = \hat{S}_B & \hat{f}_2 = \hat{f}_1 \times
+    \hat{\beta}_B & \hat{f}_3 = \hat{f}_1 \times \hat{f}_2 \end{matrix}
+\end{equation}
+The matrix ${\bf F}$ is then created using the triad as an orthonormal basis
+$F = [\hat{f}_1,\hat{f}_2,\hat{f}_3]$. Similar equations are used for
+the inertial measurements. 
+\begin{equation}
+  \begin{matrix} \hat{g}_1 = \hat{S}_I & \hat{g}_2 = \hat{g}_1 \times
+    \hat{\beta}_I & \hat{g}_3 = \hat{g}_1 \times \hat{g}_2 \end{matrix}
+\end{equation}
+The matrix ${\bf G}$ is then created just as the ${\bf F}$ matrix such
+that ${\bf G} =
+[\hat{g}_1,\hat{g}_2,\hat{g}_3]$. The transformation from inertial to
+body frame is then created using the formula below.
+\begin{equation}
+  {\bf T}_{BI} = {\bf FG}^T
+\end{equation}
+This matrix above is similar to the matrix in equation \ref{e:TIB} and
+thus the Euler angles can be extracted from the matrix itself using
+the formulation defined in Section \ref{s:Euler_Angles}. Euler can
+then be converted to quaternions if needed. Note that it is relatively
+easy to extract Euler angles from the ${\bf T}_{IB}$ matrix, it is not so
+simple to extract quaternions. This is due to the fact that for every
+orientation there exists two quaternions that represent this
+space. Thus, it is more ideal to obtain Euler angles from the
+transformation matrix and then convert them to quaternions.
+
+\subsubsection{Global Positioning System (GPS)}
+
+The Global Positioning System (GPS) was developed in order to allow
+accurate determination of geographical locations by military and civil
+users. It works by using satellites in Earth’s orbit to transmit data
+which makes it possible to measure the distance between the satellites
+and the operator. This form of signal communication is incredibly
+accurate and used heavily for attitude estimation. Up to 30 GPS
+satellites are currently in orbit, mostly in MEO, at altitudes around
+20,000 km. There will be between four and eight of them above any site
+on the Earth at any time\cite{qp38}. These satellites continuously emit
+coded high-frequency radio signals which may be received by special
+GPS receivers. These signals contain information about the exact
+orbits of the satellites and the time of atomic clocks onboard. When
+signals from three or more satellites are received, the GPS receiver
+will compute the best possible location of the user by
+triangulation. Much like when on Earth, a GPS can be used for
+navigation in space. The GPS receiver on board the satellite will also
+receive its longitude, latitude, and altitude as long as it is within
+the GPS constellation.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/GPS}
+  \end{center}
+  \caption{Example GPS Receiver \cite{qp32}}
+\end{figure}
+
+\subsubsection{Spacecraft Position Estimation using a Ground Station Network (GSN)}
+
+There are several types of ground stations depending on the
+spacecraft’s distance from Earth. Ground services may be either
+Direct-to-Earth (DTE) or space relay. DTE ground stations are located
+on the Earth’s surface. They provide direct point-to-point access with
+antennas at ground stations. DTE services are great for missions
+needing frequent, short-duration contacts with high data transfer. 
+
+Space relay services involve an intermediate satellite that
+communicates with a ground station on the Earth’s surface. Relay
+communication satellites for low-Earth orbit spacecraft can be in
+Geosynchronous Equatorial Orbit (GEO), roughly 36,000 km from the
+surface of Earth, or in low-Earth orbit. Relays are important for
+providing communication and tracking when direct-to-ground
+communications are not feasible due to physical asset visibility
+constraints.  Space-based relay assets give missions full-time
+coverage and continuous access to communication and tracking
+services. 
+
+Finally, deep space communication is also possible. The Deep Space
+Network (DSN) is developed to conduct telecommunication and tracking
+operations with space missions in GEO. This includes missions at lunar
+distances, the Sun-Earth LaGrange points, and in highly elliptical
+Earth orbits, and even missions to other planets\cite{qp40}. The DSN network
+consists of three ground stations placed around 120 degrees apart on
+Earth which provides 360 degrees coverage\cite{qp41}.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=80mm]{Figures/DSNSC}
+  \end{center}
+  \caption{Deep Space Network Satellite Coverage \cite{qp42}}
+\end{figure}
+
+
+\subsection{Spacecraft Attitude Control Schemes}
 
 Many control schemes are needed to orient a satellite and all depend
 on the application. In LEO magnetorquers can be used to detumble a
@@ -2400,56 +2564,6 @@ perpendicular to each other \cite{qp31}.
   \caption{Example Sun Sensor \cite{qp32}}
 \end{figure}
 
-\subsubsection{Inertial Measurement Unit}
-An inertial measurement unit (IMU) is a combination of three
-sensors. An accelerometer, rate gyro and magnetometer. A magnetometer
-is a device that measures the local magnetic field 
-\cite{qp33}. There are both scalar and vector magnetometers available. For a
-spacecraft, the vector magnetometer is the most appropriate. Vector
-magnetometers allow for a much more precise measurement of the
-magnetic field with respect to the scalar sensor. Therefore, we can
-gather a more accurate reading of the magnetic field around the
-satellite.
-\begin{figure}[H]
-  \begin{center}
-  \includegraphics[height=50mm]{Figures/Magnetometer}
-  \end{center}
-  \caption{Example Magnetometer \cite{qp34}}
-\end{figure}
-For the vector the magnetic field is measured in the all three axes
-with magnitude in units of Tesla’s. Using the IGRF model (see the
-magnetorquer section) the locally measured magnetic field can be
-compared with the known magnetic field for any given location within
-its orbit. Using the true data and the measured data, the spacecraft
-can compute its actual position to the measured position and make the
-correct adjustments.
-
-A rate gyroscope, commonly referred to as a rate gyro, is a tool that
-is used by spacecraft to measure angular velocity (x,y,z). Rate gyros
-are useful for determining the angle of the satellite’s orientation
-which can in turn be used to determine heading. Rate gyros are
-typically embedded in an Inertial Measurement Unit (IMU) which is a
-device that consists of three attitude estimation sensors:
-magnetometers, accelerometers, and rate gyros.
-\begin{figure}[H]
-  \begin{center}
-  \includegraphics[height=50mm]{Figures/RateGyro}
-  \end{center}
-  \caption{Example IMU with Integrated Rate Gyro \cite{qp35}}
-\end{figure}
-Accelerometers are sensors used to measure acceleration
-(Ax,Ay,Az). These sensors transmit acceleration data to a computer
-that integrates the information twice to get an estimated position
-(x,y,z). This sensor does not account for drift, thus, redundancy is
-important when using an accelerometer. These sensors as stated above
-are typically found within IMUs.
-\begin{figure}[H]
-  \begin{center}
-  \includegraphics[height=50mm]{Figures/Accelerometer}
-  \end{center}
-  \caption{Example Accelerometer \cite{qp36}}
-\end{figure}
-
 \subsubsection{Horizon Sensor}
 
 The horizon sensor is a sensor used by spacecraft in LEO to determine
@@ -2469,26 +2583,6 @@ horizon\cite{qp37}.
   \end{center}
   \caption{Example Horizon Sensor \cite{qp1}}
 \end{figure}
-
-\subsubsection{Low Earth Orbit}
-
-In LEO the main algorithm begins with obtaining the magnetic field in
-the body frame using magnetometers $\vec{\beta}_B$. A Sun measurement is
-then taken using a Sun sensor $\vec{S}_B$. Once those two independent
-body frame measurements are taken the inertial reference vectors must
-be obtained from a database. Startrackers have this database built in;
-however, for the magnetic field and the Sun vector these must be
-obtained from a separate database as discussed in Section
-\ref{s:ephemeris}. The idea is that if the position of the Earth is
-known then the position of the Sun with respect to the Earth is also
-known. The magnetic field vector can be 
-obtained from the IGRF model as discussed in Section
-\ref{s:magnetic_field}. The magnetic field vector in the inertial
-frame is given as $\vec{\beta}_I$. Note that the IGRF model requires
-the latitude and longitude to be known. Thus, in LEO a GPS is required
-to feed into the database. The inertial Sun vector $\vec{S}_I$ only
-requires the Julian time which can be obtained from GPS as well. The julian time is
-based on the julian day as explained in Section \ref{s:ephemeris}. 
 
 \subsubsection{Deep Space}
 
@@ -2515,53 +2609,6 @@ details all the different kinds of sensors and their algorithms. This
 section will eventually be supplemented by the material in that
 reference paper.
 
-\subsubsection{Algorithm}
-
-The initial attitude determination algorithm itself requires two
-independent vectors. As stated previously, startrackers provided a
-large enough aperture and enough stars to produce the full
-quaternion by obtaining multiple unique vectors to unique
-stars. Multiple solar sensors or multiple magnetometers unfortunately
-do not obtain non-unique vectors and the algorithm fails. In LEO this
-is typically done with solar sensors and magnetometers but it can be
-done with star trackers. In deep space it is typically done with
-startrackers but it could be possible to obtain a Moon vector that
-would require a Moon sensor.
-
-The derivation below is done for the LEO case with a Sun and magnetic
-field measurement. The derivation is identical for the deep space case
-with a Moon sensor simply by substituting the magnetic field
-measurment with a Moon measurement. Every vector is first normalized to obtain
-$\hat{\beta}_B,\hat{\beta}_I,\hat{S}_B,\hat{S}_I$. A triad is then created
-from body frame vectors using the equations below.
-\begin{equation}
-  \begin{matrix} \hat{f}_1 = \hat{S}_B & \hat{f}_2 = \hat{f}_1 \times
-    \hat{\beta}_B & \hat{f}_3 = \hat{f}_1 \times \hat{f}_2 \end{matrix}
-\end{equation}
-The matrix ${\bf F}$ is then created using the triad as an orthonormal basis
-$F = [\hat{f}_1,\hat{f}_2,\hat{f}_3]$. Similar equations are used for
-the inertial measurements. 
-\begin{equation}
-  \begin{matrix} \hat{g}_1 = \hat{S}_I & \hat{g}_2 = \hat{g}_1 \times
-    \hat{\beta}_I & \hat{g}_3 = \hat{g}_1 \times \hat{g}_2 \end{matrix}
-\end{equation}
-The matrix ${\bf G}$ is then created just as the ${\bf F}$ matrix such
-that ${\bf G} =
-[\hat{g}_1,\hat{g}_2,\hat{g}_3]$. The transformation from inertial to
-body frame is then created using the formula below.
-\begin{equation}
-  {\bf T}_{BI} = {\bf FG}^T
-\end{equation}
-This matrix above is similar to the matrix in equation \ref{e:TIB} and
-thus the Euler angles can be extracted from the matrix itself using
-the formulation defined in Section \ref{s:Euler_Angles}. Euler can
-then be converted to quaternions if needed. Note that it is relatively
-easy to extract Euler angles from the ${\bf T}_{IB}$ matrix, it is not so
-simple to extract quaternions. This is due to the fact that for every
-orientation there exists two quaternions that represent this
-space. Thus, it is more ideal to obtain Euler angles from the
-transformation matrix and then convert them to quaternions.
-
 \subsection{Position Estimation}
 
 Position estimation is for determining the placement or location of
@@ -2577,67 +2624,6 @@ attitude control in the sense that the orbit plays a large role in
 determining the proper component. The major options for attitude
 estimation are Global Positioning Systems and the Ground Station
 Network. 
-
-\subsubsection{Global Positioning System (GPS)}
-
-The Global Positioning System (GPS) was developed in order to allow
-accurate determination of geographical locations by military and civil
-users. It works by using satellites in Earth’s orbit to transmit data
-which makes it possible to measure the distance between the satellites
-and the operator. This form of signal communication is incredibly
-accurate and used heavily for attitude estimation. Up to 30 GPS
-satellites are currently in orbit, mostly in MEO, at altitudes around
-20,000 km. There will be between four and eight of them above any site
-on the Earth at any time\cite{qp38}. These satellites continuously emit
-coded high-frequency radio signals which may be received by special
-GPS receivers. These signals contain information about the exact
-orbits of the satellites and the time of atomic clocks onboard. When
-signals from three or more satellites are received, the GPS receiver
-will compute the best possible location of the user by
-triangulation. Much like when on Earth, a GPS can be used for
-navigation in space. The GPS receiver on board the satellite will also
-receive its longitude, latitude, and altitude as long as it is within
-the GPS constellation.
-\begin{figure}[H]
-  \begin{center}
-  \includegraphics[height=50mm]{Figures/GPS}
-  \end{center}
-  \caption{Example GPS Receiver \cite{qp32}}
-\end{figure}
-
-\subsubsection{Communications and the Ground Station Network (GSN)}
-
-There are several types of ground stations depending on the
-spacecraft’s distance from Earth. Ground services may be either
-Direct-to-Earth (DTE) or space relay. DTE ground stations are located
-on the Earth’s surface. They provide direct point-to-point access with
-antennas at ground stations. DTE services are great for missions
-needing frequent, short-duration contacts with high data transfer. 
-
-Space relay services involve an intermediate satellite that
-communicates with a ground station on the Earth’s surface. Relay
-communication satellites for low-Earth orbit spacecraft can be in
-Geosynchronous Equatorial Orbit (GEO), roughly 36,000 km from the
-surface of Earth, or in low-Earth orbit. Relays are important for
-providing communication and tracking when direct-to-ground
-communications are not feasible due to physical asset visibility
-constraints.  Space-based relay assets give missions full-time
-coverage and continuous access to communication and tracking
-services. 
-
-Finally, deep space communication is also possible. The Deep Space
-Network (DSN) is developed to conduct telecommunication and tracking
-operations with space missions in GEO. This includes missions at lunar
-distances, the Sun-Earth LaGrange points, and in highly elliptical
-Earth orbits, and even missions to other planets\cite{qp40}. The DSN network
-consists of three ground stations placed around 120 degrees apart on
-Earth which provides 360 degrees coverage\cite{qp41}.
-\begin{figure}[H]
-  \begin{center}
-  \includegraphics[height=80mm]{Figures/DSNSC}
-  \end{center}
-  \caption{Deep Space Network Satellite Coverage \cite{qp42}}
-\end{figure}
 
 \subsection{Trade Studies}
 
