@@ -78,6 +78,7 @@ Last Update: \today\\
 \item June 2nd, 2022 - Added some items to changes needed and fixed
   two references
 \item July 30th, 2022 - Included a derivation of direct measurement of Euler Angles using an IMU.
+\item July 31st, 2022 - Added GPS coordinate conversion to cartesian coodinates as well as heading angle and speed estimation from GPS.
 \end{enumerate}
 
 \section*{Changes Needed}
@@ -891,6 +892,27 @@ and Gravitational Models. The magnetic field model comes from the Geographic
 Library model which uses the EMM2015 magnetic field model. The
 gravitational model comes from the EGM2008 model
 \cite{GeographicLib}.
+
+\subsection{GPS Coordinates to Cartesian Coordinates}
+
+All external models below imply a spherical world with an Earth Centered Inertial (ECI) frame at the center of the planet. However, often times for small UAV applications it is useful to convert the GPS coordinates (latitude, longitude, altitude, $(\lambda_{LAT},\lambda_{LON},h)$) to a flat earth approximation where the x-axis is pointing North, the y-axis is pointing east and the z-axis is pointing towards the center of the planet. This is similar to spherical coordinates which is explained later on but in this case the axis system is cartesian rather than spherical. This is useful in obtaining the position of the vehicle which can be used to approximate heading and speed which again is explained in another section. The equations to convert LLH (latitude,longitude, altitude) to a cartesian coordinate system are given below. Note that these equations assume that the vehicle creates an origin point to define as the center of the inertial frame which is on the surface of the planet rather than the center of the planet $\lambda_{LAT,0},\lambda_{LON,0}$. Typically when the vehicle gets its first valid GPS coordinate, that point is set as the origin.
+\begin{equation}
+\begin{matrix}
+x = \kappa (\lambda_{LAT} - \lambda_{LAT,0}) \\
+y = \kappa (\lambda_{LON} - \lambda_{LON,0}) cos(\frac{\pi}{180}\lambda_{LAT,0}) \\
+z = -h
+\end{matrix}
+\end{equation}
+In the equation above $\kappa = 60.0*(Feet/NauticalMiles)*(Meters/Feet)$ which essentially converts degrees from the LLH coordinates first to nautical miles and then to feet and then to meters. For example, if the vehicle moves North 1 degree that is equivalent to 60 nautical miles on the surface. Vice versa, 1 nautical mile on the surface is equal to one minute or a 60th of a degree in latitude. The conversion from nautical miles to feet is 6076.11548556 and feet to meters is 0.3048. Note that often time is is good to convert the cartesian coordinates back to LLH coordinates. That inversion is shown below.
+\begin{equation}
+\lambda_{LAT} = \frac{x}{\kappa} + \lambda_{LAT,0}
+\end{equation}
+\begin{equation}
+\lambda_{LON} = \frac{y}{\kappa cos(\lambda_{LAT,0} \frac{\pi}{180})} + \lambda_{LON,0}\\
+\end{equation}
+\begin{equation}
+h = -z
+\end{equation}
 
 \subsection{Density Model}
 
@@ -1759,7 +1781,6 @@ The two equations for magnetic field in the A frame can then be equated. In this
 \psi = tan^{-1}\left(\frac{\bar{\beta}_z s_{\phi} - \bar{\beta}_y c_{\phi}}{\bar{\beta}_x c_{\phi} + \bar{\beta}_y s_{\theta}s_{\phi} + \bar{\beta}_z c_{\phi}s_{\theta}}\right)
 \end{equation}
 
-
 \subsection{Low Earth Orbit Attitude Estimation}
 
 In LEO the main algorithm begins with obtaining the magnetic field in
@@ -1864,6 +1885,20 @@ Earth which provides 360 degrees coverage\cite{qp41}.
   \caption{Deep Space Network Satellite Coverage \cite{qp42}}
 \end{figure}
 
+\subsection{Heading Angle and Speed Estimation using GPS}
+
+On Earth there is no need for a DSN because the vehicle is within the GPS constellation. Assuming the vehicle has the necessary GPS sensors a full NMEA (National Marine Electronics Association) can be obtained. However, in this example it is assumed that only the latitude, longitude and altitude coordinates are obtained in a discrete fashion. In order to get heading and speed it is assumed that consecutive measurements are obtained at $i$ and $i+1$ timestamps. Let's assume that the vehicle is traveling in a specific direction or heading and obtains a GPS coordinate $(\lambda_{LAT,i},\lambda_{LON,i},h_i)$ at time $t_i$. A few seconds later or whenever the update period may be the vehicle moves and the GPS returns a new GPS coordinate $(\lambda_{LAT,i+1},\lambda_{LON,i+1},h_{i+1})$ at time $t_{i+1}$. First, the coordinates are converted to a cartesian coordinate system. This is explained in the External Model section. This results in $x_i,y_i,z_i$ at time $t_i$ and $x_{i+1},y_{i+1},z_{i+1}$ at time $t_{i+1}$. First, the speed estimate is given by using a simple first order differentiation as given by
+\begin{equation}
+\begin{matrix}
+v_x = (x_{i+1}-x_{i})/\Delta t \\
+v_y = (y_{i+1}-y_{i})/\Delta t \\
+\end{matrix}
+\end{equation}
+where $\Delta t = t_{i+1}-t_i$. Note that it is not recomended to compute the velocity in the z-axis as the altitude estimate of GPS is often not very good. Finally, the estimate for heading can follow from the speed estimate and is given as
+\begin{equation}
+\psi = tan^{-1}\left(\frac{v_y}{v_x}\right)
+\end{equation}
+Note that it is recommended to filter these estimates as GPS on its own is only accurate to around 3 meters.
 
 \subsection{Spacecraft Attitude Control Schemes}
 
