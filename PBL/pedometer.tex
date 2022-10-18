@@ -22,11 +22,36 @@
 
 \subsection{Getting Started}
 
-A pedometer is a device that counts the number of steps. Typically these are worn as watches with popular brands like Garmin or Fitit owning the market share at the time of this writing. It turns out though that your phone and apps like Google Fit can also track steps just by being inside your pocket all day. The way they do this is by measuring the acceleration, angular velocity and potentially even the angles (using a magnetometer) to count steps. In this lab this we will just focus on attempting to get steps using accelerometer data. 
+A pedometer is a device that counts the number of steps. Typically
+these are worn as watches with popular brands like Garmin or Fitit
+owning the market share at the time of this writing. It turns out
+though that your phone and apps like Google Fit can also track steps
+just by being inside your pocket all day. The way they do this is by
+measuring the acceleration, angular velocity and potentially even the
+angles (using a magnetometer) to count steps. In this lab this we will
+just focus on attempting to get steps using accelerometer data.  
 
 \subsection{Gathering Accelerometer Data}
 
-First we need to make sure we can gather accelerometer data. The low level accelerometer code is relatively simple and is explained in the Modules lab (Section \ref{s:Modules}). In order to gather the accelerometer data while running you'll need to be able to operate the CPB/CPX untethered from a computer. This means you have to use Method 3 or 4 (Section \ref{s:daq} and \ref{s:Bluetooth}). Remember that Method 1 and 2 require a computer and running with a computer would be difficult. Method 3 requires a lot of setup to log data directly to the disk so for this lab we will just use the Bluetooth module to send data directly to your phone. The best way is to do this with a partner. Have the CPX/CPB measure acceleration and place the entire device with a battery pack inside the runners pocket. Then have your partner connect to the CPB/CPX with the Adafruit Connect app and log data using the UART and Export to txt function. Remember not to run too far because the Bluetooth signal distance is only about 30 feet. See if you can combine the Bluetooth code and the acceleration code into one code to send time and the 3-axis accelerometer data. If you're still having trouble, code for this lab can be found on \href{https://github.com/cmontalvo251/Microcontrollers/tree/master/Circuit_Playground/CircuitPython/pedometer}{Github}. 
+First we need to make sure we can gather accelerometer data. The low
+level accelerometer code is relatively simple and is explained in the
+Modules lab (Section \ref{s:Modules}). In order to gather the
+accelerometer data while running you'll need to be able to operate the
+CPB/CPX untethered from a computer. This means you have to use Method
+3 or 4 (Section \ref{s:daq} and \ref{s:Bluetooth}). Remember that
+Method 1 and 2 require a computer and running with a computer would be
+difficult. Method 3 requires a lot of setup to log data directly to
+the disk so for this lab we will just use the Bluetooth module to send
+data directly to your phone. The best way is to do this with a
+partner. Have the CPX/CPB measure acceleration and place the entire
+device with a battery pack inside the runners pocket. Then have your
+partner connect to the CPB/CPX with the Adafruit Connect app and log
+data using the UART and Export to txt function. Remember not to run
+too far because the Bluetooth signal distance is only about 30
+feet. See if you can combine the Bluetooth code and the acceleration
+code into one code to send time and the 3-axis accelerometer data. If
+you're still having trouble, code for this lab can be found
+on \href{https://github.com/cmontalvo251/Microcontrollers/tree/master/Circuit_Playground/CircuitPython/pedometer}{Github}.  
 
 \subsection{Computing Number of Steps: Post-Processing}
 

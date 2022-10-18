@@ -92,10 +92,14 @@ printed alongside the button presses.
   \end{center}
 \end{figure}
 Now we are in a position where we can record some data and save it to
-our computer. There are 3 ways to record data. I call the first,
+our computer. There are 4 ways to record data. I call the first,
 Method1 and you basically just copy and paste from the serial monitor,
 Method2 where you have the CPX/CPB type data into a spreadsheet and
-Method3 where you log data internally onto the CPX/CPB itself.
+Method3 where you log data internally onto the CPX/CPB itself. The 4th
+method called Method4 utilizes the Bluetooth Module. Since that has
+it's own issues there is a completely separate section on how to
+explain Bluetooth (See section \ref{s:Bluetooth}). Note you can only
+do Bluetooth if you have the Circuit Playground Bluefruit (CPB). 
 
 \subsection{Method 1 - Copying Serial Monitor Data}
 
@@ -295,15 +299,31 @@ Ok so let’s recap method 3 one more time.
 \item Transfer data file to computer
 \end{enumerate}
 
+\subsection{Method 4 - Logging Data on a Cell Phone using Bluetooth
+(CPB Only)}
+
+As mentioned in the introduction it's possible to have the Circuit
+Playground send data wirelessly to a cell phone using Bluetooth
+provided you have Bluetooth setup and a smart phone with the Adafruit
+Connect App. Bluetooth is explained in detail in its own section (See
+Section \ref{s:Bluetooth}). Method 4 is a valid form of logging data
+it just requires a cell phone to be powered the entire time and it
+must be within 30 feet of the Circuit Playground at all times. This
+also only works on the CPB since the CPX does not have a Bluetooth
+transmitter. 
+
 \subsection{Plotting Logged Data}
 
-Alright so there you have it. I have explained 3 methods to
+Alright so there you have it. I have explained 4 methods to
 datalogging. Here are the methods again in summary.
 
 \begin{enumerate}[itemsep=-5pt]
 \item Print data to Serial and copy and paste
 \item Use the Keyboard module to save data to a spreadsheet
-\item Access the storage of your CPX and write data to a text file on the CPX
+\item Access the storage of your CPX and write data to a text file on
+the CPX
+\item Send data wirelessly to a Cell Phone using Bluetooth - CPB Only (See
+Section \ref{s:Bluetooth})
 \end{enumerate}
 
 All methods will work but some will obviously have their pros and
