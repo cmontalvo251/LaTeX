@@ -74,7 +74,29 @@ to turn on some LEDs.
 
 \subsection{Computing Number of Steps: Post-Processing}
 
+Using the hardware and software defined above I had my partner run down the hallway after I ensured there was a solid connection between the CPB and my smart phone. I then exported the data to a text file and plotted the raw data using Thonny. 
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=\textwidth]{Figures/Pedometer3.png}
+  \end{center}
+\end{figure}
+Upon inspecting the raw data it seems as though my partner began running around 68 seconds. At about 80 seconds my partner reached the end of the hallway and the CPB got a bit out of range. As such there is a gap in the data. The accelerometer streams return once my partner begins running back down the hallway. In order to simply look at the data of one run the data was truncated from 69 seconds to 79 seconds as shown in the Figure below.
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=\textwidth]{Figures/Pedometer2.png}
+  \end{center}
+\end{figure}
+In order to count steps the algorithm is fairly simple and not very robust but it does at least give you a sense of how data can be analyzed to obtain steps. First, the norm of the accelerometer data is computed and then the norm is substracted by 9.81 $m/s^2$. When glancing at the data the steps seem to be taken when the result of the norm-9.81 goes from positive to negative. It is possible that there is some aliasing in the data but for a simple experiment like this a rudimentary algorithm can be created. First the STEP counter is set to zero and then a for loop is created to loop through the data. When the data goes from positive to negative a STEP is created. This is done by using a RESET flag and checking whether or not the data becomes positive. This algorithm computes 26 steps which seems reasonable for the length of the hallway.
+
 \subsection{Computing Number of Steps: Online}
+
+The benefit of post-processing in Python is that the CPX/CPB run a almost identical derivative of Python called CircuitPython. This means that almost any line of code used in Python can be copied directly onto the CPX/CPB as shown in the Figure below.
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=\textwidth]{Figures/Pedometer4.png}
+  \end{center}
+\end{figure}
+You can see that the STEPS counter is set to zero before the infinite while loop and then after connection the RESET flag and bias value are checked for a switch from positive to negative. Some code is added to change the pixels on the CPB so that the user can see a step change. The raw data is still transmitted via bluetooth but it would be a neat exercise to have the CPB transmit the number of steps to a cell phone for instant feedback of the number of steps. 
 
 \subsection{Assignment}
 
