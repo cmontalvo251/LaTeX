@@ -980,8 +980,23 @@ ellipsoid ($R_{\Earth}=6,371,393~meters$). Note that the angles from Equation
     h = \rho - R_{\Earth}
   \end{matrix}
 \end{equation}
-The inputs are then the latitude, longitude and height. The output
-from the EMM2015 model is in the East, North, Vertical (ENV) reference frame
+The inputs to the EMM2015 model are the latitude, longitude and height. The inverse of the above two equations are given below. These would be used in the event a latitude and longitude coordinate is given and there is a need to obtain the x,y and z coordinates in the ECI frame. The first step is to convert latitude, longitude and altitude and convert that to standard spherical angles and distance from the center of the planet.
+\begin{equation}
+\begin{matrix}
+\theta_E = (90 - \lambda_{LAT})\frac{\pi}{180}\\
+\psi_E = \lambda_{LON}\frac{\pi}{180}\\
+\rho = h + R_{\Earth}
+\end{matrix}
+\end{equation}
+Once that is complete the extraction of x,y and z are computed by the equation below.
+\begin{equation}
+\begin{matrix}
+x = \rho sin(\theta_E) cos(\psi_E)\\
+y = \rho sin(\theta_E) sin(\psi_E)\\
+z = \rho cos(\theta_E)
+\end{matrix}
+\end{equation}
+The output from the EMM2015 model is in the East, North, Vertical (ENV) reference frame
 where the x-axis is East pointing in the direction of the rotation on
 the Earth, the y-axis is North pointing towards the North pole and
 finally the z-axis is the Vertical component that is always pointing
