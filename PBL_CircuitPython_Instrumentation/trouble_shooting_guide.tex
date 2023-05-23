@@ -23,7 +23,8 @@ not both! Some common things to check if your CPX isn't working.
   \item Unplug the CPX, close Mu and try again.
   \item What if my CIRCUITPY drive doesn’t work anymore
   \item First, try and reset the CPX to CPLAYBOOT and reflash the UF2 to see if that fixes it.
-  \item If that doesn’t work sometimes you just need to completely erase the CIRCUITPY drive so head over to this troubleshooting guide https://learn.adafruit.com/adafruit-circuit-playground-express/troubleshooting and follow some of the steps they tell you.
+  \item If you have a linux computer you can ``sudo screen /dev/ttyACM0" and then run ``storage.erase\_filesystem()"
+  \item If that doesn’t work sometimes you just need to completely erase the CIRCUITPY drive so head over to this \href{https://learn.adafruit.com/adafruit-circuit-playground-express/troubleshooting}{troubleshooting guide} and follow some of the steps they tell you.
   \item As a last resort you can try to download these UF2s and
     hopefully it will fix all errors and mistakes -
     \href{https://cdn-learn.adafruit.com/assets/assets/000/048/745/original/flash_erase_express.ino.circuitplay.uf2?1512152080}{CPX}, \href{https://cdn-learn.adafruit.com/assets/assets/000/082/950/original/CP_Bluefruit_QSPI_Erase.UF2?1572026649}{CPB}
