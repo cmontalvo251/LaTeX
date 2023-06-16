@@ -250,7 +250,7 @@ data to be fully written before moving on. It also turns the LED off
 so we know the CPX took data even when we aren’t looking at the Serial
 monitor. If the switch value is true it means that the we never opened
 the data file and thus we tell the user we aren’t logging data and
-it’s time to flip the switch and hit reset. 
+it’s time to flip the switch and hit reset. {\bf NOTE: The figure below is from an old version of the code. The newest version produces the same outcome. The only difference is that the D13 LED blinks when the code is running and the first neopixel toggles 3 different colors when the system is logging data. This allows for extra user information when operating Method 3 without a computer and the serial monitor. Note that these additions require the use of neopixel.mpy module.} \input{module_install}
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=\textwidth]{Figures/method3_1.png}
