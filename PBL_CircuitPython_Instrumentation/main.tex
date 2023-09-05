@@ -12,6 +12,7 @@
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{xcolor}
 
 \newcommand{\sref}[1]{$^{[\ref{#1}]}$}
 \newcommand{\dref}[2]{$^{[\ref{#1}-\ref{#2}]}$}
@@ -22,6 +23,12 @@
 \newcommand{\package}[1]{\texttt{#1}}
 \newcommand{\file}[1]{\texttt{#1}}
 \newcommand{\BibTeX}{\textsc{Bib}\TeX}
+
+\hypersetup{%
+  colorlinks=false,% hyperlinks will be black
+  linkbordercolor=red,% hyperlink borders will be red
+  pdfborderstyle={/S/U/W 1}% border style will be underline of width 1pt
+}
 
 \begin{document}
 
