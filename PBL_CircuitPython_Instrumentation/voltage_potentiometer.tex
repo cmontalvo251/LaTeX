@@ -23,16 +23,16 @@
 
 \subsection{Getting Started}
 
-At this point you've learned about analog to digital converters (ADC). It turns out that the CPX has 8 analog ports hooked up to a 3.3V logic 16 bit ADC. The input range on the ADC is 0 to 3.3V and the output range is 0 to 65536 which is $2^{16}$ hence 16 bits. In order to get accustomed to the ADC on the CPX, we’re going to do a simple example where we measure the voltage drop across a potentiometer. You can read about \href{https://www.build-electronic-circuits.com/potentiometer/}{potentiometers online if you wish}. Basically though, a potentiometer is a variable resistance resistor that changes resistance by turning a knob. The knob changes the connection point of a wire and thus the length of the wire. This in turn changes the resistance. Potentiometers come in all shapes and sizes. Here are some examples.
-\ \\
-\ \\
-Here’s my circuit all hooked up. Two legs are connected to 3.3V and GND while the middle leg of the potentiometer is connected to pin A2.
-\ \\
-\ \\
-{\bf CAUTION!!!:} Some potentiometers do not have enough resistance when turned all the way down. I suggest that you put a resistor in between the third leg and ground. Some experimenters have melted plastic or gotten really hot. One student even blew up a potentiometer.
+At this point you've learned about analog to digital converters (ADC). It turns out that the CPX has 8 analog ports hooked up to a 3.3V logic 16 bit ADC. The input range on the ADC is 0 to 3.3V and the output range is 0 to 65536 which is $2^{16}$ hence 16 bits. In order to get accustomed to the ADC on the CPX, we’re going to do a simple example where we measure the voltage drop across a potentiometer. You can read about \href{https://www.build-electronic-circuits.com/potentiometer/}{potentiometers online if you wish}. Basically though, a potentiometer is a variable resistance resistor that changes resistance by turning a knob. The knob changes the connection point of a wire and thus the length of the wire. This in turn changes the resistance. Potentiometers come in all shapes and sizes. Here are some \href{https://uk.rs-online.com/web/content/discovery/ideas-and-advice/potentiometers-guide}{potentiometer examples}. I've done this lab with a few potentiometer. Ideally you'd like to have the potentiometer hooked up in serie with another resistor so that you end up building a voltage divider but it' possible you can do it without it. Here’s my circuit all hooked up without a resistor in series. Two legs are connected to 3.3V and GND while the middle leg of the potentiometer is connected to pin A2.
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=\textwidth]{Figures/potentiometer1.jpeg}
+    \includegraphics[width=0.8\textwidth]{Figures/potentiometer1.jpeg}
+  \end{center}
+\end{figure}
+{\bf As I said before, some potentiometers do not have enough resistance when turned all the way down. I suggest that you put a resistor in between the third leg and ground. Some experimenters have melted plastic or gotten really hot. One student even blew up a potentiometer.} Here is my circuit with a resistor in series.
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[angle=180,width=0.8\textwidth]{Figures/Potentiometer_Alternate.jpg}
   \end{center}
 \end{figure}
 There is a relevant \href{https://learn.adafruit.com/adafruit-circuit-playground-express/circuitpython-analog-in}{Adafruit Learn Tutorial} to help with the {\it analogio} module but I’ll explain the minimum required here to get some analog values plotted in {\it Plotter} and Python on your computer. First let’s take a look at some \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Analog/analog_simple.py}{simple example code} to read an analog signal and plot it using the {\it Plotter}.
