@@ -43,7 +43,7 @@ This of course assumes the initial velocity is zero. Notice that I take the indi
     \includegraphics[width=\textwidth]{Figures/accelerometer_integration.png}
   \end{center}
 \end{figure}
-This is why speedometers are used. They are just much more accurate than integrating acceleration which is prone to bias and drift. \href{https://github.com/cmontalvo251/Python/blob/master/instrumentation/cpx_assignments/velocity_from_acceleration.py}{This code has a lot of conditioners so this example is posted on my Github to help with your project}. {\bf Note, that code has a bias filter, truncation filter and complementary filter before I integrate. That code may not work for you and you may need to tune the filters for your specific data set.} For example, notice that I clip the data to only take data after 248 s. If you didn't take more than 248 seconds of data, your code will throw an error because there isn't any data past that. Make sure to understand what each filter does and think about how it applies to your data set.
+This is why speedometers are used. They are just much more accurate than integrating acceleration which is prone to bias and drift. \href{https://github.com/cmontalvo251/Python/tree/master/instrumentation/cpx_assignments/Velocity_from_Acceleration}{This folder on Github has some codes that will help with your project}. {\bf Note, that some of those codes have a bias filter, truncation filter and complementary filter. That code may not work for you and you may need to tune the filters for your specific data set. Make sure to understand what each filter does and think about how it applies to your data set otherwise your code may throw an error due to the differences in your data set.}
 
 \subsection{Assignment}
 
