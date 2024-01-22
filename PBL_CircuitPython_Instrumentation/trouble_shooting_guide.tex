@@ -19,6 +19,11 @@
   \item As a last resort you can try to download these UF2s and
     hopefully it will fix all errors and mistakes -
     \href{https://cdn-learn.adafruit.com/assets/assets/000/048/745/original/flash_erase_express.ino.circuitplay.uf2?1512152080}{CPX}, \href{https://cdn-learn.adafruit.com/assets/assets/000/082/950/original/CP_Bluefruit_QSPI_Erase.UF2?1572026649}{CPB}
-  \item If you're having an issue with an old bootloader be sure to update the \href{https://learn.adafruit.com/adafruit-circuit-playground-bluefruit/update-bootloader-use-command-line}{bootloader}. At the time of this writing here is the command you need to upload the new bootloader {\it adafruit-nrfutil --verbose dfu serial --package feather\_nrf52840\_express\_bootloader-0.8.0\_s140\_6.1.1.zip -p /dev/ttyACM0 -b 115200 --singlebank --touch 1200}. Note that the -- is a double dash and - is just one dash. Also this is for the feather\_nrf52840. You need to download the zip specific for the CPB by clicking the bootloader link. 
+  \item If you're having an issue with an old bootloader be sure to update the \href{https://learn.adafruit.com/adafruit-circuit-playground-bluefruit/update-bootloader-use-command-line}{bootloader for the CPB} or alternatively the \href{https://learn.adafruit.com/adafruit-circuit-playground-express/updating-the-bootloader}{bootloader for the CPX}. At the time of this writing here is the command you need to upload the new bootloader the CPB.
+  \begin{verbatim}adafruit-nrfutil --verbose dfu serial --package 
+circuitplayground_nrf52840_bootloader-0.8.2_s140_6.1.1.zip -p /dev/ttyACM0 
+-b 115200 --singlebank --touch 1200\end{verbatim}
+  For the CPX there is a UF2 that you transfer over to the CPLAYBOOT drive. At the time of this writing the version you're looking for is {\it update-bootloader-circuitplay\_m0-v3.15.0.uf2}.
   \item Are you running out of memory? To figure out how much RAM you have on your CPX/CPB you need to {\it import gc} then run {\it gc.collect()} and then {\it print(gc.mem\_free())}. At the time of this writing, the CPX has about 17 KB of RAM and the CPB has around 140 KB of RAM. 
+
 \end{enumerate}
