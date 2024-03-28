@@ -1,0 +1,91 @@
+%\documentclass[11pt,a4paper,twoside,openright]{book}
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{fullpage}
+\usepackage[usenames,dvipsnames]{color}
+%\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{datetime}
+\usepackage{natbib} %REMOVE THIS IF YOU DON'T WANT BRACKETS ON YOUR PAPER
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{wrapfig}		%					allows wrapping text around figures
+\usepackage{multicol}
+%\usepackage{cite}
+\usepackage[font=normalsize,labelfont=bf]{caption}
+\usepackage{titlesec}
+\titleformat{\section}[block]{\large\bfseries}{\thesection}{1em}{}
+\usepackage{framed}
+\usepackage{setspace}
+\def\beq{\begin{equation}}
+\def\eeq{\end{equation}}
+\def\beqn{\begin{matrix}}
+\def\eeqn{\end{matrix}}
+
+\setlength{\marginparwidth}{0pt}
+
+% Define commands to assure consistent treatment throughout document
+\newcommand{\eqnref}[1]{(\ref{#1})}
+ \newcommand{\class}[1]{\texttt{#1}}
+ \newcommand{\package}[1]{\texttt{#1}}
+ \newcommand{\file}[1]{\texttt{#1}}
+ \newcommand{\BibTeX}{\textsc{Bib}\TeX}
+\renewcommand{\thesection}{\Roman{section}.}
+\renewcommand{\thesubsection}{\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\alph{subsubsection}.}
+
+\begin{document}
+
+\begin{center}
+\begin{LARGE}{\bf Control Systems Dynamics}\end{LARGE}\\
+\large
+\vspace{22 mm}
+\begin{singlespace}
+   A Brief Textbook Presented to the \\ 
+   Student Body of the University of South Alabama \\
+\vspace{22 mm}
+   by\\
+\vspace{22 mm}
+  Carlos Montalvo \\
+\vspace{22 mm}
+\end{singlespace}
+{\itshape University of South Alabama}\\
+{\bf Copyright $\copyright$ Carlos Jos\'{e} Montalvo}
+\\ Last Update: \today
+\end{center}
+
+\newpage
+
+\section*{Manuscript Changes}
+
+\begin{enumerate}[itemsep=-5pt]
+\item March 27th, 2024 - Created title page
+\end{enumerate}
+
+\newpage
+
+\section{Dynamics}
+
+\section{Solutions to Differential Equations}
+
+\section{Laplace Domain}
+
+\section{Transfer Function}
+
+\section{Time Response}
+
+\section{Proportional Derivative Integral Control}
+
+\section{Lyapunov Control}
+
+\section{Sliding Mode Control}
+
+\section{Adaptive Control}
+
+
+
+\end{document}
