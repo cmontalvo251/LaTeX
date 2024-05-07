@@ -96,7 +96,10 @@ The latest edition can be found on \href{https://github.com/cmontalvo251/LaTeX/b
 \item July 30th, 2022 - Included a derivation of direct measurement of Euler Angles using an IMU.
 \item July 31st, 2022 - Added GPS coordinate conversion to cartesian coodinates as well as heading angle and speed estimation from GPS.
 \item October 27th, 2022 - Added computation of lat, lon, alttiude to ECI frame.
-\item March 20th, 2024 - Added a Current Edition section above Manuscript Changes. Also added color to hyperlinks
+\item March 20th, 2024 - Added a Current Edition section above
+  Manuscript Changes. Also added color to hyperlinks
+\item May 7th, 2024 - Added a battery sizing section to the aircraft
+  design chapter
 \end{enumerate}
 
 \section*{Changes Needed}
@@ -3225,7 +3228,39 @@ obtained. This may effect your wing area slightly and may even require
 you to choose a new motor if you were very off the first time you
 estimated the weight. This is an iterative process and every step
 builds on the previous step. The hope is that each iteration is not
-very different than the last. 
+very different than the last.
+
+\subsection{Battery Sizing}
+
+For battery sizing, you need to make sure the battery voltage is not
+too high for the ESC or the motor. Typically the ESC and motor will
+have a voltage limit listed on there. For example, an ESC that can
+handle 3-6S LiPos can handle anywhere from 12.6V to 25.2V. Motors may
+have different constraints than the ESC. It's also important to make
+sure that you look up the maximum current in the motor and that number
+must be less than the maximum current rating of the ESC. To compute
+flight time at max throttle use the equation below
+
+\begin{equation}
+  \frac{mAh/1000}{A_{max,motor}} = TOF_{hours}
+\end{equation}
+
+where $mAh$ is the number of milliamp hours of your battery,
+$A_{max,motor}$ is the max current draw of your motor at full throttle
+and $TOF_{hours}$ is the time of flight in hours. Note that you can
+repeat the calculation for different throttle settings provided you
+know the current through the motor. 
+
+You also need to make sure that the battery can output the necessary
+current your motor needs at full throttle. The equation below is used
+to ensure the battery can supply the necessary current. 
+
+\begin{equation}
+\frac{mAh}{1000}C > A_{max,motor}
+\end{equation}
+
+In the equation above, $C$ is the C rating of the battery usually
+listed on the battery itself or in the product description.
 
 \subsection{Stability and Control, Center of Mass, Aerodynamic Center and Static Margin}
 
@@ -3314,7 +3349,7 @@ stable. I've seen some aircraft that only have rudder and elevator and
 no ailerons. I find these aircraft hard to control but the idea is you
 move the rudder to yaw the aircraft which also rolls the aircraft
 allowing you to turn. It creates a very slow aircraft but it also
-reduces complexity if that is something you're interested in doing. 
+reduces complexity if that is something you're interested in doing.
 
 \subsection{Iteration, Detailed Sketch and Final Checks}
 
