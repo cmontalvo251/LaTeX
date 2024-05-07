@@ -42,21 +42,12 @@
 
 \begin{document}
 
-\begin{center}
-\begin{LARGE}{\bf Project Based Engineering Instrumentation With CircuitPython}\end{LARGE}\\
-\large
-\vspace{22 mm}
-   A Brief Textbook Presented to the \\ 
-   Student Body of the University of South Alabama \\
-\vspace{22 mm}
-%%by\\
-\vspace{22 mm}
-  %%Carlos Montalvo \\
-\vspace{22 mm}
-       %%{\itshape University of South Alabama}\\
-       Last Update: \today\\
-{\bf Copyright $\copyright$ Carlos Jos\'{e} Montalvo}
-\end{center}
+\title{Project Based Engineering Instrumentation With CircuitPython}
+\author{Carlos Montalvo\footnote{Montalvo: William B. Burnsed Jr. Department of Mechanical, Aerospace and Biomedical Engineering, Associate Professor}
+  \\University of South Alabama\\Mobile, AL\ \\ \ \\Marine Feron Leabeater \footnote{Leabeater: Lounsbury College of Education, EdD Graduate Student}\\Georgia College and State University \\ Milledgeville, GA\ \\ \ \\Lisa Schibelius\footnote{Schibelius: Department of Engineering Education, PhD Graduate Research Assistant}\\
+Virginia Polytechnic Institute and State University\\Blacksburg, VA}
+
+\maketitle
 
 \linespread{1}
 
@@ -108,67 +99,26 @@ The latest edition can be found on \href{https://github.com/cmontalvo251/LaTeX/b
 \item January 25th, 2024 - More edits to the bootloader notes
 \item March 20th, 2024 - Added a preamble about where this textbook is located
 \item April 27th, 2024 - Previously edited servo lab and pendulum lab just the assignment portion and then added this change log to the manuscript
+\item May 7th, 2024 - Title page changed and many sections moved around. Added a new results and discussion section following data analysis from course surveys of this course.
 \end{enumerate}
 
-\section*{Changes Needed}
+\newpage
 
-\begin{enumerate}[itemsep=-5pt]
-\item Create circuit diagrams for each lesson.
-\item More theory is needed in this book or direction to further
-  reading for the students
-\item Create a lesson on how each sensor works. The thermistor and pitot probe come to mind 
-\item The photo of the button lab could be better (i.e add labels to
-  each item)
-\item The circuit photo for the LSM6DS33 is not correct
-\item Equations on thermistor need to be expanded
-\item Equations relating voltage from photocell to Lux needs to be included
-\item Example plots for light, sound, acceleration, etc needs to be expanded
-\item Pendulum lab must be done in one of two ways. Either the pendulum is attached to a potentiometer or the CPX is mounted to the end of a string and data logged on board the CPX itself. The potentiometer is nice because you can record data with your laptop but the string idea is cool because you use the accelerometer. In either case you can make some really long pendulums
-\item 3D printing a disc with holes on the outside to eventually mount to a shaft would be a really cool angular velocity sensor lab. Tangibles that teach could easily include a 3D printed disc that can mount to a pencil for ease of rotation. Could also include the CAD drawings so students can print more or even edit the design for better or worse performance.
-\item Buying some load cells with the HMC converter and including them in the kit would add a whole lot different labs
-\item Buying some magnetometers to measure magnetic field and do some sensor fusion would be neat. Could do roll, pitch and yaw calibration if we included a magnetometer.
-\item Right now a lab just on roll and pitch estimation would be possible. Pendulum lab pretty much introduces them to this but could easily do an rc aircraft lab where they build an aircraft out of foam with an elevator and aileron so that the servos responds to roll and pitch change. There is a lab right now with just pitch but perhaps we could add roll to it.
-\item Another cool project idea would be for the students to take temperature and light data on a cloudy day. Then have them infer if the amount of sunlight affected the temperature of the thermistor. They could plot the data with light on the x-axis and temperature on the y-axis and draw conclusions based on the plot they generate.
-\item Could also have them take temperature and light data over the course of a whole day to plot sunrise and sunset and watch the ambient temperature rise and fall
-\item For the aliasing lab, have the students sample as fast as possible and obtain the natural frequency of the system. Then have them sample at 1.0, 2.0 and 3.0 times the natural frequency they obtained. I originally picked 1,10 and 100 as arbitrary sampling frequencies and it would have been better to do 2,4 and 6.
-\item One cool lab would be to take light data during sunset and watch light and temperature plummet.
-\item \href{https://learn.adafruit.com/circuit-playground-o-phonor/musical-note-basics}{Add this lab on frequency for notes}
-\end{enumerate}
+\tableofcontents
 
 \newpage
 
 \input{intro}
 
-\input{purchase_equipment_download_python}
+\input{projects}
 
-\input{getting_started}
+\input{results_discussion}
 
-\input{trouble_shooting_guide}
+\input{acknowledgements}
 
-\input{external_leds_push_buttons}
+\input{changes_needed}
 
-\input{daq}
-
-\input{bluetooth}
-
-\input{voltage_potentiometer}
-
-\input{pitot_probe}
-
-\input{modules}
-
-\input{acceleration}
-
-\input{pedometer}
-
-\input{imu}
-
-\input{photocell}
-
-\input{servo}
-
-\input{time_constant}
-
-\input{pendulum}
+\bibliographystyle{unsrt}
+\bibliography{../papers.bib}
 
 \end{document}

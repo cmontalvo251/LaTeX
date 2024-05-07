@@ -1,34 +1,25 @@
 \newpage
 
-\section*{Acknowledgements}
+\section{Introduction}
 
-The author, Dr. Carlos Montalvo would like to acknowledge a few key
-members who made this textbook possible. First and foremost I would
-like to thank Adafruit for their entire ecosystem of electronics,
-tutorials, blogs and forums. Much of what I have learned here to teach
-Instrumentation was from \href{https://www.adafruit.com/}{Adafruit}
-and the \href{https://learn.adafruit.com/}{Adafruit Learn} system and 
-specifically people like Lady Ada and John Park who have helped shape
-\href{https://circuitpython.org/}{CircuitPython} and the
-\href{https://www.adafruit.com/product/3333}{CircuitPlayground
-  Express} to what it is today. I 
-would also like to thank Dr. Saami Yazdani for creating the blueprint
-for Instrumentation at my university by creating a laboratory
-environment for an otherwise totally theoretical course. His course
-was the foundation for this textbook and for that I thank him for
-showing the way. I’d like to also thank and acknowledge Tangibles that
-Teach for giving me the opportunity to morph this loose set of
-projects into a textbook that can be used for multiple universities
-and classrooms and of course help students learn and acquire knowledge
-through creating.
+This textbook describes an instrumentation kit used for an
+Instrumentation and Experimental Methods course at the undergraduate
+level. This textbook has been designed with the student and faculty member in
+mind. The kit contains the CircuitPlayground
+Express/Bluefruit running CircuitPython and is used to teach
+fundamentals of instrumentation and provide a hands-on way of
+learning. Engineering is usually taught in a
+traditional lecture format, involving theory in the classroom,
+homework outside of class, and routine examinations. Progressive forms
+of learning such as flipped classrooms and project based learning
+(PBL) have created new and fun ways for professors to interact with
+students and for students to be more involved in their learning. PBL
+provides a student-centered method of teaching and learning by posing
+problems for students to solve with the solution of the project being
+the primary goal and the theory a secondary goal.
 
-\section*{About this textbook}
-
-This textbook has been designed with the student and faculty member in
-mind. First, this textbook goes hand in hand with Engineering
-Instrumentation taught at the undergraduate level at many
-universities. The course begins with simple plotting and moves into
-data analysis, calibration and more complex instrumentation techniques
+The course begins with simple plotting and moves into data analysis,
+calibration and more complex instrumentation techniques 
 such as active filtering and aliasing. This course is designed to get
 students away from their pen and paper and build something that blinks
 and moves as well as learn to process real data that they themselves
@@ -50,11 +41,259 @@ and textbook to be completely stand-alone. Students simply need to
 purchase the required materials and follow along with the
 lessons. These lessons can be picked apart and taught sequentially or
 individually on a schedule suited to the learning speed of the
-course. I hope whomever reads and learns from this textbook will walk
-away with an excitement to tinker, code and build future projects
-using microelectronics and programming.
+course. The authors hope that whomever reads and learns from this
+textbook will walk away with an excitement to tinker, code and build
+future projects using microelectronics and programming. The
+implementation of this kit and overall teaching method has received
+many positive reviews from students and is reflected in anonymous course
+evaluations.
 
-\newpage
+Students can learn in many ways with a variety of different
+omodalities \cite{Gardner}. As such, instructors can choose how to
+present course material and have students develop content-specific
+skill sets. College students enter the classroom with existing skills
+in multi-disciplinary learning that is practiced at the secondary
+school level \cite{Ralph}. College and university professors have
+the opportunity to use these existing skills as a foundation for their
+own instructional practices. Traditional lectures provide students
+with lectures on theory. The instructor then provides examinations to
+the students based on that theory. Using this format, an instructor
+can focus on mathematical principles, the so-called building blocks of
+engineering or provide specific applications to these
+models \cite{Learning_Styles}. In a traditional lecture format,
+the instructor presents theory to the students with academic problems
+rarely encountered in a students future career, building invaluable
+theoretical knowledge of concepts that appear disconnected from
+practical knowledge applied in the field \cite{Yong}. Historically
+in engineering education, there has been tension between theory and
+application \cite{PBL1}.  Applications include case studies or
+practical engineering problems that emulate future careers in
+engineering. This provides students with engineering phenomena that
+they can see and hear. They can reason through problems intuitively,
+memorize facts using demos, build mathematical models, or build
+tangible objects themselves. With these different presentation
+methods, students are exposed to engineering phenomena in multiple
+ways rather than just on the
+whiteboard\cite{Learning_Styles}. Project Based Learning (PBL)
+provides an alternative for conventional teaching by facilitating
+problem solving for students in a group setting that requires
+communication, critical thinking, and creativity. These types of
+problems have shown that heightened learning can happen when students
+interact with tangible objects that represent the theory they are
+presented with in the classroom \cite{PBL_Book}. Rather than
+learning an equation for heat transfer along a one-dimensional pipe,
+the students can create a pipe with thermocouples and plot data from
+multiple sensors along the pipe. This connection to a tangible object
+reinforces learning and allows students to form bridges in
+comprehension between their theoretical knowledge and practical
+application (practical knowledge) of those theories in the
+field\cite{TANGIBLEINTERFACES}. Research has shown that a
+classroom that creates an integrated curriculum increases student
+satisfaction which immediately correlates to satisfactory student
+performance and increased graduation
+rates \cite{StudentSatisfaction}. This is an example of the
+benefits of active student engagement versus passive student
+engagement. While the traditional lecture format is vital to students
+understandings, it is understood that application of the concepts
+covered in lecture are  
+required to reach higher levels of learning \cite{Armstrong}.  
 
-\tableofcontents
+%\subsection{Background}
+%This should include summary of prior work
+Hands-on projects where students interact with tangible objects is not
+a new form of teaching. The laboratory environment has been around for
+decades. However, typically the classroom environment is separate from
+the laboratory environment.  There has been little synergy between the
+two learning environments. A Mechanical Engineering degree is likely
+to have around three to four labs in various disciplines. In these
+courses, students perform an experiment in groups. They take and
+analyze data as well as create a report documenting their
+findings. Many of these laboratory experiments of course are
+choreographed for the student by the instructor. They follow a script
+and perform the experiment without building anything themselves. The
+students take no ownership over the experiment and there is no
+creativity built-in. Over the years, the nature of laboratories has
+changed including the lack of clear learning
+objectives \cite{Labs}. Furthermore, this laboratory environment
+requires a significant amount of instrumentation and hardware to
+implement. For example, a shock tube or steam pump can cost tens of
+thousands of dollars. The maintenance and up-keep alone is not
+practical for smaller institutions. The teaching investment required
+to prepare the lab every year and the lab itself (often on the order
+of three hours) can be a time consuming task for a tenure track
+faculty member who often has a large research load. 
+
+The so-called "Lab at Home" hardware kits are becoming more and more
+common in the classroom to ease the burden on the instructor and
+institution itself\cite{LabAtHome}. These kits are small enough to be
+purchased and shipped to a student for them to perform experiments
+remotely rather than in the classroom itself\cite{LabAtHome1}. They
+can also be brought to the classroom to be used as a personal demo
+aid\cite{LabAtHome2_EE}. In this sense, the take-home lab kit serves
+as a bridge between theory based lectures and a laboratory
+setting\cite{LabAtHome3}. This allows both instructors and students to
+engage with content in a way that promotes enduring understandings and
+practical application of theoretical
+knowledge\cite{LabAtHome4_EE}. Since the kits can be used remotely,
+they can also be used for distance learning courses or other
+asynchronous activities as well as during the COVID-19 pandemic.   
+
+Two home kits in particular are directly related to instrumentation
+and circuits. Cyganski and Nicoletti\cite{LabAtHome4_EE} for example
+created a new curriculum for first year electrical engineering
+students by creating live demonstrations for the students. Manijikian
+and Simmons\cite{LabAtHome2_EE} however, combined a popular commercial
+microcomputer board with their own custom-designed interface board in
+a kit that students retain for the duration of the course for both
+in-lab and at-home assignments. The take-home kits however were based
+on the Motorola 68HC11EVB microcomputer which is programmed in
+assembly language. Assembly language is a rather difficult language to
+learn at the undergraduate level. Even with such a difficult learning
+curve, however, student feedback on their approach was
+positive\cite{LabAtHome2_EE}. 
+
+It is clear that using a lab at home kit is useful for the
+instrumentation classroom, however the programming language to be used
+is a subject of debate in faculty meetings and computing
+committees. There are multiple languages in use today of varying
+complexities and use cases. There are scripting languages like Python,
+Ruby and MATLAB, object oriented languages like Java and C++ and
+compilation languages like Fortran and C. Note, this is not an
+exhaustive list. A recent study showed that scripting languages
+(Python, Ruby, MATLAB) enable writing more concise code while
+compilation languages (C, Fortran) create smaller
+executables \cite{codetype}. MATLAB is often considered in engineering
+given its success in industry and its ability to perform numerical
+simulations and plotting with ease. Python, however, has become more
+and more popular with numerical toolboxes like numpy and plotting
+toolboxes like matplotlib that are free and easy to install in
+integrated development environments like Thonny or
+Spyder \cite{IDE}. The Tiobe Index of Programming\cite{Tiobe} has the
+top 3 programming languages listed as Python, C, and Java. MATLAB
+is \#20 on the list. In 2004, Hans Fangohr wrote that MATLAB is much
+better suited than C for engineering computing but the best choice in
+terms of clarity and functionality is provided by
+Python \cite{CodeComparison}. It seems then that it would be more
+practical for educators even in engineering to teach the most popular
+language. This helps with transferability of skills and has future
+implications for a students' career. The scripting aspect of Python
+lowers complexity and allows students to learn the language quickly to
+apply it as a tool rather than getting stuck memorizing syntax and
+compilation rules. The language also comes at no cost to the
+students. This is a plus for students already bearing heavy financial
+burdens to attend a university which includes tuition and
+institutional fees. 
+
+Given the success of other kits in many classes and the popularity of
+Python, the University of South Alabama (USA) has implemented such a
+kit for Instrumentation \& Experimental Methods (ME 316) using
+CircuitPython. CircuitPython is a derivative of Python written for
+embedded systems and designed to simplify experimenting and learning
+to code \cite{CircuitPython}. The learning objectives for ME316
+include: statistics, dynamic response of measurement systems,
+operational amplifiers, signal conditioners and fundamentals of
+microprocessors. This course could be taught with theory as the main
+focus of the lecture. However, this course includes the use of an
+instrumentation kit and Project Based Learning methods in addition to
+theory in the classroom. Each student taking the course purchases the
+kit and downloads a free accompanying project
+list \cite{Gitbook}. Every Friday, the students complete one of the 20
+projects. The following week they submit a report which includes a
+demo of the working project in the form of photos and videos, any
+plots generated if they are required to take data, all code used and a
+small write-up explaining their findings. The sections that follow
+describe the kit in more detail as well as student evaluations who
+have taken the course.
+
+Note that, the Adafruit Learn page contains many tutorials on how to operate the
+CircuitPlayground\cite{Adafruit}. However, Adafruit sells much
+more than just the CPX and thus it is often difficult for anyone to
+find the correct tutorial needed for the CPX. A simple search on the
+Adafruit Learn System yields 21 results for "servo" just on the first
+page with over 48 pages of results. The tutorial needed to run a servo
+with CircuitPython is the 10th result and it's for a different
+development board. Although the software works with the CPX, it does
+not explicitly say so. Due to the complexity of some of these systems,
+documentation was made and freely given to the
+community\cite{Gitbook}. This documentation was custom built using a
+combination of multiple sources across the internet. All software for
+the kit is also
+on \href{www.github.com/cmontalvo251/Microcontrollers.git}{Github} in
+a separate repository. Each chapter in the book contains one project for the
+students to complete on their own. A list of chapters and a brief
+description of the assignment is shown in the table of
+contents. Currently there are 20+ projects for the students to work on.
+
+\section{Course Description}
+
+The course is designed to coincide with lecture content in a standard
+engineering instrumentation course. The students are guided through
+numerous projects. The specific course learning objectives, which include
+statistics, dynamic responses, operational amplifiers, and electronic
+circuits both analog and digital are shown below:
+\begin{enumerate}[itemsep=-5pt]
+\item Apply statistical concepts of error and uncertainty analysis using normal,“t” distribution and the $\chi^2$ distribution
+\item Use propagation of error methods to determine the uncertainty of calculated quantities
+\item Apply the concepts of harmonic response to predict the response of measuring systems to input signals
+\item Apply the fundamentals of operational amplifiers and electronic circuits to design signal conditioning circuits including %amplification and filtering
+\item Apply microprocessor fundamentals to gain an understanding of digital circuits used for digital to analog and analog to digital conversion
+\end{enumerate}
+
+This course is not going to be a traditional lecture format and that
+hands-on projects will be assigned every Friday using the lab at home
+kit. The projects every Friday are created to enhance the course
+learning objectives as dictated above.  
+
+The course is taught on a 2+1 style where the course meets three days
+a week for 50 minutes each on Monday, Wednesday and Friday. On Monday
+and Wednesday the class is similar to what would typically be found in
+a standard lecture format. The instructor goes through theory and examples on a
+white board. On Fridays, the students come to class with their
+hardware kits and laptops to perform one of 20+ projects defined in
+the tutorials in this textbook. Fridays are nicknamed "Funday Fridays"
+to differentiate the format of the class and to get students excited about the
+projects. On Fridays, the instructor can walk around the classroom and
+assist students on their projects as well as highlight fundamental
+concepts. This is done by showing them what they learned on a
+whiteboard with their lab at home kit. During the COVID-19 pandemic
+when Universities were meeting via Zoom, class time on Friday was used
+to assist students on their projects while they showed their circuits via
+webcam in a virtual space. Since all students purchased their own kit,
+there was no issue with students getting hands-on experience even
+during COVID-19.  
+
+It is important to note here that Project Based Learning (PBL) in this
+course did not replace existing teaching frameworks; rather, PBL
+supplemented existing standard teaching measures by allowing students
+to apply theory to practice. The role of connectivism comes from the
+online networking tools that were added to the curriculum. The
+tutorials and assignments as well as example code are all hosted
+online on Github \cite{Github}. The availability of these
+tutorials and software opens the students to an ecosystem of free and
+open source software. Furthermore, the Adafruit Learning System is
+also used occasionally which opens them to an ecosystem of hardware
+and software tutorials as well as Adafruit IO (an internet of things
+site) and the Adafruit Forums \cite{Adafruit}. The Adafruit Forums
+allow the students to comment and communicate with other groups
+outside the university that utilize the same hardware kits. If the
+instructor cannot find a solution online in a Wiki or Tutorial page, a
+student or the instructor can post on the forum and wait for a
+response from the larger Adafruit community. 
+
+Students in this course are also required to do a final project
+where they must create something new by using the microcontroller in
+the kit plus three other electrical components. One of the three
+components must be something not originally included in the kit. The
+students may also work in a group. PBL typically consists of
+ownership, creativity, collaboration and critical thinking. These four
+aspects are clearly a big part of this lab at home kit and the final
+project. They can work in groups: collaboration. They must make
+something new: creativity. They must build the item themselves:
+ownership. They must apply fundamental principles of the course:
+critical thinking. In addition to PBL aspects, the students are
+exposed to the larger network of learning through Github, the Adafruit
+Learning system and Forums as well as general Wikis online. This
+network of learning is seen in the connectivism framework.
+
+
 
