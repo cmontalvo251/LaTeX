@@ -1,0 +1,252 @@
+\section{Particle Dynamics}
+
+\subsection{Systems of Particles}
+
+For this formulation we start with Newton's Second Law with no
+approximations. Similar dynamic forumlations can be found in \cite{etkins,
+  phil,nelson,astrodynamics}.
+\begin{equation}
+\sum\limits_{i=0}^N \vec{F}_{ji} = \frac{d\vec{p}_j}{dt}
+\end{equation}
+where $\vec{p}_j$ is the momentum of a particle. $\vec{F}_{ji}$ is a
+force on the particle. The statement above states that sum of all
+forces on a particle is equal to the time rate of change of
+momentum. If two particles are then considered the equation can
+be written for both particles.
+\begin{equation}
+\begin{matrix}
+\sum\limits_{i=0}^N \vec{F}_{1i} + \vec{f}_{12} = \frac{d\vec{p}_1}{dt} &
+\sum\limits_{i=0}^N \vec{F}_{2i} + \vec{f}_{21} = \frac{d\vec{p}_2}{dt} 
+\end{matrix}
+\end{equation}
+Note that the forces $\vec{f}_{12}$ and $\vec{f}_{21}$ are internal forces
+experienced by each particle exerted on each other since they are
+rigidly connected. Newton's Third Law states that for every action
+there is an equal and opposite reaction. That is, $\vec{f}_{12} = -\vec{f}_{21}$. Thus, if both equations are added the following equation is
+created
+\begin{equation}
+\sum\limits_{j=0}^P \sum\limits_{i=0}^N \vec{F}_{ji} =
+\sum\limits_{j=0}^P \frac{d\vec{p}_j}{dt}
+\end{equation}
+where P is the number of particles. Typically the double summation
+in F is written just as $\vec{F}$.
+
+\subsection{Rotational Dynamics for Systems of Particles}
+
+Note that by construction, a system of particles rigidly connected can
+now rotate about a center point. The center of mass of a system of
+particles can be defined using the relationship below
+\begin{equation}
+\vec{r}_C = \frac{1}{m}\sum\limits_{j=0}^P m_j\vec{r}_{j}
+\end{equation}
+where
+\begin{equation}
+m = \sum\limits_{j=0}^P m_j
+\end{equation}
+This vector can then be used to create rotational dynamics starting
+with the linear dynamics.
+\begin{equation}
+\sum\limits_{j=0}^P \sum\limits_{i=0}^N {\bf S}(\vec{r}_{Cj}) \vec{F}_{ji}  = \vec{M}_C = \sum\limits_{j=0}^P {\bf
+  S}(\vec{r}_{Cj}) \frac{d\vec{p}_j}{dt}
+\end{equation}
+where ${\bf S}(\vec{r}_{Cj})$ is the skew symmetric matrix of the
+vector from the center of mass to the jth particle which results in a
+cross product. The skew symmetric operator is denoted by ${\bf
+  S}()$. 
+\begin{equation}
+{\bf S}(\vec{r}_{Cj}) = \begin{bmatrix} 0 & -z_{Cj} & y_{Cj} \\ z_{Cj} & 0 &
+  -x_{Cj} \\ -y_{Cj} & x_{Cj} & 0 \end{bmatrix}
+\end{equation}
+\section{Rigid Bodies}
+
+At this point, many assumptions are made about the
+system of particles.
+\begin{enumerate}
+\item The mass of each particle or rigid body is constant.
+\item An inertial frame is placed at the center of the Earth that does
+  not rotate with the Earth. We assume that the Earth is ``fixed" to
+  this point but still rotates. The coordinates of our vehicle
+  though are expressed in this non-rotating inertial frame. This is
+  explained in more detail later.
+\item The rigid body is not flexible and does not change shape. That
+  is, the time rate of change of the magnitude of a vector
+  $\vec{r}_{PQ}$ is zero for any arbitrary points P and Q attached to
+  the rigid body.
+\end{enumerate}
+
+\subsection{Translational Dynamics}
+
+Using all of these simplifications, the momentum term on the right can
+be simplified to 
+\begin{equation}
+\sum\limits_{j=0}^P \vec{p}_j = m \vec{v}_{C/I}
+\end{equation}
+The derivation of the term above starts by deriving the position of
+the center of mass as the following equation.
+\begin{equation}
+\vec{r}_{j} = \vec{r}_C + \vec{r}_{Cj}
+\end{equation}
+Taking one derivative results in the following equation
+\begin{equation}
+\vec{v}_{j/I} = \vec{v}_{C/I} + \frac{{}^Bd \vec{r}_{Cj}}{dt} +
+{\bf S}(\vec{\omega}_{B/I}) \vec{r}_{Cj}
+\end{equation}
+where ${\bf S}(\vec{\omega}_{B/I})$ is the skew symmetric matrix of the
+angular velocity vector which results in a cross product. This
+equation comes from the derivative transport theorem. Since the body
+is a rigid body the term $\frac{{}^Bd \vec{r}_{Cj}}{dt}=0$ resulting
+in the equation below
+\begin{equation}
+\vec{v}_{j/I} = \vec{v}_{C/I} + {\bf S}(\vec{\omega}_{B/I}) \vec{r}_{Cj}
+\end{equation}
+which any dynamicist knows as the equation for two points fixed on a
+rigid body. This equation can then be substituted into the equation
+for momentum such that.
+\begin{equation}
+\sum\limits_{j=0}^P \vec{p}_j =  \sum\limits_{j=0}^P m_j \left(\vec{v}_{C/I}
++ {\bf S}(\vec{\omega}_{B/I}) \vec{r}_{Cj}\right)
+\end{equation}
+The first term reduces to 
+\begin{equation}
+\sum\limits_{j=0}^P m_j \vec{v}_{C/I} =  \vec{v}_{C/I}
+\sum\limits_{j=0}^P m_j =  m \vec{v}_{C/I} 
+\end{equation}
+the second term reduces to zero since the sum of all particles from
+the center of mass is by definition the center of mass and thus zero.
+\begin{equation}
+\sum\limits_{j=0}^P {\bf S}(\vec{\omega}_{B/I}) m_j\vec{r}_{Cj} =
+{\bf S}(\vec{\omega}_{B/I})\sum\limits_{j=0}^P m_j\vec{r}_{Cj} = 0
+\end{equation}
+Plugging this result for momentum into Newton's equation of motion
+yields. This is typically called Newton-Euler equations of motion.
+\begin{equation}
+\vec{F}_C = m \left(\frac{{}^Bd \vec{v}_{C/I}}{dt} +
+{\bf S}(\vec{\omega})_{B/I} \vec{v}_{C/I} \right)
+\end{equation}
+
+\subsection{Rotational Dynamics}
+
+Plugging in the expression for two points fixed on a rigid body
+results in a much different expression. First let's expand the
+rotational dynamic equations of particles using the assumptions made
+for a rigid body.
+\begin{equation}
+\vec{M}_C = \frac{d}{dt}\sum\limits_{j=0}^P {\bf S}(\vec{r}_{Cj}) m_j\vec{v}_{j/I}
+\end{equation}
+Then the equation of two points fixed on a rigid body can be
+introduced to obtain the following equation
+\begin{equation}
+\vec{M}_C = \frac{d}{dt}\sum\limits_{j=0}^P {\bf S}(\vec{r}_{Cj}) m_j\left(\vec{v}_{C/I} + {\bf S}(\vec{\omega}_{B/I}) \vec{r}_{Cj}\right)
+\end{equation}
+expanding this into two terms yields
+\begin{equation}
+\vec{M}_C =  \frac{d}{dt}\left(\sum\limits_{j=0}^P m_j{\bf S}(\vec{r}_{Cj}) {\bf S}(\vec{\omega}_{B/I}) \vec{r}_{Cj} + \sum\limits_{j=0}^P {\bf S}(\vec{r}_{Cj})m_j\vec{v}_{C/I}\right)
+\end{equation}
+To simplify this further a useful equality is used for cross
+products. That is ${\bf S}(\vec{a})\vec{b}=-{\bf
+  S}(\vec{b})\vec{a}$. The equation above then changes to
+\begin{equation}
+\vec{M}_C =  \frac{d}{dt}\left(\left(-\sum\limits_{j=0}^P m_j{\bf S}(\vec{r}_{Cj}){\bf
+  S}(\vec{r}_{Cj})\right)\vec{\omega}_{B/I} - {\bf S}(\vec{v}_{C/I})
+\sum\limits_{j=0}^P \vec{r}_{Cj}m_j\right)
+\end{equation}
+Notice, that parentheses were placed around the first term to isolate
+the angular velocity. This is because the angular velocity is constant
+across the system of particles. The term on the right has also been
+altered slightly to isolate the fact that the velocity of the center
+of mass is independent of the system of particles. With the equation
+in this form it is easy to see that the term on the right is zero
+because it is the definition of the center of mass. The equation then
+reduces to 
+\begin{equation}
+\vec{M}_C =  \frac{d}{dt}\left(\sum\limits_{j=0}^P m_j{\bf S}(\vec{r}_{Cj}){\bf
+  S}(\vec{r}_{Cj})^T\right)\vec{\omega}_{B/I} 
+\end{equation}
+Notice again that minus sign has been removed. The skew symmetric
+matrix has an interesting property where the transpose is equal to the
+negative of the original matrix. The term in brackets is a well known
+value for rigid bodies and is known as the moment of inertia for rigid
+bodies. 
+\begin{equation}
+{\bf I}_C =  \sum\limits_{j=0}^P m_j{\bf S}(\vec{r}_{Cj}){\bf
+  S}(\vec{r}_{Cj})^T
+\end{equation}
+This results in the kinematic equations of motion for rigid bodies to
+the simple equation below.
+\begin{equation}
+\vec{M}_C =  \frac{d}{dt}\left({\bf I}_C\vec{\omega}_{B/I} \right)
+\end{equation}
+With the equation in this form it is finally possible to carry out the
+derivative
+\begin{equation}
+\vec{M}_C = \frac{{}^Bd ({\bf I}_C\vec{\omega}_{B/I})}{dt} + {\bf
+  S}(\vec{\omega}_{B/I}){\bf I}_C\vec{\omega}_{B/I}
+\end{equation}
+The first term requires the chain rule to perform the derivative and
+can thus result in a time varying moment of inertia matrix and the
+derivative of angular velocity. Therefore the equation can simply be written as
+\begin{equation}
+\vec{M}_C = \dot{{\bf I}}\vec{\omega}_{B/I} + {\bf I}_C\frac{{}^Bd (\vec{\omega}_{B/I})}{dt} + {\bf
+  S}(\vec{\omega}_{B/I}){\bf I}_C\vec{\omega}_{B/I}
+\end{equation}
+
+\subsection{Inertia Estimation}
+
+There are several equations that can be used to compute the moment of
+inertia depending on the geometry of the vehicle. For this example
+we will look at a cuboid to demonstrate inertia
+calculations. Firstly, the total mass $m$ and size (length $l$,
+width $w$, and height $h$) are required. 
+\begin{equation}
+  \begin{matrix}
+    I_x = \frac{m}{12}(l^2 + w^2) \\
+    I_y = \frac{m}{12}(l^2 + d^2) \\
+    I_z = \frac{m}{12}(d^2 + w^2) \\
+  \end{matrix}
+\end{equation}
+
+Where $I_x$ is the cuboid’s moment of inertia around the x-axis, It
+can be seen that the moment of inertia about the y and z-axis are
+computed similarly, but by using different length parameters. Note
+that cross products of inertia are obtained by using the parallel axis
+theorem often caused by solar panels on satellites or payloads on
+aircraft and quadcopters.
+
+\subsection{Aerospace Convention}
+
+Aerospace convention involves using the Newton-Euler equations of
+motion to describe the vehicle\cite{etkins} as explained in the
+previous section. Typically the position of the
+vehicle is written as 
+\begin{equation}
+{\bf C}_I(\vec{r}_C) = \begin{Bmatrix} x \\ y \\ z \end{Bmatrix}
+\end{equation}
+The derivative of the position vector is the velocity vector is then
+written as
+\begin{equation}
+{\bf C}_I(\vec{v}_{C/I}) = \begin{Bmatrix} \dot{x} \\ \dot{y} \\ \dot{z} \end{Bmatrix}
+\end{equation}
+However, body frame coordinates are typically used to
+describe the velocity vector such that
+\begin{equation}
+{\bf C}_B(\vec{v}_{C/I}) = \begin{Bmatrix} u \\ v \\ w \end{Bmatrix}
+\end{equation}
+In order to relate the body frame components of the velocity vector
+the inertial frame coordinates a transformation matrix is used to give
+the following equation.
+\begin{equation}\label{e:xyzdot}
+\begin{Bmatrix} \dot{x} \\ \dot{y} \\ \dot{z}   \end{Bmatrix} = [\textbf{T}_{IB}]
+\begin{Bmatrix} u \\ v \\ w \end{Bmatrix}
+\end{equation}
+Note that standard aircraft forces and moments are applied to the
+body. The forces are typically written as X,Y and Z while the moments
+are given as L,M and N. They can be written in component form using
+the equations below.
+\begin{equation}
+{\bf C}_B(\vec{F}_{C}) = \begin{Bmatrix} X \\ Y
+  \\ Z \end{Bmatrix} = X \hat{I}_B + Y \hat{J}_B + Z \hat{K}_B
+\end{equation}
+\begin{equation}
+{\bf C}_B(\vec{M}_{C}) = \begin{Bmatrix} L \\ M
+  \\ N \end{Bmatrix} = L \hat{I}_B + M \hat{J}_B + N \hat{K}_B
+\end{equation}

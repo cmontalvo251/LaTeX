@@ -1,0 +1,28 @@
+\section{Introduction}
+
+This report represents aerospace mechanics and controls for CubeSats,
+quadcopters and aircraft. A CubeSAT is a small satellite on the order
+of 10 centimeters along each axis. A 1U satellite is a small cube with
+10 cm sides. These satellites are used for a variety of missions and
+created by a variety of different organizations. When deployed from 
+a rocket, a CubeSAT may obtain a large angular velocity
+which must be reduced before most science missions or communications
+can take place. Maximizing solar energy charging also involves
+better pointing accuracy. To control the attitude of these small
+satellites, reaction wheels, magnetorquers and even the gravity
+gradient are used in low earth orbit (LEO) while reaction control thrusters
+are typically used in deep space.  On a standard LEO CubeSAT, 3 reaction
+wheels are used as well as 3 magnetorquers. In the initial phase of
+the CubeSAT mission, the magnetorquers are used to reduce the angular
+velocity of the satellite down to a manageable level. Once the norm of the angular velocity is
+low enough, the reaction wheels can spin up reducing the angular
+velocity to zero. At this point a Sun finding algorithm is employed to
+find the Sun and fully charge the batteries. In LEO two independent
+vectors are obtained, the Sun vector and the magnetic field vector, to
+determine the current attitude of the vehicle which is typically
+called attitude determination. Other sensors such as horizon sensors,
+star trackers and even lunar sensors can be used to obtain the
+quaternion of the vehicle. This paper investigates the necessary
+mathematics to understand the intricacies of guidance, navigation and
+control specifically discussing the attitude determination and
+controls subsystem (ADACS).

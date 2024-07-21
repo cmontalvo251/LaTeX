@@ -1,0 +1,130 @@
+\section{Helpful Aircraft Equations}
+
+\begin{multicols}{2}
+
+\noindent Mach Number and Reynolds Number
+
+\beq
+\beqn
+M_{\infty} = \frac{V}{a_{\infty}} \\
+\ \\
+Re = \frac{\rho V \bar{c}}{\mu_{\infty}}
+\eeqn
+\eeq
+
+\noindent Total Velocity
+
+\beq
+V = \sqrt{u^2 + v^2 + w^2}
+\eeq
+
+\noindent Angle of Attack and Sideslip
+
+\beq
+\beqn
+\alpha = tan^{-1}\left(\frac{w}{u}\right)\\
+\beta = sin^{-1}\left(\frac{v}{V}\right)
+\eeqn
+\eeq
+
+\noindent Lift Drag and Moment
+
+\beq
+\beqn
+Lift~(L) = \frac{1}{2} \rho V^2 S C_L \\
+Drag~(D) = \frac{1}{2} \rho V^2 S C_D\\
+Roll~Moment~(L) = \frac{1}{2} \rho V^2 S b C_l\\
+Pitch~Moment~(M) = \frac{1}{2} \rho V^2 S \bar{c}C_m\\
+Yaw~Moment~(N) = \frac{1}{2} \rho V^2 S b C_n\\
+\eeqn
+\eeq
+
+\noindent Lift and Drag Coefficients
+
+\beq
+\beqn
+C_L = C_{L0} + C_{L\alpha}\alpha\\
+C_L = C_{L\alpha}(\alpha-\alpha_0)\\
+C_D = C_{D0} + C_{D\alpha}\alpha^2 \\
+C_D = C_{D0} + k{C_L}^2 \\
+\eeqn
+\eeq
+
+\noindent Non-dimensional Angular velocities
+
+\beq
+\beqn
+\hat{p} = pb/2V\\
+\hat{q} = q\bar{c}/2V\\
+\hat{r} = rb/2V
+\eeqn
+\eeq
+
+\noindent Pitch Moment equation
+
+\beq
+C_m = C_{m0} + C_{m\alpha}\alpha + C_{m\delta_e}\delta_e +
+C_{mq}\hat{q}
+\eeq
+
+\beq
+\beqn
+C_{m0} = C_{MAC} + C_{L0}\bar{x}_{sm} \\
+\bar{x}_{sm} = \frac{x_{cg}}{\bar{c}} - \frac{x_{acW}}{\bar{c}} \\
+C_{m\alpha} = \left(C_{L\alpha,W} +
+\frac{S_t}{S}C_{L\alpha,t}\right)\bar{x}_{sm} - V_HC_{L\alpha,t}\\
+V_H = \frac{l_tS_t}{S\bar{c}} \\
+C_{m\delta_e} = \left(C_{Lt\delta_e}\frac{S_t}{S}\right)\bar{x}_{sm}-V_HC_{Lt\delta_e}\\
+C_{mq} = 2C_{L\alpha t}\frac{l^2}{\bar{c}^2}
+\eeqn
+\eeq
+
+\noindent Max Lift to Drag Ratio (Only valid if ${C_{L0}=0}$)
+
+\beq
+\alpha_{max,L/D} = \sqrt{\frac{C_{D0}}{C_{D\alpha}}}
+\eeq
+
+\noindent Lift to Drag when $T=0$ (Sum of Forces still zero)
+
+\beq
+\beqn
+\frac{D}{L} = tan(\alpha)\\ %%%Where does this come from? Sum of Forces = 0
+Lcos(\alpha) + Dsin(\alpha) = W
+\eeqn
+\eeq
+
+\noindent Airfoil and Wing Aerodynamics
+
+\beq
+\beqn
+x_{ac} = c/4 & 
+a = \frac{a_0}{1+\frac{a_0}{\pi e AR}} \\
+AR = \frac{b^2}{S}
+\eeqn
+\eeq
+
+
+\noindent Standard Atmosphere
+
+\beq
+\beqn
+\rho = 1.225~kg/m^3 = 0.00238~slugs/ft^3\\
+\mu_{\infty} = 1.81x10^{-5}~kg/(m-s)\\
+a_{\infty} = 331.3~m/s
+\eeqn
+\eeq
+
+\noindent General Notes
+
+\begin{enumerate}
+  \item In trim or steady and level or cruise $q=0$, $C_m=0$,$L=W$, $T=D$
+  \item For symmetric airfoil $C_{MAC} = 0$ and
+    $C_{L0}=0$ thus $C_{m0} = 0$
+  \item For a flat plate all symmetric properties apply but
+    $a_0 = 2\pi$
+  \item Tail surfaces are always assumed to be flat plates
+  \item For longitudinal problems, $\beta = 0$ so $v=0$ (side velocity)
+\end{enumerate}
+
+\end{multicols}
