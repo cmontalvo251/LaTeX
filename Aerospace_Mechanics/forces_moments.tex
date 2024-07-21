@@ -149,7 +149,7 @@ the control torques that rotate the satellite as seen in equation
 
 \subsection{Aerodynamics}\label{s:aerodynamics}
 
-Aircraft aerodynamics are written using a taylor series expansion
+Aerodynamics are typically written using a taylor series expansion
 about a trim point\cite{phil}\cite{AndersonD}. That is, the aerodynamic forces are given by
 \begin{equation}
 \vec{F} = \vec{F}_0 + \frac{\partial \vec{F}}{\partial \vec{x}}(\vec{x}-\vec{x}_0)
@@ -169,12 +169,12 @@ and size. A general lift force can be written using the equation below
 L = \frac{1}2\rho {V_{\infty}}^2 S C_L
 \end{equation}
 where $\rho$ is the atmospheric density, $V_{\infty}$ is the
-free-stream velocity, S is the planform area of the wing and $C_L$ is
+free-stream velocity, S is the planform area of the lifting surface and $C_L$ is
 the lift coefficient. 
 \begin{equation}\label{e:vtotal}
   V_{\infty} = \sqrt{{u_a}^2 + {v_a}^2 + {w_a}^2}
 \end{equation}
-The subscript 'a' above denotes the velocity of the aircraft plus the
+The subscript 'a' above denotes the velocity of the vehicle plus the
 atmospheric disturbance. 
 \begin{equation}\label{e:atm}
 \begin{Bmatrix} u_a \\ v_a \\ w_a \end{Bmatrix} =
@@ -182,13 +182,12 @@ atmospheric disturbance.
 {\textbf{T}^T}_{IB} \begin{Bmatrix}
  V_x \\ V_y \\ V_z \end{Bmatrix}
 \end{equation}
-Note that the dynamic pressure is different for
-a rocket or projectile. A similar expression can be created for a
+Note that the dynamic pressure is different vehicles other than aircraft. Specific sections are created below for other flying vehicles. A similar expression can be created for a
 generic moment such that
 \begin{equation}
 M = \frac{1}2\rho {V_{\infty}}^2 S \bar{c} C_M
 \end{equation}
-where $\bar{c}$ is the mean chord of the aircraft. The dynamic pressure $q_{\infty} =
+where $\bar{c}$ is the mean chord of the lifting surface. The dynamic pressure $q_{\infty} =
 \frac{1}2\rho {V_{\infty}}^2 S$ can be used to non-dimensionalize the forces, thus $L/q_{\infty} = C_L$. This means
 that the equation involving partial derivatives can be written as
 \begin{equation}
@@ -221,7 +220,7 @@ an aircraft. When system identifying an aircraft all of these
 coefficients may be determined. However, many of these terms are
 zero. For example, all coefficients with respect to x y and z are
 zero. That is, $C_{Xx} = C_{Yx} = ... C_{Nx} = C_{Xy} = ... C_{Nz} =
-0$. Other coefficients can be set to zero as well. 
+0$. Other coefficients can be set to zero as well but are not explicitly included in this text.
 
 \subsubsection{Aircraft Aerodynamics}
 
@@ -367,6 +366,147 @@ two different representations as given by the equations below.
 C_{M\alpha} = \frac{(SL_{COP}-SL_{CG})C_{N\alpha}}{d} \\
 C_{N_{p\alpha}} = \frac{(SL_{MAG}-SL_{CG})C_{Y_{p\alpha}}}{d}
 \end{matrix}
+\end{equation}
+
+\subsubsection{Quadcopter Aerodynamics}
+
+The aerodynamic model is based on a standard X-frame quadcopter as shown in the Figure below.
+
+\begin{figure}[H]
+\centerline{               
+\includegraphics[width=11cm]
+{Figures/Iris+QuadcopterDrawing.png}}
+\caption{3DR Iris+ quadrotor model.}
+\label{iris+}
+\end{figure}
+
+The forces exerted on the quadrotor can be determined by using Newton-Euler methodology in summing up the total forces acting on the body. Here, the predominant forces considered are the total thrust, weight, aerodynamic drag, and tether line force. The moving platform force vector $\{X_{D}$,$Y_{D}$,$Z_{D}\}^{T}$ can then be expanded as
+
+\begin{equation}
+\begin{Bmatrix}
+X_{A}\\Y_{A}\\Z_{A}
+\end{Bmatrix}= -T\begin{bmatrix}
+0 \\ 0 \\ 1
+\end{bmatrix} + \begin{Bmatrix}
+X_{A_{D}} \\ Y_{A_{D}} \\ Z_{A_{D}}
+\end{Bmatrix}
+\label{XYZD}
+\end{equation}
+
+In Eq. (\ref{XYZD}), $T$ is the total thrust from the rotors and $\{X_{A_{D}}$,$Y_{A_{D}}$,$Z_{A_{D}}\}^{T}$ is the  total drag on the body. The total drag caused by the thrusting of the motors is a combination of the induced drag and rotor flapping \cite{quadfdnc}. The induced drag acting on the platform is caused by an imbalance in the thrust produced by advancing and retreating blades. This behavior can be modeled as a linear function of multirotor translational velocity in the platform frame. Additionally, drag due to rotor flapping is caused by rotor flexibility, which is function of advance ratio and dependent on the rotor blades and hub design\cite{rotorflap}. Thus, the total drag vector on the platform is expressed as
+
+\begin{equation}
+\begin{Bmatrix}
+X_{A_{D}} \\ Y_{A_{D}} \\ Z_{A_{D}}
+\end{Bmatrix} = -T\begin{Bmatrix}
+\left(\frac{A_{1c}}{\sum\limits_{i=1}^4 \Omega_{i}R} + d_{x_{D}}\right)u_{D} - \frac{A_{1s}}{\sum\limits_{i=1}^4 \Omega_{i}R}v_{D} \\
+{\frac{A_{1s}}{\sum\limits_{i=1}^4 \Omega_{i}R}}u_{D} + \left(\frac{A_{1c}}{\sum\limits_{i=1}^4 \Omega_{i}R}  + d_{y_{D}}\right)v_{D} \\ 0
+\end{Bmatrix}
+\label{DAxyz}
+\end{equation}
+where $d_{x_{D}}$, $d_{y_{D}}$ are the induced drag coefficients and $A_{1s}$,$A_{1c}$ are positive constants that describe the rotor flapping response as a function of advance ratio in Eq. (\ref{advanceratio})
+
+\begin{equation}
+\begin{split}
+\mu = \frac{\sqrt[]{{u_{D}}^{2} + {v_{D}}^{2}}}{\eta}\\
+\eta = {\sum\limits_{i=1}^4 \Omega_{i}R}
+\label{advanceratio}
+\end{split}
+\end{equation}
+
+For quadrotor rotational dynamics, the platform moment vector $\{L_{D}$,$M_{D}$,$N_{D}\}^{T}$ will consider additional aerodynamics created by the rotor torque and also atmospheric wind disturbances. From Kun \textsl{et al.} (2016), the derivation for the angular momentum Newton's Second Law for Rotation results in
+
+\begin{equation}
+\{L_{D},M_{D},N_{D}\}^{T}=  \overrightarrow{\Gamma} + \overrightarrow{\tau_{w}} + \overrightarrow{\tau_{A}}
+\label{LMNDT}
+\end{equation}
+
+
+For Eq. (\ref{LMNDT}),  $\overrightarrow{\Gamma}$ is the gyroscopic moments, $\overrightarrow{\tau_{w}}$ is wind disturbance torque vector, and $\overrightarrow{\tau_{A}}$ is the aerodynamic torque vector from the rotors. Note that $\overrightarrow{\tau_{w}}=\{\tau_{w_{\phi}},\tau_{w_{\theta}},\tau_w{_{\psi}}\}^{T}$ and $\overrightarrow{\tau_{A}}=\{\tau_{A_{\phi}},\tau_{A_{\theta}},\tau_{A_{\psi}}\}^{T}$ are the expanded forms for the torque vectors. The gyroscopic moments due to the rotors are defined as
+
+\begin{equation}
+\overrightarrow{\Gamma} = I_{r}\begin{bmatrix}
+p \\ q \\ r
+\end{bmatrix}\times\begin{bmatrix}
+0 \\ 0\\ \Omega_{r}
+\end{bmatrix} = \begin{bmatrix}
+I_{r}\Omega_{r}q \\ -I_{r}\Omega_{r}p \\ 0
+\end{bmatrix}
+\label{Gamma}
+\end{equation}
+
+\begin{equation}
+\Omega_{r} = \Omega_{1} - \Omega_{2} + \Omega_{3} - \Omega_{4} 
+\label{Omegarel}
+\end{equation}
+
+where $I_{r}$ is the moment of inertia about the rotor axis and $\Omega_{r}$ is the relative rotor speed. The thrust exerted on the  is made possible due to the counter-rotating blades and allows for easy maneuverability by deviating the rotor angular velocities. It can be simply defined as the sum of the exerted rotor forces $f_{i}$ such that
+
+\begin{equation}
+T = \sum\limits_{i=1}^4 f_{i} = f_{1}+f_{2}+f_{3}+f_{4}
+\label{Tsimple}
+\end{equation}
+
+To induce maneuverability, the Euler angles are deviated as follows 
+
+\begin{equation}
+\begin{split}
+{\phi}^{+}: \Omega_{2}\Omega_{3} \textgreater \Omega_{1}\Omega_{4}\\
+{\theta}^{+}: \Omega_{1}\Omega_{2} \textgreater \Omega_{3}\Omega_{4}\\
+{\psi}^{+}: \Omega_{1}\Omega_{3} \textgreater \Omega_{2}\Omega_{4}
+\label{ptpplus}
+\end{split}
+\end{equation}
+
+Based on Eq. (\ref{ptpplus}), the torques are modeled accordingly as 
+
+\begin{equation}
+\begin{split}
+\tau_{A_{\phi}} = l_{\phi}[(f_{2}+f_{3})-(f_{1}+f_{4})]\\
+\tau_{A_{\theta}} = l_{\theta}[(f_{1}+f_{2})-(f_{3}+f_{4})]\\
+\tau_{A_{\psi}} = \tau_{1}+\tau_{2}+\tau_{3}+\tau_{4}
+\label{tauptp}
+\end{split}
+\end{equation}
+
+
+In Eq. (\ref{tauptp}), $l_{\phi}$ and $l_{\psi}$ are the lengths from the rotor axis to the positive platform frame axes for roll and pitch, respectively. Positive yaw torque is achieved by reducing the angular velocity in rotors 2 and 4.  Hoffman \textsl{et al.} (2007) determined that the rotor's angular velocity and thrust varies with angle of attack and is affected by blade flapping and geometry. However, this behavior is complex and difficult to model and is negligible with a low angles of attack and velocities. Kendoul \textsl{et al.} (2007) simplified the thrust model for the rotors approximated as Eq. (\ref{fi}) and similarly for the angular in Eq. (\ref{taui}).
+
+\begin{equation}
+f_{i} = k_{t}{\Omega_{i}}^{2}
+\label{fi}
+\end{equation}
+
+\begin{equation}
+\tau_{i} = b{\Omega_{i}}^{2}
+\label{taui}
+\end{equation}
+
+The constant $b$ in the above equation denote the blade drag factor. Note that these rotor constants are assumed to be constant throughout the flight in order to apply the approximated equations stated. The constants can be summarized as a factor that results from the momentum theory of the blade element\cite{swingload}. Therefore 
+
+\begin{equation}
+k_{t} = C_{T}\frac{4\rho {R}^{4}}{{\pi}^{2}}
+\label{kt}
+\end{equation}
+
+\begin{equation}
+b = C_{\tau}\frac{4\rho {R}^{5}}{{\pi}^{3}}
+\label{b}
+\end{equation}
+
+In Eqs. (\ref{kt}-\ref{b}), $\rho$ is the air density, $C_{T}$ is the thrust factor, and $C_{Q}$ is the momentum factor. A summarized form for Eq. (\ref{tauptp}) can be seen as
+
+\begin{equation}
+\begin{Bmatrix}
+\tau_{A_{\phi}}\\ \tau_{A_{\theta}} \\ \tau_{A_{\psi}}
+\end{Bmatrix} = \begin{bmatrix}
+-k_{t}l_{\phi} & k_{t}l_{\phi} & -k_{t}l_{\phi} & k_{t}l_{\phi}\\
+k_{t}l_{\theta} & -k_{t}l_{\theta} & k_{t}l_{\theta} & -k_{t}l_{\theta}\\
+b & -b & b & -b
+\end{bmatrix}\begin{Bmatrix}
+{\Omega_{1}}^2\\ {\Omega_{2}}^2\\ {\Omega_{3}}^2\\ {\Omega_{4}}^2
+\end{Bmatrix}
+\label{tauptpfinal}
 \end{equation}
 
 \subsubsection{Spacecraft Aerodynamics}
