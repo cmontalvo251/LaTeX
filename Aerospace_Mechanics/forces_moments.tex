@@ -371,7 +371,6 @@ C_{N_{p\alpha}} = \frac{(SL_{MAG}-SL_{CG})C_{Y_{p\alpha}}}{d}
 \subsubsection{Quadcopter Aerodynamics}
 
 The aerodynamic model is based on a standard X-frame quadcopter as shown in the Figure below.
-
 \begin{figure}[H]
 \centerline{               
 \includegraphics[width=11cm]
@@ -379,9 +378,7 @@ The aerodynamic model is based on a standard X-frame quadcopter as shown in the 
 \caption{3DR Iris+ quadrotor model.}
 \label{iris+}
 \end{figure}
-
-The forces exerted on the quadrotor can be determined by using Newton-Euler methodology in summing up the total forces acting on the body. Here, the predominant forces considered are the total thrust, weight, aerodynamic drag, and tether line force. The moving platform force vector $\{X_{D}$,$Y_{D}$,$Z_{D}\}^{T}$ can then be expanded as
-
+The forces exerted on the quadrotor are the total thrust and aerodynamic drag. 
 \begin{equation}
 \begin{Bmatrix}
 X_{A}\\Y_{A}\\Z_{A}
@@ -392,38 +389,40 @@ X_{A_{D}} \\ Y_{A_{D}} \\ Z_{A_{D}}
 \end{Bmatrix}
 \label{XYZD}
 \end{equation}
-
-In Eq. (\ref{XYZD}), $T$ is the total thrust from the rotors and $\{X_{A_{D}}$,$Y_{A_{D}}$,$Z_{A_{D}}\}^{T}$ is the  total drag on the body. The total drag caused by the thrusting of the motors is a combination of the induced drag and rotor flapping \cite{quadfdnc}. The induced drag acting on the platform is caused by an imbalance in the thrust produced by advancing and retreating blades. This behavior can be modeled as a linear function of multirotor translational velocity in the platform frame. Additionally, drag due to rotor flapping is caused by rotor flexibility, which is function of advance ratio and dependent on the rotor blades and hub design\cite{rotorflap}. Thus, the total drag vector on the platform is expressed as
-
+In Eq. (\ref{XYZD}), $T$ is the total thrust from the rotors and $\{X_{A_{D}}$,$Y_{A_{D}}$,$Z_{A_{D}}\}^{T}$ is the  total drag on the body. The total thrust exerted on the quadcopter is made possible due to the counter-rotating blades and allows for easy maneuverability by deviating the rotor angular velocities. The thrust can be simply defined as the sum of the exerted rotor forces $f_{i}$ such that
+\begin{equation}
+T = \sum\limits_{i=1}^4 f_{i} = f_{1}+f_{2}+f_{3}+f_{4}
+\label{Tsimple}
+\end{equation}
+The thrust model of each rotor can then be equated to angular velocity of each rotor ($\Omega_i$). Where $k_t$ is a positive constant.
+\begin{equation}
+f_{i} = k_{t}{\Omega_{i}}^{2}
+\label{fi}
+\end{equation}
+The total drag caused by the thrusting of the motors is a combination of the induced drag and rotor flapping \cite{quadfdnc}. The induced drag acting on the platform is caused by an imbalance in the thrust produced by advancing and retreating blades. This behavior can be modeled as a linear function of multirotor translational velocity in the quadcopter frame. Additionally, drag due to rotor flapping is caused by rotor flexibility, which is function of advance ratio and dependent on the rotor blades and hub design\cite{rotorflap}. Thus, the total drag vector on the quadcopter is expressed as
 \begin{equation}
 \begin{Bmatrix}
 X_{A_{D}} \\ Y_{A_{D}} \\ Z_{A_{D}}
 \end{Bmatrix} = -T\begin{Bmatrix}
-\left(\frac{A_{1c}}{\sum\limits_{i=1}^4 \Omega_{i}R} + d_{x_{D}}\right)u_{D} - \frac{A_{1s}}{\sum\limits_{i=1}^4 \Omega_{i}R}v_{D} \\
-{\frac{A_{1s}}{\sum\limits_{i=1}^4 \Omega_{i}R}}u_{D} + \left(\frac{A_{1c}}{\sum\limits_{i=1}^4 \Omega_{i}R}  + d_{y_{D}}\right)v_{D} \\ 0
+\left(\frac{A_{1c}}{\eta} + d_{x}\right)u - \frac{A_{1s}}{\eta}v \\
+\frac{A_{1s}}{\eta}u + \left(\frac{A_{1c}}{\eta}  + d_{y}\right)v \\ 0
 \end{Bmatrix}
 \label{DAxyz}
 \end{equation}
-where $d_{x_{D}}$, $d_{y_{D}}$ are the induced drag coefficients and $A_{1s}$,$A_{1c}$ are positive constants that describe the rotor flapping response as a function of advance ratio in Eq. (\ref{advanceratio})
-
+where $d_{x}$, $d_{y}$ are the induced drag coefficients and $A_{1s}$,$A_{1c}$ are positive constants that describe the rotor flapping response as a function of advance ratio in Eq. (\ref{advanceratio})
 \begin{equation}
 \begin{split}
-\mu = \frac{\sqrt[]{{u_{D}}^{2} + {v_{D}}^{2}}}{\eta}\\
+\mu = \frac{\sqrt{u^2 + v^2}}{\eta}\\
 \eta = {\sum\limits_{i=1}^4 \Omega_{i}R}
 \label{advanceratio}
 \end{split}
 \end{equation}
-
-For quadrotor rotational dynamics, the platform moment vector $\{L_{D}$,$M_{D}$,$N_{D}\}^{T}$ will consider additional aerodynamics created by the rotor torque and also atmospheric wind disturbances. From Kun \textsl{et al.} (2016), the derivation for the angular momentum Newton's Second Law for Rotation results in
-
+The quadcopter moment vector will consider additional aerodynamics created by the rotor torque.
 \begin{equation}
-\{L_{D},M_{D},N_{D}\}^{T}=  \overrightarrow{\Gamma} + \overrightarrow{\tau_{w}} + \overrightarrow{\tau_{A}}
+\{L_A,M_A,N_A\}^{T}=  \overrightarrow{\Gamma} + \overrightarrow{\tau_{A}}
 \label{LMNDT}
 \end{equation}
-
-
-For Eq. (\ref{LMNDT}),  $\overrightarrow{\Gamma}$ is the gyroscopic moments, $\overrightarrow{\tau_{w}}$ is wind disturbance torque vector, and $\overrightarrow{\tau_{A}}$ is the aerodynamic torque vector from the rotors. Note that $\overrightarrow{\tau_{w}}=\{\tau_{w_{\phi}},\tau_{w_{\theta}},\tau_w{_{\psi}}\}^{T}$ and $\overrightarrow{\tau_{A}}=\{\tau_{A_{\phi}},\tau_{A_{\theta}},\tau_{A_{\psi}}\}^{T}$ are the expanded forms for the torque vectors. The gyroscopic moments due to the rotors are defined as
-
+For Eq. (\ref{LMNDT}),  $\overrightarrow{\Gamma}$ is the gyroscopic moment and $\overrightarrow{\tau_{A}}$ is the aerodynamic torque vector from the rotors. Note that $\overrightarrow{\tau_{A}}=\{\tau_{A_{\phi}},\tau_{A_{\theta}},\tau_{A_{\psi}}\}^{T}$ is the expanded form of the torque vector. The gyroscopic moments due to the rotors are defined as
 \begin{equation}
 \overrightarrow{\Gamma} = I_{r}\begin{bmatrix}
 p \\ q \\ r
@@ -434,80 +433,43 @@ I_{r}\Omega_{r}q \\ -I_{r}\Omega_{r}p \\ 0
 \end{bmatrix}
 \label{Gamma}
 \end{equation}
-
 \begin{equation}
 \Omega_{r} = \Omega_{1} - \Omega_{2} + \Omega_{3} - \Omega_{4} 
 \label{Omegarel}
 \end{equation}
-
-where $I_{r}$ is the moment of inertia about the rotor axis and $\Omega_{r}$ is the relative rotor speed. The thrust exerted on the  is made possible due to the counter-rotating blades and allows for easy maneuverability by deviating the rotor angular velocities. It can be simply defined as the sum of the exerted rotor forces $f_{i}$ such that
-
-\begin{equation}
-T = \sum\limits_{i=1}^4 f_{i} = f_{1}+f_{2}+f_{3}+f_{4}
-\label{Tsimple}
-\end{equation}
-
-To induce maneuverability, the Euler angles are deviated as follows 
-
+where $I_{r}$ is the moment of inertia about the rotor axis and $\Omega_{r}$ is the relative rotor speed. In order to rotate the quadcopter to change its Euler angles, the angular velocitiis of each rotor can be altered. Due to the X-Frame design of the quadcopter, this text's convention is used to enumerate each rotor blade where rotor 1 is the forward-left rotor and the numbers continue in a clockwise fashion. The result is that the Euler angles are changed in a positive direction by noting the inequalities below.
 \begin{equation}
 \begin{split}
-{\phi}^{+}: \Omega_{2}\Omega_{3} \textgreater \Omega_{1}\Omega_{4}\\
+{\phi}^{+}: \Omega_{1}\Omega_{4} \textgreater \Omega_{2}\Omega_{3}\\
 {\theta}^{+}: \Omega_{1}\Omega_{2} \textgreater \Omega_{3}\Omega_{4}\\
 {\psi}^{+}: \Omega_{1}\Omega_{3} \textgreater \Omega_{2}\Omega_{4}
 \label{ptpplus}
 \end{split}
 \end{equation}
-
 Based on Eq. (\ref{ptpplus}), the torques are modeled accordingly as 
-
 \begin{equation}
 \begin{split}
-\tau_{A_{\phi}} = l_{\phi}[(f_{2}+f_{3})-(f_{1}+f_{4})]\\
+\tau_{A_{\phi}} = l_{\phi}[(f_{1}+f_{4})-(f_{2}+f_{3})]\\
 \tau_{A_{\theta}} = l_{\theta}[(f_{1}+f_{2})-(f_{3}+f_{4})]\\
-\tau_{A_{\psi}} = \tau_{1}+\tau_{2}+\tau_{3}+\tau_{4}
+\tau_{A_{\psi}} = \tau_{1}-\tau_{2}+\tau_{3}-\tau_{4}
 \label{tauptp}
 \end{split}
 \end{equation}
-
-
-In Eq. (\ref{tauptp}), $l_{\phi}$ and $l_{\psi}$ are the lengths from the rotor axis to the positive platform frame axes for roll and pitch, respectively. Positive yaw torque is achieved by reducing the angular velocity in rotors 2 and 4.  Hoffman \textsl{et al.} (2007) determined that the rotor's angular velocity and thrust varies with angle of attack and is affected by blade flapping and geometry. However, this behavior is complex and difficult to model and is negligible with a low angles of attack and velocities. Kendoul \textsl{et al.} (2007) simplified the thrust model for the rotors approximated as Eq. (\ref{fi}) and similarly for the angular in Eq. (\ref{taui}).
-
-\begin{equation}
-f_{i} = k_{t}{\Omega_{i}}^{2}
-\label{fi}
-\end{equation}
-
+In Eq. (\ref{tauptp}), $l_{\phi}$ and $l_{\psi}$ are the lengths from the rotor axis to the positive platform frame axes for roll and pitch, respectively. Positive yaw torque is achieved by reducing the angular velocity in rotors 2 and 4.  The torque ($\tau_i$) of each rotor is also modeled as a fucntion of the angular velocity.
 \begin{equation}
 \tau_{i} = b{\Omega_{i}}^{2}
 \label{taui}
 \end{equation}
-
-The constant $b$ in the above equation denote the blade drag factor. Note that these rotor constants are assumed to be constant throughout the flight in order to apply the approximated equations stated. The constants can be summarized as a factor that results from the momentum theory of the blade element\cite{swingload}. Therefore 
-
+The constant $b$ in the above equation denote the blade drag factor. The constants are modeled using blade element momentum theory\cite{swingload}. 
 \begin{equation}
 k_{t} = C_{T}\frac{4\rho {R}^{4}}{{\pi}^{2}}
 \label{kt}
 \end{equation}
-
 \begin{equation}
 b = C_{\tau}\frac{4\rho {R}^{5}}{{\pi}^{3}}
 \label{b}
 \end{equation}
-
-In Eqs. (\ref{kt}-\ref{b}), $\rho$ is the air density, $C_{T}$ is the thrust factor, and $C_{Q}$ is the momentum factor. A summarized form for Eq. (\ref{tauptp}) can be seen as
-
-\begin{equation}
-\begin{Bmatrix}
-\tau_{A_{\phi}}\\ \tau_{A_{\theta}} \\ \tau_{A_{\psi}}
-\end{Bmatrix} = \begin{bmatrix}
--k_{t}l_{\phi} & k_{t}l_{\phi} & -k_{t}l_{\phi} & k_{t}l_{\phi}\\
-k_{t}l_{\theta} & -k_{t}l_{\theta} & k_{t}l_{\theta} & -k_{t}l_{\theta}\\
-b & -b & b & -b
-\end{bmatrix}\begin{Bmatrix}
-{\Omega_{1}}^2\\ {\Omega_{2}}^2\\ {\Omega_{3}}^2\\ {\Omega_{4}}^2
-\end{Bmatrix}
-\label{tauptpfinal}
-\end{equation}
+In Eqs. \ref{kt} and \ref{b}, $\rho$ is the air density, $C_{T}$ is the thrust coefficient, and $C_{Q}$ is thetorque coefficient. 
 
 \subsubsection{Spacecraft Aerodynamics}
 
