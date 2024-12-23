@@ -186,7 +186,7 @@ Newtonian gravitational model that assumes all planets are point
 masses with no volume. The result of the gravitational field vector is
 then
 \begin{equation}
-  F_{\Earth} = -G\frac{m_{\Earth} m_s}{r^2}\hat{r}
+  \vec{F}_{\Earth} = -G\frac{m_{\Earth} m_s}{r^2}\hat{r}
 \end{equation}
 where $G$ is the gravitational constant, $\Earth$ denotes the planet
 applying the gravitational field, $m_\Earth$ is the mass of the
@@ -194,7 +194,17 @@ planet, $m_s$ is the mass of the satellite and $\vec{r}$ is a distance
 vector from the center of the planet to the satellite. The vector
 $\hat{r}$ is just the unit vector of $\vec{r}$ while $r$ is the
 magnitude of $\vec{r}$.
-
+\begin{equation}
+  \hat{r} = \vec{r}/r
+\end{equation}
+In component form, $\vec{r} = [x;y;z]^T$. Substituting that component
+form into the two equations above results in the component form of the
+gravity model which can be better suited for non-vectorized
+programming syntax.
+\begin{equation}
+\vec{F}_{\Earth} = -G\frac{m_{\Earth}
+  m_s}{r^3}\begin{Bmatrix}x\\y\\z\end{Bmatrix}
+\end{equation}
 The second gravitational field model stems from the
 Earth Gravity Model (EGM2008) \cite{EGM2008} which can also be found
 in the GeographicLib module \cite{GeographicLib}. This model compute's
