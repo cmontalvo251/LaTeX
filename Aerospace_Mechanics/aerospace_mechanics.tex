@@ -4,23 +4,16 @@
 \usepackage{mathrsfs}
 \usepackage{enumitem}
 \usepackage{mathabx}
+\usepackage{multicol}
 \usepackage{hyperref}
 \usepackage{natbib} %REMOVE THIS IF YOU DON'T WANT BRACKETS ON YOUR PAPER
 \usepackage{float}
-\usepackage{multicol}
 \usepackage{color,soul}
 \usepackage[font=normalsize,labelfont=bf]{caption}
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{xcolor}
-
-\hypersetup{%
-  colorlinks=true,% hyperlinks will be black
-  linkcolor=blue,
-  linkbordercolor=red,% hyperlink borders will be red
-   %pdfborderstyle={/S/U/W 1}% border style will be underline of width 1pt
-}
 
 \newcommand{\sref}[1]{$^{[\ref{#1}]}$}
 \newcommand{\dref}[2]{$^{[\ref{#1}-\ref{#2}]}$}
@@ -36,137 +29,29 @@
 \def\beqn{\begin{matrix}}
 \def\eeqn{\end{matrix}}
 
+\hypersetup{%
+  colorlinks=true,% hyperlinks will be black
+  linkcolor=blue,
+  linkbordercolor=red,% hyperlink borders will be red
+   %pdfborderstyle={/S/U/W 1}% border style will be underline of width 1pt
+}
+
+\makeatletter
+\Hy@AtBeginDocument{%
+  \def\@pdfborder{0 0 1}% Overrides border definition set with colorlinks=true
+  \def\@pdfborderstyle{/S/U/W 1}% Overrides border style set with colorlinks=true
+                                % Hyperlink border style will be underline of width 1pt
+}
+\makeatother
+
 \begin{document}
 
-\begin{center}
-\begin{LARGE}{\bf Aerospace Mechanics and Controls}\end{LARGE}\\
-\large
-\vspace{22 mm}
-   A Brief Textbook Presented to the \\ 
-   Student Body of the University of South Alabama \\
-\vspace{22 mm}
-%%by\\
-\vspace{22 mm}
-  %%Carlos Montalvo \\
-\vspace{22 mm}
-       %%{\itshape University of South Alabama}\\
-Last Update: \today\\
-{\bf Copyright $\copyright$ Carlos Jos\'{e} Montalvo}
-\end{center}
-
-\linespread{1}
-
-\newpage
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section*{}
-
-\section*{Current Edition}
-
-This manuscript was last updated on \today. 
-The latest edition can be found on \href{https://github.com/cmontalvo251/LaTeX/blob/master/Aerospace_Mechanics/aerospace_mechanics.pdf}{Github}
-
-\section*{Manuscript Changes}
-
-\begin{enumerate}[itemsep=-5pt]
-\item June 10th, 2020 - Magnetic Field Model section updated to
-  reflect the difference between the East North Vertical and the North
-  East Down reference frames. The Figure showing the magnetic field
-  for an example Low Earth Orbit has also been update. Also added this
-  page for manuscript changes and the following pages that list where
-  this file can be found.
-\item December 10th, 2020 - Moved to public Github Repo separate from
-  MATLAB
-\item December 30th, 2020 - Moved papers.bib to parent directory Added
-  datetime to title page. Added  section headers to RC aircraft
-  design. Wrote text all the way through the airfoil selection. Added
-  a references section.
-\item December 31st, 2020 - Finished RC aircraft section.
-\item September 30th, 2021 - Renamed report to Aerospace Mechanics and
-  Controls
-\item December 21st, 2021 - Moved CubeSAT abstract to introduction on
-  CubeSATs. Imported entire Aircraft Mechanics textbook into here
-\item December 22nd, 2021 - Added a section on GNC design for
-  CubeSats. Added acknowledgements section.
-\item June 2nd, 2022 - Added some items to changes needed and fixed
-  two references
-\item July 30th, 2022 - Included a derivation of direct measurement of Euler Angles using an IMU.
-\item July 31st, 2022 - Added GPS coordinate conversion to cartesian coodinates as well as heading angle and speed estimation from GPS.
-\item October 27th, 2022 - Added computation of lat, lon, alttiude to ECI frame.
-\item March 20th, 2024 - Added a Current Edition section above
-  Manuscript Changes. Also added color to hyperlinks
-\item May 7th, 2024 - Added a battery sizing section to the aircraft
-  design chapter
-\item July 20th, 2024 - separated sections into separate files...Also started adding the quacopter aerodynamic model
-\item July 22nd, 2024 - Finished the quadcopter aerodynamics section and made a quick edit to the GNC aircraft PID control scheme
-\item December 23rd, 2024 - Added a better description to the gravity model to explain the vector notation of the equations
-\item January 6th, 2025 - A title change was performed for the GPS to Cartesian coordinate transform. Also made orbital elements its own section.
-\end{enumerate}
-
-\section*{Changes Needed}
-
-\begin{enumerate}[itemsep=-5pt]
-  \item Aircraft Changes
-    \begin{enumerate}[itemsep=-5pt]
-    \item Include some plots on RC aircraft design
-    \item Add an example RC aircraft design
-    \end{enumerate}
-\item Spacecraft Changes
-  \begin{enumerate}[itemsep=-5pt]
-  \item Add some work on Kerbal Space Program
-  \item Discuss how to get position and velocity from orbital elements and orbital elements
-    from position and velocity.
-  \item Need to explain the difference between Geodetic and Geocentric
-    coordinates
-  \item Derivation of ground path taking into account orbital
-    precession, rotation of the Earth and swath angle from projection of
-    a satellite onto the Earth. See pdf from the Air Force. A Google
-    search will hopefully turn up the paper I'm thinking of.
-  \item Consider adding the section on pointing analysis
-  \end{enumerate}
-\item General Changes
-  \begin{enumerate}[itemsep=-5pt]
-  \item Add a section on PBL of a high powered rocket
-  \item Add an abbreviations section
-  \item Add Project Based learning to this manuscript
-  \item Direct the reader to my Instrumentation textbook to build a
-    datalogger to put on an airplane or rocket.
-  \item Direct reader to FASTkit to run dynamics in simulation
-  \item Include some simulation results of aircraft, rocket and
-    satellite from FASTkit.
-  \item Need to add derivation of a complimentary filter using
-    transfer functions which means I probably need to add in transfer
-    functions into this manuscript
-  \item Need to finish discrete dynamics section
-  \item Need example ID and ADs
-  \item Need to add parallel axis theorem for inertia computation
-  \item Add GNC for all vehicles: spacecraft, rocket, aircraft, quadcopter
-  \end{enumerate}
-\end{enumerate}
-
-\section*{Acknowledgements}
-
-Carlos Montalvo would like to thank numerous students for their
-contribution to this document. They have been instrumental in making
-this textbook a reality and this textbook would not be where it is
-today without them. Those students are: Weston Barron, Colin Mcgee,
-Darcey D'Amato, Ruthie Hill, Drew Russ, William Sherman, Maxwell Cobar, Wei Min Patrick, Caroline
-Franklin, Andrew Givens, Aaron Godfrey, Nghia Huynh, Lisa Schibelius,
-and Brandon Troub.
-
-\newpage
-
-\tableofcontents
-
-\newpage
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\input{title}
+\input{foreword}
 \input{introduction}
 \input{nomenclature}
 \input{particle_dynamics}

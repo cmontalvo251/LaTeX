@@ -14,7 +14,7 @@ if [ -e $file ]; then
     #now save the actual filename
     filename=${file:0:$endpt}
     #remove extraneous files
-    rm *.aux *.log *.blg *.bbl *.toc *.lot *.lof *.bbl *.fff *.ttt *.bcf *.run.xml
+    rm *.out *.aux *.log *.blg *.bbl *.toc *.lot *.lof *.bbl *.fff *.ttt *.bcf *.run.xml
     #Remove old version of filename but make a backup first
     cp $filename.pdf $filename.backup.pdf
     rm $filename.pdf
