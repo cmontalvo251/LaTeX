@@ -212,6 +212,14 @@ that cross products of inertia are obtained by using the parallel axis
 theorem often caused by solar panels on satellites or payloads on
 aircraft and quadcopters.
 
+\subsection{Example Second Order System Formulation}
+
+A second order system undergoing free motion will have dynamics that look like this
+\begin{equation}
+\ddot{q} + 2\zeta \omega_n \dot{q} + {\omega_n}^2 = \sigma f
+\end{equation}
+where $q$ is a generalized coordinate, $\sigma$ is a forcing term proportional to the mass of the object and the forcing function $f$, $\omega_n$ is the natural frequency of the system and $\zeta$ is the damping ratio. Examples of these types of systems include mass, spring dampers in linear translation as well as torsional systems and penduluums. Anything that oscillates will exhibit this behavior. 
+
 \subsection{Aerospace Convention}
 
 Aerospace convention involves using the Newton-Euler equations of
