@@ -1,6 +1,48 @@
 
 \section{GNC Design for CubeSATs}
 
+\subsection{Guidance Navigation and Controls}
+
+Every vehicle must be able to maintain a specific position within
+its flight or orbit as well as point in a specific direction to achieve its
+mission. Mission goals have specific trajectories or orbits that must
+be reached and maintained, and this section is intended to explain
+how this is done from a guidance navigation and controls
+perspective. The basis for the guidance, navigation, and control (GNC)
+subsystem are attitude control, attitude estimation, and position
+estimation. Attitude describes which direction the vehicle is
+pointing in three-dimensional space. Attitude control is the act of controlling
+the orientation of the vehicle while attitude estimation is the
+process of determining the precise direction of the vehicle in order
+to perform attitude control. Position estimation primarily involves
+integration schemes or GPS in order to determine the position of the
+vehicle on the surface of the planet. While performing the mission,
+the vehicle will continually use this subsystem to document the
+position. The basis of these techniques follows an understanding of
+spaceflight mechanics and systems engineering. Thus, the following
+approach will help garner a better understanding of an academic
+approach to the GNC subsystem and what methods are used to convey each
+component of the subsystem. 
+
+The GNC subsystem is critical for the survival of the vehicle. It
+is the system that determines the vehicles orientation and position
+in space. Guidance is task of computing the desired trajectory and
+orientation of a vehicle. Guidance is completed by using
+components to determine any changes in position, altitude, or
+orientation to assist the vehicle in following its projected
+trajectory. Similar to guidance, navigation is the system's way of
+leading the vehicle in space and keeping it on its intended
+path. When people think of navigation they typically refer to Global
+Positioning Systems (GPS) in their car or on their phones. This same
+idea applies to aerospace systems as well. A GPS is a common device used for
+navigation on a vehicle and these components are discussed more
+further in this section. In order to have a successful flight and
+achieve the intended mission goal the vehicle needs to be stable and
+controlled in space. There are many different components different
+aerospace vehicles use to accomplish this. Satellites
+use reaction wheels and gimbaled thrusters to name a few while
+aircraft use aerodynamic surfaces.
+
 \subsection{Trajectory Analysis}
 
 The trajectory of a spacecraft is crucial to the GNC subsystem. The

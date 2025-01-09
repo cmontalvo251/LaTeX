@@ -1,0 +1,265 @@
+\section{Conventional Aerospace Controls}
+
+\subsection{Spacecraft Attitude Control Schemes}
+
+Many control schemes are needed to orient a satellite and all depend
+on the application. In LEO magnetorquers can be used to detumble a
+satellite while thrusters must be used in deep space. In addition
+reaction wheels can be used to detumble a satellite anywhere in space
+provided the angular momentum in the satellite does not saturate the
+reaction wheels. Sections that follow detail the control schemes
+typically utilized on small sats. A section on PID control for
+aircraft is also in this section.
+
+\subsubsection{B-dot Controller}
+
+In LEO, the standard B-dot controller reported in many sources
+(\cite{Leomanni2012},\cite{Lovera2015},\cite{WInstitute},\cite{SanyalDick})
+can be used to de-tumble a satellite. The standard B-dot controller
+requires the magnetorquers to follow the control law shown below
+\begin{equation}\label{e:bdotcompact}
+  \vec{\mu}_B = k{\bf S}(\vec{\omega}_{B/I}){\bf T}_{BI}(\vec{q})\vec{\beta}_I
+\end{equation}
+where $k$ is the control gain. Using equation (\ref{e:magmoment}) it
+is possible to write the current in component form again
+using the identity that $\vec{a}\times\vec{b}=-\vec{b}\times\vec{a}$
+\begin{equation}\label{e:bdot}
+  \begin{Bmatrix} i_{x}
+    \\ i_{y} \\ i_{z} \end{Bmatrix} = \frac{k}{nA}\begin{bmatrix} 0 & \beta_z & -\beta_y \\ -\beta_z & 0 &
+  \beta_x \\ \beta_y & -\beta_x & 0 \end{bmatrix}\begin{Bmatrix} p
+    \\ q \\ r \end{Bmatrix}
+\end{equation}
+This equation can then be substituted into equation
+(\ref{e:magtorquecomponent}) to produce the total torque on the
+satellite assuming that the magnetorquers can provide the necessary
+current commanded by equation (\ref{e:bdot}).
+\begin{equation}\label{e:bdotfinal}
+  \begin{Bmatrix} L \\ M \\ N \end{Bmatrix} = -k \begin{bmatrix}
+    \beta_y^2 + \beta_z^2 & -\beta_x\beta_y & -\beta_x\beta_z
+    \\ -\beta_x\beta_y & \beta_x^2 + \beta_z^2 & -\beta_y\beta_z \\
+    -\beta_x\beta_z & -\beta_y\beta_z & \beta_x^2 +
+    \beta_y^2 \end{bmatrix} \begin{Bmatrix} p
+    \\ q \\ r \end{Bmatrix} 
+\end{equation}
+The goal of the controller here is to drive
+$\vec{\omega}_{B/I}\rightarrow 0$. The literature will show that
+this is not completely achieved \cite{Celani}. There are multiple
+explanations for this. For starters, equation (\ref{e:magtorque})
+assumes that the magnetic moment is not co-linear with the magnetic
+field of the Earth. If it is, the result is zero torque applied to the
+satellite. Furthermore, equation (\ref{e:bdot})
+results in zero current if the angular velocity vector of the
+satellite is co-linear with the magnetic field. Thus, if the magnetic
+field vector, angular velocity vector or the magnetic moment vector
+are co-linear, the torque applied to the satellite will be zero. If a
+new operator is defined such that
+\begin{equation}
+  {\bf W}({\bf T}_{BI}(\vec{q})\vec{\beta}_I) = \begin{bmatrix}
+    \beta_y^2 + \beta_z^2 & -\beta_x\beta_y & -\beta_x\beta_z
+    \\ -\beta_x\beta_y & \beta_x^2 + \beta_z^2 & -\beta_y\beta_z \\
+    -\beta_x\beta_z & -\beta_y\beta_z & \beta_x^2 +
+    \beta_y^2 \end{bmatrix}
+\end{equation}
+it is easy to see that the torque applied to a satellite is then
+simply the angular velocity vector multiplied by this transition
+matrix. If this transition matrix is put into row-reduced-echelon form
+it is easy to see that the determinant of this matrix is equal to
+zero (\cite{carlen2006linear}).
+\begin{equation}
+  rref({\bf W}({\bf T}_{BI}(\vec{q})\vec{\beta}_I) = \begin{bmatrix} 1 & 0
+    & -\beta_x/ \beta_z \\ 0 & 1 & -\beta_y/ \beta_z \\ 0 & 0 & 0 \end{bmatrix}
+\end{equation}
+A zero determinant means that there exists a vector
+$\vec{\omega}_{B/I}$ that will result in zero torque for a given value
+of the magnetic field. This is typically avoided since the
+magnetic field of the Earth is time and spatially varying
+which results in a transition matrix that changes over time due to
+orientation changes in the satellite as well as changes in the satellite's
+orbit. However, for low inclination orbits, it's possible for the
+magnetic field to stay relatively constant with $\beta_x \approx
+\beta_y \approx 0$. If the satellite is tumbling about the yaw axis such
+that $p=q=0$, the yaw torque on the satellite ($N$) will be
+zero. Using this simple controller, there is no way to
+remove the remaining angular velocity from the satellite unless
+reaction wheels are used.
+
+\subsubsection{Reaction Wheel Control}
+
+Assuming each reaction is aligned with a principal axis of inertia the
+control scheme is extremely simple. When the wheels are not aligned
+the derivation will proceed similar to the reaction control thruster
+section. The derivation here will just be for the aligned case. In
+this analysis it is assumed that a torque can be applied to the
+reaction wheel and thus the angular velocity of the reaction wheel
+$\alpha_{Ri}$ can be directly controlled. Assuming this a simple PD
+control law can be used to orient the satellite at any desired
+orientation using Euler angles for this control law since the
+satellites are aligned with the principal axes of rotation \cite{etkins}.
+\begin{equation}
+  \alpha_{Ri} = -k_p(\epsilon_i-\epsilon_{desired})-k_d(\omega_i-\omega_{desired})
+\end{equation}
+In the equation above $\epsilon$ denotes either roll $\phi$, pitch
+$\theta$ or yaw $\psi$ depending on which reaction wheel is being
+used. The Euler angles in this case would be obtained by converting
+the quaternions to Euler angles as defined in Section \ref{s:quat}.
+
+Often times however your reaction wheels are not pointed on the
+principal axis of inertia. In this case a Least Squares Regression
+model is needed. In this case the equation above is used to compute
+the desired torque to be placed on the satellite such that
+\begin{equation}
+  \vec{M}_{desired} = -k_p(\epsilon_i-\epsilon_{desired})-k_d(\omega_i-\omega_{desired})
+\end{equation}
+This equation is then equated to the equation for torque placed on the
+satellite where the angular accelerations are placed into a vector.
+\begin{equation}
+  \vec{M}_{desired} = \vec{M}_R = \sum\limits_{i=1}^{NR}
+  I^{B}_{Ri}\alpha_{Ri}\hat{n}_{Ri} = \begin{bmatrix}
+    I^{B}_{R1}\hat{n}_{R1} & \hdots &
+    I^{B}_{RNR}\hat{n}_{RNR} \end{bmatrix} \begin{Bmatrix} \alpha_1
+    \\ \vdots \\ \alpha_{NR} \end{Bmatrix} = {\bf J} \vec{\alpha}
+\end{equation}
+Since ${\bf J}$ is a $3\times{N_{RW}}$ matrix its impossible to simply
+invert the matrix and solve for the vector of angular accelerations
+$\vec{\alpha}$. In this case there are an infinite number of
+solutions. As such a minimization routine is required where the
+solution found also happens to be the lowest amount of angular
+acceleration. In this case, Lagrange's method was used to find the
+vector of angular accelerations \cite{lagrange}.
+\begin{equation}
+  \vec{\alpha} = {\bf J}^T\left({\bf J}{\bf J}^T\right)^{-1}\vec{M}_{desired}
+\end{equation}
+
+\subsubsection{Reaction Control Thrusters}
+
+The control law for the thrusters is a bit complex if the location of
+thrusters is not know apriori. If the location {\it is} known then
+simple PID control laws can be generated by applying pure couples to
+the correct thrusters that activate the correct axes. If the location
+{\it is not} known then the following derivation will suffice. There
+are $N_P$ thrusters and only 3 degrees of freedom that need to be
+controlled; thus, the system is an overactuated system. Using equation
+\ref{e:propulsion}, the equation can be written in matrix form as
+given by the equation below where $\vec{M}_p$ is replaced by
+$\vec{M}_{desired}$. The equation for $\vec{M}_{desired}$ is generated
+using a similar PD control law as the reaction wheels. 
+\begin{equation}
+  \vec{M}_{desired} = p[{\bf S}(\vec{r}_{P1})\hat{n}_{P1}~~{\bf
+      S}(\vec{r}_{P2})\hat{n}_{P2}~~\hdots~~{\bf
+      S}(\vec{r}_{P{N_p}})\hat{n}_{P{N_p}}]\vec{\sigma} = {\bf M}\vec{\sigma}
+\end{equation}
+Since ${\bf M}$ is a $3\times{N_P}$ matrix its impossible to simply
+invert the matrix and solve for the vector of pulses
+$\vec{\sigma}$. In this case there are an infinite number of
+solutions. As such a minimization routine is required where the
+solution found also happens to be the least amount of pulses. In this
+case, Lagrange's method was used to find the vector of pulses \cite{lagrange}.
+\begin{equation}
+  \vec{\sigma} = {\bf M}^T\left({\bf M}{\bf M}^T\right)^{-1}\vec{M}_{desired}
+\end{equation}
+Note that a similar equation can be derived for
+$\vec{F}_{desired}$. The solution to the equation above results in
+values of $\sigma$ that are bigger than 1 and sometimes negative. If a
+value in this vector is bigger than 0 the value is set to 1 and
+if the value is negative the value is set to 0. Thus, the solution
+does not yield an exact solution but it does allow for flexibility in
+the number of thrusters and their respective orientations. Sizing of
+the thrusters depends on many independent variables 
+including the thrust $T$ and the $I_{sp}$. Using the $I_{sp}$ the exit
+velocity of the thruster can be obtained by using the equation below
+\begin{equation}
+  v_e = I_{sp}g_0
+\end{equation}
+where $g_0$ is the gravitational acceleration of the Earth at
+sea-level. Then the mass flow rate of the thruster can be obtained
+using the equation below.
+\begin{equation}
+  \dot{m}_P = T/v_e
+\end{equation}
+Using this mass flow rate total propellant mass required can be
+computed assuming a certain duty cycle.
+
+\subsubsection{Cross Products of Inertia Control}
+
+An interesting form of control is to take advantage of momentum
+dumping. Looking at the equation for angular acceleration again (Eqn \ref{e:pqrdot}) this
+equation can be simplified for certain cases. For example, if the roll
+rate of the satellite is set to be non-zero while the pitch rate and
+yaw rates are set to zero it is easy to see that if the inertia is
+diagonal the derivative of angular velocity is zero. However, if the
+cross products of inertia are given by the matrix below
+\begin{equation}
+  {\bf I}_s = \begin{bmatrix} I_{xx} & I_{xy} & I_{xz} \\ I_{xy} &
+    I_{yy} & I_{yz} \\ I_{xz} & I_{yz} & I_{zz} \end{bmatrix}
+\end{equation}
+the derivative of angular velocity becomes
+\begin{equation}
+  \dot{\vec{\omega}}_{B/I} = I_S^{-1} \left (\begin{Bmatrix} 0
+    \\ -I_{xz}p^2 \\ I_{xy}p^2 \end{Bmatrix} \right )
+\end{equation}
+again assuming the roll rate is non zero and the pitch rate is
+zero. This result shows that momentum can be transferred to different
+axes provided the cross products of inertia are non-zero.
+
+\subsection{PID Control of a Fixed Wing Aircraft}
+
+For a conventional PID controller of an aircraft, the rudder, elevator
+and aileron commands are set to 
+\begin{equation}
+\begin{matrix}
+\delta_{r} =-K_v v \\
+\delta_{e} = K_p(\theta-\theta_{c})+K_d{\dot \theta} \\ 
+\delta_a = K_p(\phi-\phi_{c})+K_d{\dot \phi}
+\end{matrix}
+\end{equation}
+The Euler angle commands $\phi_{c}$ and $\theta_{c}$ are set using the
+following relationships:
+\begin{equation}
+  \begin{matrix}
+  \phi_{c} = K_p(\psi-\psi_c)+K_d\dot{\psi} \\
+  \theta_{c} = K_p(z-z_c) + K_d\dot{z} + K_{I}\int{z-z_c}dt
+  \end{matrix}
+\end{equation}
+The control scheme defined above is a conventional inner loop-outer
+loop control of a fixed wing aircraft using a PID tracking
+controller.
+
+\subsection{Controllability}
+
+Controllability is formally stated as a system where any initial
+state $x(0)=x_0$ and final state $x_1,t_1>0$, there exists a piecewise
+continuous input $u(t)$ such that $x(t_1)=x_1$. 
+For a fixed wing aircraft the system has 12 states with 8 dynamic
+modes and 4 zero or rigid body modes. For a fixed wing aircraft the system has 12 states with 8 dynamic
+modes and 4 zero or rigid body modes. A conventional aircraft has 4
+controls to control these 12 modes. The easiest way to test the 
+controllability of a system  is to compute the
+controllability matrix. However, the controllability matrix must be
+computed using a linearized model such that
+$\dot{\vec{x}}=A\vec{x}+B\vec{u}$. In order to do this the aircraft
+must be in equilibrium. For this example the aircraft is
+set with an initial velocity of $20~m/s$ at an altitude of
+$200~m$. The altitude command is set to $200~m$ and the heading
+command is set to zero. Given the zero heading angle command and the
+symmetry of the configurations investigated the rudder and aileron
+commands are set to zero. Thus, only the thrust and elevator controls
+are activated for the trimming procedure. Each configuration is
+simulated for 200 seconds or until the derivatives of all states
+except $\dot{x}$ are within a required tolerance. Using this
+equilibrium point a linear model can be computed by using forward
+finite differencing assuming that the
+aircraft model is put in the form $\dot{\vec{x}} = F(\vec{x},\vec{u})$.
+\begin{equation}
+\dot{\vec{\delta x}} = \frac{F(\vec{x_0}+\Delta \vec{x_0},\vec{u_0})-F(\vec{x_0},\vec{u_0})}{\Delta
+  \vec{x}}\vec{\delta x} + \frac{F(\vec{x_0},\vec{u_0}+\Delta
+  \vec{u})-F(\vec{x_0},\vec{u_0})}{\Delta \vec{u}}\vec{\delta u}
+\end{equation}
+This linear model is the classic linear model where
+$\dot{\vec{\delta x}}=A\vec{\delta{x}}+B\vec{\delta{u}}$. Using this linear model, the
+controllability matrix can be computed as
+\begin{equation}
+W_C = [B~AB~A^2B~A^3B~...~A^{N-1}B]
+\end{equation}
+where N is the number of states in the system. With the controllability
+matrix formulated, the rank of the matrix is computed. If the
+$rank(W_C)=N$ the system is said to be controllable.
