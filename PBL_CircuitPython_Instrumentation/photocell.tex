@@ -32,7 +32,16 @@ Wiring a photocell is similar to a potentiometer except that you need to add a r
     \includegraphics[width=\textwidth]{Figures/photocell_circuit.jpeg}
   \end{center}
 \end{figure}
-Then take another alligator clip from pin A2 and plug it into the same row on the breadboard as the resistor and photocell. Once you have the circuit wired properly you can use the \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Analog/analog_simple.py}{same code as the potentiometer lab}. The example screenshot below shows the analog signal below showing a high spike where I placed a flashlight over the photocell and then a low spot where I covered the photocell with my finger. Remember that you can use any Analog pin on the CPX provided you change line 5 to the same pin.
+Then take another alligator clip from pin A2 and plug it into the same
+row on the breadboard as the resistor and photocell. Once you have the
+circuit wired properly you can use
+the \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Analog/analog_simple.py}{same
+code as the potentiometer lab}. The example screenshot below shows the
+analog signal below showing a high spike where I placed a flashlight
+over the photocell and then a low spot where I covered the photocell
+with my finger. Remember that you can use any Analog pin on the CPX
+provided you change line 5 to the same pin. 
+
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=\textwidth]{Figures/photocell_mu.png}
@@ -44,7 +53,27 @@ Once you’ve gotten some example data you can plot the result in Python as you 
     \includegraphics[width=\textwidth]{Figures/photocell_plots.png}
   \end{center}
 \end{figure}
-If you noticed the data you obtained even when the light source was constant was quite noisy. What I’d like you to do for part 2 of this lab is take 100 data points with the photocell with as constant of a light source as possible. Do this for three different light ranges. Low Light, ambient light and then a flashlight. With the three different data streams, create a histogram of the data with appropriate labels and compute the mean, median, and standard deviation of the data stream. \href{https://www.youtube.com/watch?v=bfeJfAWTqzY&list=PL_D7_GvGz-v1RsDs_OdNW65qRjEjmpfQx&index=22&t=0s}{Creating a histogram in Python is fairly simple and I have a Youtube Video} to supplement this tutorial. I also have another video where I get \href{https://www.youtube.com/watch?v=e4xs9Ky7_YI&list=PL_D7_GvGz-v1RsDs_OdNW65qRjEjmpfQx&index=20&t=0s}{mean and median values for accelerometer data}. Still, here is my example code showing code to get mean, median, and standard deviation as well as create the histogram. Notice in my code I imported the statistics module to compute the mode. Although it worked in my code, it’s not typical to compute the mode of a continuous variable because often times you will not ever get the same value twice. Still, feel free to compute the mode if you so desire.
+If you noticed the data you obtained even when the light source was
+constant was quite noisy. What I’d like you to do for part 2 of this
+lab is take 100 data points with the photocell with as constant of a
+light source as possible. Do this for three different light
+ranges. Low Light, ambient light and then sunlight if you're
+outside. If you're completing this assignment late you can use a
+flashlight as your third light source. With the three
+different data streams, create a histogram of the data with
+appropriate labels and compute the mean, median, and standard
+deviation of the data
+stream. \href{https://www.youtube.com/watch?v=bfeJfAWTqzY&list=PL_D7_GvGz-v1RsDs_OdNW65qRjEjmpfQx&index=22&t=0s}{Creating
+a histogram in Python is fairly simple and I have a Youtube Video} to
+supplement this tutorial. I also have another video where I
+get \href{https://www.youtube.com/watch?v=e4xs9Ky7_YI&list=PL_D7_GvGz-v1RsDs_OdNW65qRjEjmpfQx&index=20&t=0s}{mean
+and median values for accelerometer data}. Still, here is my example
+code showing code to get mean, median, and standard deviation as well
+as create the histogram. Notice in my code I imported the statistics
+module to compute the mode. Although it worked in my code, it’s not
+typical to compute the mode of a continuous variable because often
+times you will not ever get the same value twice. Still, feel free to
+compute the mode if you so desire. 
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=\textwidth]{Figures/histogram.png}
@@ -125,8 +154,11 @@ voltage and not the digital output - 50\%
 
 \subsubsection{Part 2}
 \begin{enumerate}[itemsep=-5pt]
-\item For the histograms take 100 data points per histogram
+\item For the histograms take 1000 data points per histogram (To do
+that change your time.sleep to 0.05 seconds which is 20Hz. You then
+only need 50 seconds to get 1000 data points.)
 \item Include a video of your circuit and explain how you captured the data to store on your computer (make sure your face is in the video at some point and you state your name) - 25\%
 \item Include the mean, median, and standard deviation of all light levels in volts - 25\%
-\item Include 3 histogram plots of low light, ambient light and high light levels. On top of the histogram I want you to plot the normal Gaussian distribution to see how close your histogram is to a Gaussian distribution  - 50\%
+\item Include 3 histogram plots of low light, ambient light and high
+(sunlight or flashlight) light levels. On top of the histogram I want you to plot the normal Gaussian distribution to see how close your histogram is to a Gaussian distribution  - 50\%
 \end{enumerate}
