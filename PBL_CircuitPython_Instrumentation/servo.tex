@@ -41,7 +41,7 @@ As you can see, servos have 3 pins - the brown or black wire is GND, the red wir
 \end{figure}
 {\bf Very important: It is recommended to power a servo through an external power supply instead of the CPX. Servos can draw a lot of current and the CPX although it supports 5V can only provide so much power (P). Remember that P = VI so if P is low it means current is low. If the servo pulls more current than the CPX can provide the CPX will “brown out” which means it will go into a safe-mode setting. If you have the AA power supply you may consider doing that. For small servos you hopefully won’t have any issues.}
 
-    As I said before, a servo takes in a square wave. The square wave has a duty cycle in units of microseconds. If you send a roughly 500 us square wave to a servo it will rotate all the way to the left. If you send a roughly 2500 us signal to the servo, it will turn all the way to the right. The code to send PWM signals has been thoroughly explained in the \href{https://learn.adafruit.com/using-servos-with-circuitpython/overview}{Adafruit Learn system}. I also have a \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Servo/servo.py}{simple servo.py script} on Github. In this code as usual the top 3 lines are used to import the necessary modules. The pulseio module is used here to create a servo object on line 6 by connecting to pin A2. Make sure to change the pin to whatever pin you have the signal wire hooked up to. Lines 9-12 create a function that pulse in milliseconds and compute the duty cycle of PWM signal. Lines 16-19 then kick off an infinite while loop where a 800 us signal is sent to the servo and then a 2000 us signal is sent using a for loop which starts on line 16. You’ll see servo command on line 18 which is responsible for sending the microsecond signal to the servo. The function servo\_duty\_cycle converts the pulse in milliseconds to a duty cycle. The value is then passed to the attribute of the servo object servo.duty\_cycle. If you put this code on the CPX and run the code you will hopefully see your servo turning left and right in 1 second intervals. I did this project myself and \href{https://youtu.be/ynlGiPZk5VM}{posted a YouTube video about it}. 
+As I said before, a servo takes in a square wave. The square wave has a duty cycle in units of microseconds. If you send a roughly 500 us square wave to a servo it will rotate all the way to the left. If you send a roughly 2500 us signal to the servo, it will turn all the way to the right. The code to send PWM signals has been thoroughly explained in the \href{https://learn.adafruit.com/using-servos-with-circuitpython/overview}{Adafruit Learn system}. I also have a \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Servo/servo.py}{simple servo.py script} on Github. In this code as usual the top 3 lines are used to import the necessary modules. The pulseio module is used here to create a servo object on line 6 by connecting to pin A2. Make sure to change the pin to whatever pin you have the signal wire hooked up to. Lines 9-12 create a function that pulse in milliseconds and compute the duty cycle of PWM signal. Lines 16-19 then kick off an infinite while loop where a 800 us signal is sent to the servo and then a 2000 us signal is sent using a for loop which starts on line 16. You’ll see servo command on line 18 which is responsible for sending the microsecond signal to the servo. The function servo\_duty\_cycle converts the pulse in milliseconds to a duty cycle. The value is then passed to the attribute of the servo object servo.duty\_cycle. If you put this code on the CPX and run the code you will hopefully see your servo turning left and right in 1 second intervals. I did this project myself and \href{https://youtu.be/ynlGiPZk5VM}{posted a YouTube video about it}. 
 
 Besides making the servo move back and forth I’d like you to vary the pulses on line 16 {\bf SLOWLY} until the servo can’t move any farther. This line of code is a for loop which loops through the array currently showing [0.8,2.0]. If you change that array to [0.9,1.2,1.5,1.8] the servo will move to a pulse in milliseconds of 0.9, 1.2, 1.5 and then 1.8. The for loop is a great way to loop through multiple commands. Using this array, determine the minimum pulse you can send to the servo and the maximum pulse you can send to the servo. If the servo makes a funny noise it means you sent a signal outside the bounds so try a different signal. Hence the need for moving the pulse signal slowly. If you change the array to just 1 number [0.8] the servo will just move to 1 angle and stay there forever. {\bf NOTE THAT IN CIRCUITPYTHON VERSION 7.0.0 YOU HAVE TO USE THE PWMIO LIBRARY INSTEAD OF THE PULSEIO LIBRARY}.
 \begin{figure}[H]
@@ -65,21 +65,28 @@ Pulse (ms) & Angle (Degrees) \\
 \end{tabular}
 \end{center}
 \end{table}
-    Take your table of data and put it into a spreadsheet and save the data as a CSV or simply put your data into a text file. Since I only had 3 data points I just put them into a text file. Plot the data in Python on your desktop computer with servo angle on the x-axis and duty cycle on the y axis. Using the data, determine if the data set is linear, quadratic or cubic. Fit a trend line to the data and plot your trend line on top of the data. \href{https://www.youtube.com/watch?v=4vYYPHRMdqM&feature=youtu.be}{If you need help with trend lines in Python you can watch this video I posted on Youtube}. I also made a helpful \href{https://github.com/cmontalvo251/Python/blob/master/instrumentation/book_problems/least_squares_regression.py}{python script with some fictitious data on Github} that fits the data with linear and quadratic fits. Here is my data plotted alongside the trendline in Python. I sort of made up the data and made it perfect on purpose so my trendline is perfect. Yours will not be so perfect.
+
+Take your table of data and put it into a spreadsheet and save the data as a CSV or simply put your data into a text file. Since I only had 3 data points I just put them into a text file. Plot the data in Python on your desktop computer with servo angle on the x-axis and duty cycle on the y axis. Using the data, determine if the data set is linear, quadratic or cubic. Fit a trend line to the data and plot your trend line on top of the data. \href{https://www.youtube.com/watch?v=4vYYPHRMdqM&feature=youtu.be}{If you need help with trend lines in Python you can watch this video I posted on Youtube}. I also made a helpful \href{https://github.com/cmontalvo251/Python/blob/master/instrumentation/book_problems/least_squares_regression.py}{python script with some fictitious data on Github} that fits the data with linear and quadratic fits. Here is my data plotted alongside the trendline in Python. I sort of made up the data and made it perfect on purpose so my trendline is perfect. Yours will not be so perfect.
+
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=0.8\textwidth]{Figures/trendline.png}
   \end{center}
 \end{figure}
+
 You’ll notice that I first import the data from the text file using the np.loadtxt function and then I use the polyfit and polyval functions to create the trendline. The polyfit function requires you to give it the X and Y axes and the order of the trendline which since the trend line is linear I sent it a 1 but you could easily do 2 for quadratic or 3 for cubic. I then print the coefficients which are [0.01 0.6]. This means my trend line looks like this.
+
 \begin{equation}
 Pulse = 0.6 + 0.01*Angle
 \end{equation}
+
 Where Pulse is in ms and Angle is in degrees. Now you have an equation where you can use angle in degrees to compute the pulse in milliseconds. In the code I’ve posted I then use np.linspace to create 1000 data points from 0 to 180 degrees and then use the polyval function to compute the pulse for all 1000 angles I created using the linspace command. I finally plot the trend line in red and use the remaining part of the script to create labels and legends. Once you have this plot write down your coefficients and create an equation like I did above. Again your numbers won’t be so neat. Once you have this equation, return to Mu and create a function using the def keyword that takes in an angle as an input and then returns a pulse signal in milli seconds. It will look sometime like this
+
 \begin{verbatim}
 def angle2pulse(angle):
         return 0.6 + 0.01*angle
 \end{verbatim}
+
 {\bf Note: Functions in python must be after all your imports but before your while loop. If you put this function inside your while loop the code will not work}. Using that equation, modify your servo.py script to have the servo move through the following angles, 0, 45,90,135 (your servo may not travel to 180 degrees). Verify that your equation is working correctly by placing your protractor below the servo. Much of the code required for this project is not included because it is left as an exercise for the student.
 
 \subsection{Feedback Control}
@@ -87,10 +94,19 @@ def angle2pulse(angle):
 Feedback control can be its own course or multiple courses but can be
 broken down into a few simple steps. The goal of feedback control is
 to drive the “state” of a “system” to a desired “command” by sending a
-“control” signal to the “system”. I explain this in much more detail
-in a
+“control” signal to the “system”. Figure \ref{f:feedback} shows a standard block diagram for a dynamic system. 
+
+\begin{figure}[H]\label{f:feedback}
+  \begin{center}
+    \includegraphics[width=0.4\textwidth]{Figures/feedback.png}
+  \end{center}
+  \caption{Standard Feedback Control Block Diagram of a Dynamic System}
+\end{figure}
+In this figure, R is the reference signal or the commanded signal. The reference signal feeds into a summation block where the reference signal is substracted from the measured signal. The measured signal is the output of the H block which represents the sensor. The output of the summation block is the error signal E. The error signal feeds into the controller C and outputs the control signal U to the plant system G. The output of the plant G is Y or the state. The state Y feeds into the sensor block H to measure this signal and out the measured signal to the summation block. I explain this in much more detail in a
 \href{https://www.youtube.com/watch?v=PAK5V8wzVXY&list=PL_D7_GvGz-v30U58EUUOdJGgO4u75DXoB&index=1}{controls
-  overview Youtube video}. For this lab we are going to make the bare
+  overview Youtube video}. 
+
+An example feedback control system could be employed for the longitudinal pitch dynamics of an airplane. In this case the aircraft pitches through the angle $\theta$ and the elevator $\delta_e$ is used to control the pitch angle. Typically the pitch angle is measured with an angle sensor or even an accelerometer. The elevator is then typically controlled with a servo. Thus, for this lab we are going to make the bare
 bones circuitry required for pitch angle control of an airplane. The
 “system” then is the aircraft. The “state” is the “pitch” angle
 (measured by the CPX), the “command” is the desired pitch angle
@@ -98,10 +114,16 @@ bones circuitry required for pitch angle control of an airplane. The
 the elevator command (actuated by a servo). I’m using the same circuit
 I created in parts 1 and 2.
 
+To measure the pitch angle using the accelerometer we are going to use the same equation that we used when measuring the angle of a pendulum (See chapter \ref{s:pendulum}). I’m going to rotate the CPX in the X/Z plane which can be done by rotating the USB cable where it plugs into the CPX. In this case we can ignore the Y axis data. If you print the raw accelerometer data, you’ll notice that when you place the CPX directly onto a flat surface, the x and y axes read a value around 0, while the z axis reads around gravity (9.81$m/s^2$). If you then rotate the sensor clockwise 90 degrees, the x axis is reading about gravity while the z axis is now zero. This means we can form a triangle and get the angle using these two axes using the equation below which gives angle in degrees.
+\begin{equation}
+\theta = tan^{-1}(x/y)\frac{180}{\pi}
+\end{equation}
+On the CPX specifically we want to import the math module and use the atan2 function. This measurement of the pitch angle would represent the H block in Figure \ref{f:feedback}.
+
 The elevator on an airplane is a control surface responsible for
 pitching the aircraft up and down. For this example we are going to
-assume that the desired pitch angle is 0. This means our “error”
-signal is going to be 0 minus the pitch angle. Our “control” signal
+assume that the desired pitch angle is 0$^o$. This means our “error”
+signal is going to be 0 minus the pitch angle $e = \theta_C - \theta = 0 - \theta = -\theta$ . Our “control” signal
 will be the angle of the elevator. As I said, we are going to use a
 servo to control the elevator so this just means we need a way to
 relate our “error” signal to servo pulse width. There are a few steps
@@ -116,7 +138,7 @@ Pitch (deg) & Error (deg) & Elevator (deg) \\
 \hline
 -90 & 90 & +90 \\
 \hline
-0 & 0 & -90 \\
+0 & 0 & 0 \\
 \hline
 +90 & -90 & -90 \\
 \hline
@@ -124,10 +146,18 @@ Pitch (deg) & Error (deg) & Elevator (deg) \\
 \end{center}
 \end{table}
 This table basically says that if the aircraft is level with a pitch angle of zero I want the elevator to be zero as well. If the aircraft pitches down, I want the elevator to pitch up and counteract that rotation. Using these three data points I can create a simple equation to relate elevator angle to pitch angle.
-\begin{equation}
+\begin{equation}\label{e:kpeasy}
 \delta_e = -\theta
 \end{equation}
-Now that we have the elevator pitch angle we need to relate this to the servo angle. Servo can only move from 0 to 180 degrees which means we can’t have the servo go negative. Thus we need to offset the elevator angle to the servo angle. Again we can make a table here.
+This is a simplified version of proportional control however. In reality the control signal should be given by the equation below.
+\begin{equation}
+\delta_e = Ce
+\end{equation}
+where C is the controller and e is the error signal. If we replace the error signal with $e=\theta_c-\theta$ and the controller with just proportional gain $k_p$ we arrive at the equation below.
+\begin{equation}
+\delta_e = kp(\theta_c-\theta)
+\end{equation}
+It's easy to see that if $k_p=1$ and $\theta_c=0$ the equation for the elevator would simplify to equation \ref{e:kpeasy} Now that we have the elevator pitch angle we need to relate this to the servo angle. Servos can only move from 0 to 180 degrees which means we can’t have the servo go negative. Thus we need to offset the elevator angle to the servo angle. Again we can make a table here.
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{|c|c|}
@@ -143,19 +173,17 @@ Elevator (deg) & Servo (deg)\\
 \end{tabular}
 \end{center}
 \end{table}
-This also results in a simple equation to relate servo angle to elevator angle.
+This also results in a simple equation to relate servo angle $(s)$ to elevator angle $(\delta_e)$.
 \begin{equation}
 s = \delta_e + 90
 \end{equation}
-Finally, we can then use our calibration coefficients (See chapter \ref{s:pwm}) to relate servo angle to pulse width. When I calibrated my servo I obtained the following equation where P is the pulse and s is the servo angle.
+Finally, we can then use our calibration coefficients (See chapter \ref{s:pwm}) to relate servo angle to pulse width. When I calibrated my servo I obtained the following equation where $\mu$ is the pulse in PWM.
 \begin{equation}
-Pulse = 0.6 + 0.01*Angle
+\mu = 0.6 + 0.01s
 \end{equation}
-With these 3 equations I can now program my servo to respond to changes in the pitch angle of the CPX. I did forget one minor detail and that is measuring the pitch angle itself. This is similar to measuring the angle of a pendulum (See chapter \ref{s:pendulum}). I’m going to rotate the CPX in the X/Z plane which can be done by rotating the USB cable where it plugs into the CPX. In this case we can ignore the Y axis data. If you print the raw accelerometer data, you’ll notice that when you place the CPX directly onto a flat surface, the x and y axes read a value around 0, while the z axis reads around gravity. If you then rotate the sensor clockwise 90 degrees, the x axis is reading about gravity while the z axis is now zero. This means we can form a triangle and get the angle using these two axes using the equation below which gives angle in degrees.
-\begin{equation}
-\theta = tan^{-1}(x/y)\frac{180}{\pi}
-\end{equation}
-On the CPX specifically we want to import the math module and use the atan2 function. With this equation I can finally put it all together. Pictured below is my code which again is also \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Servo/feedback_control_servo.py}{online on Github}. {\bf Note that the version on Github is constantly edited and as such will be slightly different than the version below.}
+So now I have an equation that relates the pitch angle from the airplane $\theta$ to the elevator deflection angle $\delta_e$. I can then relate the servo deflection angle to servo deflection angle ($s$) and then finally the servo deflection angle to PWM signal $\mu$. With these 3 equations I can now program my servo to respond to changes in the pitch angle of the CPX. 
+
+Using the accelerometer to measure pitch and the servo to deflect the elevator I can put the entire system together. Pictured below is my code which again is also \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Servo/feedback_control_servo.py}{online on Github}. {\bf Note that the version on Github is constantly edited and as such will be slightly different than the version below.}
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=0.8\textwidth]{Figures/feedback1.png}
@@ -167,7 +195,27 @@ The first 22 lines here will hopefully seem familiar. Line 1-7 are import comman
     \includegraphics[width=0.6\textwidth]{Figures/feedback2.png}
   \end{center}
 \end{figure}
-Line 39 uses the calibration equation from the previous experiment to convert servo angle to pulse width. You’ll need to replace these numbers with your servo since all servos are different. Line 41 uses the definition created on lines 10-13 to convert pulse width to duty cycle. Line 43 makes the servo move. Line 44 prints everything to Serial for debugging purposes and line 45 pauses the script for 0.1 seconds which helps with some twitchiness in the servo. When I did this I didn’t have to program a complementary filter so I guess the servo may have it’s own low pass filter. Either way this circuit is ready to be placed on an aircraft. Whether or not it is effective is a completely different story. I’ll leave that discussion to your controls professor. Note you can also include the angular rate sensor and use that as derivative gain as well.
+Line 39 uses the calibration equation from the previous experiment to convert servo angle to pulse width. You’ll need to replace these numbers with your servo since all servos are different. Line 41 uses the definition created on lines 10-13 to convert pulse width to duty cycle. Line 43 makes the servo move. Line 44 prints everything to Serial for debugging purposes and line 45 pauses the script for 0.1 seconds which helps with some twitchiness in the servo. When I did this I didn’t have to program a complementary filter so I guess the servo may have it’s own low pass filter. Either way this circuit is ready to be placed on an aircraft. Whether or not it is effective is a completely different story. We could take an entire aircraft design course or an undergraduate controls and systems dynamics course but to start let's just simulate this control system and see how it does. First we need to write the dynamic equation for pitch of an aircraft. That is shown below.
+\begin{equation}
+\frac{J}{q_{\infty}S\bar{c}}\ddot{\theta} + \frac{\bar{c}}{2V}C_{mq}\dot{\theta} + C_{m\alpha}\theta = C_{m\delta_e}\delta_e + C_{m0}
+\end{equation}
+In the equation above $J$ is the inertia of the aircraft, $C_{m0},C_{mq},C_{m\alpha}$ and $C_{m\delta_e}$ are non-dimensional coefficients, $\bar{c}$ is the mean aerodynamic chord, V is the velocity, $\bar{c}$ is the mean aerodynamic chord, S is the planform area of the wing and $q_{\infty}$ is the dynamic pressure. The dynamic pressure is given by the equation below
+\begin{equation}
+q_{\infty} = \frac{1}{2}\rho V^2
+\end{equation}
+where $\rho$ is the air density. To simulate this system use the table below.
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c}
+$C_{m\alpha}$ & -2.19 & $C_{mq}$ & -24.45 & $C_{m\delta_e}$ & -1.15 \\
+\hline
+$\bar{c}$ & 0.2286~m & S & 0.34~$m^2$ & J & 0.1232~$kg-m^2$ \\
+\hline
+V & 15~m/s & $\rho$ & 1.225~$kg/m^3$ & $C_{m0}$ & -0.076 \\
+\end{tabular}
+\end{center}
+\end{table}
+Now that the dynamics are written, the second order equation can be integrated using a standard numerical tool. In this case assume the angular velocity is zero and the initial pitch angle is 5 degrees. Remember you need to simulate the pitch angle in radians. Your task below will be to simulate this system for various values of $k_p$ as well as experiment with different values of $k_p$ and comment on your results. Note that proportional control is not sufficient to stabilize your aircraft but I’ll leave that discussion to your controls professor. 
 
 \subsection{Assignment}
 
@@ -194,8 +242,10 @@ Line 39 uses the calibration equation from the previous experiment to convert se
 \end{enumerate}
 \subsubsection{Part 3}
 \begin{enumerate}[itemsep=-5pt]
+\item Simulate the second order system with $k_p=1$ and 2 and comment on the differences. - 10\%
 \item Explain your circuit and what wires go where as well as all the parts of the feedback control system starting with the accelerometer. Only spend a minute or less explaining this - 10\%
-\item Explain your code at a high level. Only spend a minute or less on how it works - 20\%
-\item Show your servo moving as you rotate the CPX - 50\%
+\item Explain your code at a high level. Only spend a minute or less on how it works - 10\%
+\item Show your servo moving as you rotate the CPX with a $k_p=1$ - 25\%
+\item Show your servo moving as you rotate the CPX with a $k_p=2$ - 25\%
 \item Verify that your saturation filter works correctly by rotating your CPX past 90 degrees (You may need to increase the sensitivity of the servo depending on your feedback control law) - 20\% 
 \end{enumerate}
