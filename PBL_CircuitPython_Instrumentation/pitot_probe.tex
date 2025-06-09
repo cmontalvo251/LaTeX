@@ -61,14 +61,14 @@ The code to accomplish this is relatively simple and a portion of the code is sh
 
 \subsection{Assignment}
 
+For this assignment you are to wire up a pitot probe and record time and raw analog signal from the pitot probe as you turn a fan on and off. My suggestion is you record at least 30 seconds of data with the fan off and then 30 seconds with the fan on and then again 30 seconds with the fan off. Specific requirements are shown below.
+
 \input{assignment_directions}
 
 \begin{enumerate}[itemsep=-5pt]
-\item If you borrowed a pitot probe return the pitot probe - Pass/Fail - If you don’t return the pitot probe you receive a zero
-\item Include a video of you taking data and explaining the circuit. Also make sure you explain how you increase airspeed in your video (make sure you are in the video) - 30\%
-\item Include a plot of the raw analog signal vs time just like I did above - 20\%
-\item Include a plot of windspeed vs time as I did above (make sure to add a saturation filter for your pressure in the event it goes negative) - 20\%
-\item Filter your signal using an offline complementary filter and include it in your plot like I did above - 10\%
-\item Include the code used to take data from Mu - 10\%
-\item Include the code used to plot your velocity data which includes your complimentary filter - 10\%
+\item In addition to the standard format above, you must also return the pitot probe you borrowed in class - Pass/Fail
+\item Include a photo of your circuit with your pitot probe wired up to an analog pin - 20\%
+\item Include a screenshot of Mu with the Plotter open showing the raw analog signal. The Mu code also needs to show the same analog pin as the circuit above - 20\%
+\item Include a plot of the raw analog signal vs time that clearly shows when the fan is on and off - 20\%
+\item Convert your raw signal to windspeed and filter your signal using an offline complementary filter. Plot both unfiltered and filtered windspeed on the same plot and include a legend. Make sure you add the saturation filter to prevent a negative in the square root - 20\%
 \end{enumerate}
