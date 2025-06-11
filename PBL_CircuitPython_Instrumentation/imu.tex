@@ -57,9 +57,7 @@ There will be folders for some and just floating .mpy files for others which are
     \includegraphics[width=0.8\textwidth]{Figures/imu_code.png}
   \end{center}
 \end{figure}
-In the code above lines 1-6 import all the modules with line 5 importing the accelerometer on board the CPX and line 6 importing the external sensor wired up to SDA and SCL. Line 8 creates an I2C object using the SDA and SCL pins from the alligator clips and line 11 creates the sensor object. I also include lines 14-17 to include the onboard accelerometer. Notice I can access both sensors no problem. In the while loop line 20 checks the accelerometer on the CPX, line 21 checks the accelerometer on the breakout board and line 22 checks the angular velocity on the breakout board. Lines 23 and 24 print to serial and output to the plotter. Note that some lines are commented out because I wanted to try one thing at a time.
-
-With both accelerometers printing to the Plotter I could move the CPX and the breakout board in unison and get the following output.
+In the code above lines 1-6 import all the modules with line 5 importing the accelerometer on board the CPX and line 6 importing the external sensor wired up to SDA and SCL. Line 8 creates an I2C object using the SDA and SCL pins from the alligator clips and line 11 creates the sensor object. I also include lines 14-17 to include the onboard accelerometer. Notice I can access both sensors no problem. In the while loop line 20 checks the accelerometer on the CPX, line 21 checks the accelerometer on the breakout board and line 22 checks the angular velocity on the breakout board. Lines 23 and 24 print to serial and output to the plotter. Note that some lines are commented out because I wanted to try one thing at a time. With both accelerometers printing to the Plotter I could move the CPX and the breakout board in unison and get the following output.
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=\textwidth]{Figures/imu_mu.png}
@@ -79,17 +77,29 @@ The final part is to get the LIS3MDL (magnetometer) to work. The starting point 
     \includegraphics[width=0.8\textwidth]{Figures/imu_code_mag.png}
   \end{center}
 \end{figure}
-The code is almost identical to the code before except all the LIS3DH and LSM6DS33 code is commented out. Instead I have code to grab the magnetometer (LIS3MDL) at address 0x1E. Line 25 then calls the magnetometer and prints it. 
+The code is almost identical to the code before except all the LIS3DH and LSM6DS33 code is commented out. Instead I have code to grab the magnetometer (LIS3MDL) at address 0x1E. Line 25 then calls the magnetometer and prints it. Note that the accelerometer can be used to obtain pitch and roll angles and the magnetometer can be used to obtain the yaw angle. This is done via trigonometry and is shown in the equations below. 
+\begin{equation}
+\theta = -sin^{-1}(\bar{a}_x)
+\end{equation}
+\begin{equation}
+\phi = tan^{-1}\left(\frac{\bar{a}_y}{\bar{a}_z}\right)
+\end{equation}
+\begin{equation}
+\psi = tan^{-1}\left(\frac{\bar{\beta}_z s_{\phi} - \bar{\beta}_y c_{\phi}}{\bar{\beta}_x c_{\phi} + \bar{\beta}_y s_{\theta}s_{\phi} + \bar{\beta}_z c_{\phi}s_{\theta}}\right)
+\end{equation}
+In the equations above $\beta$ is the magnetic field along all 3 axes and $a$ is the accelerations along all 3 axes. Shorthand is used for $cos(\eta)=c_{\eta}$ and $sin(\eta)=s_{\eta}$. The $\bar{\eta}$ notation is used to indicate a normalization of the vector. That is $\bar{\eta} = \eta/||\eta||$ where $||\eta||$ is the norm of a 3 dimensional vector $||\eta||=\sqrt{\eta_x^2+\eta_y^2+\eta_z^2}$. The derivation for these angles from accelerometers and magnetometers is quite involved and requires the knowledge of rotation matrices. That derivation is in another textbook called \href{https://github.com/cmontalvo251/LaTeX/tree/master/Aerospace_Mechanics}{Aerospace Mechanics}.
 
 \subsection{Assignment}
+
+For this assignment you are to wire up the external IMU and get data from it. You need to mount the CPX/CPB and the IMU to some sort of hard surface so that when you move the CPX/CPB the IMU moves as well. Make sure the axis of the IMU and the CPX/CPB are oriented in the same direction. With system mounted to a hard surface, perform 3 doublet manuevers on each axis. A doublet is where you rotate the system to +90 degrees and then -90 degrees and then back to zero typically taking around 3 seconds for the entire maneuever. Using the accelerometer, compute the roll and pitch angle in degrees. Then use the magnetometer to compute the yaw angle. Using the roll, pitch and yaw angles, take a derivative to compute the angular velocity. Finally, take the angular velocity data and integrate it to obtain the pitch, roll and yaw angles. 
 
 \input{assignment_directions}
 
 \begin{enumerate}[itemsep=-5pt]
-\item Include a video of you reading both accelerometers and generating a plot like I did. Plotter is fine for this portion - 10\%
-\item Include a video of you getting the magnetometer to work and plotting the data in the plotter as you move the magnetometer. - 10\%
-\item Create a pendulum for your “cutting board” circuit and swing the pendulum. Include a video describing your pendulum - 20\%
-\item While swinging the pendulum record the accelerometer on the CPX and the breakout board as well as the angular velocity. Plot the angle (theta) using both accelerometers. You will have 2 lines since there are two accelerometers. Also plot the angular velocity of the pendulum. Plot these in Python - 20\%
-\item Take the two theta values and use the finite difference method to take a derivative and get the angular velocity. Plot the derivative of theta alongside the angular velocity and comment on the similarities and differences. - 20\%
-\item Finally, take the angular velocity and integrate using a Reimann sum to get theta from integration and plot it alongside your two other values of theta from the accelerometers. Comment on the similarities and differences - 20\%
+\item Include a photo of your CPX/CPB mounted to a hard surface with the IMU on a breadboard. Be sure to explain in your description about your axis system for both sensors. - 10\%
+\item Include a screenshot of Mu showing the Plotter open and all 3 angular velocity axes - 10\%
+\item Include a plot of both accelerometers for the 3 doublet manuevers. - 10\%
+\item Include a plot of angular velocity data for the 3 doublet manuevers. Also plot the derivative of the pitch, roll and yaw angles on top of this plot and add a legend to clearly indicate which is which. - 20\%
+\item Include a plot of magnetometer data for the 3 doublet maneuevers - 10\%
+\item Plot the roll, pitch and yaw angles in degrees from the accelerometer/magnetometer as well as the integrated rate gyro angles. Add a legend to clearly indicate which line is which. - 20\%
 \end{enumerate}
