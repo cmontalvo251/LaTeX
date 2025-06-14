@@ -24,9 +24,9 @@
 
 \subsection{Getting Started}
 
-This lab is going to be similar to the potentiometer lab (See chapter \ref{s:voltage}). We are going to use a photocell though to vary the resistance instead of a potentiometer. Photocells are cool because they change their resistance solely based on the light intensity hitting the sensor rather than twisting a knob like the potentiometer.
+This lab is going to be similar to the potentiometer lab (See chapter \ref{s:voltage}). We are going to use a photocell though to vary the resistance instead of a potentiometer. A photocell (or Light Dependent Resistor, LDR) is a sensor whose resistance changes significantly based on the intensity of light falling on its sensitive surface. In dimmer light, its resistance is high, and in brighter light, its resistance is low. By integrating it into a simple voltage divider circuit similar to what you did for the potentiometer lab. 
 
-Wiring a photocell is similar to a potentiometer except that you need to add a resistor in series with the photocell. There is a relevant \href{https://learn.adafruit.com/photocells/circuitpython}{Adafruit Tutorial on Photocells} and the code required to measure the voltage if you’d like to read more about it. The lab this week requires you to do the same as the potentiometer lab. I’d like you to wire up the circuit, take data at the low and high value of the photocell by covering the sensor with your finger and then shining a light on it and plotting the entire data set in Python on your desktop computer. The wiring diagram is shown below. Have an alligator clip connected to 3.3V on the CPX and have it connected to either end of the photocell. Then place a resistor in series with the photocell and route the free end of the resistor to GND.
+Wiring a photocell is similar to a potentiometer and remember that you need a resistor in series with the photocell to create the voltage divider circuit. There is a relevant \href{https://learn.adafruit.com/photocells/circuitpython}{Adafruit Tutorial on Photocells} and the code required to measure the voltage if you’d like to read more about it. The lab this week requires you to do the same as the potentiometer lab. I’d like you to wire up the circuit, take data at the low and high value of the photocell by covering the sensor with your finger and then shining a light on it and plotting the entire data set in Python on your desktop computer. The wiring diagram is shown below. Have an alligator clip connected to 3.3V on the CPX and have it connected to either end of the photocell. Then place a resistor in series with the photocell and route the free end of the resistor to GND.
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=\textwidth]{Figures/photocell_circuit.jpeg}
@@ -143,22 +143,14 @@ The equations above make a time series from +-3 standard deviations from the mea
 
 \subsection{Assignment}
 
+For this assignment you are to build another voltage divider circuit using a photocell and measure the voltage across the photocell using the analog to digital converter on the CPB/CPX. First take 30 seconds of data where you cover the photocell with your hand and also shine a flashlight on it. After that you are to run some statistics on the photocell by taking 1000 data points three separate times at three different light levels. The three light levels are low light (hand covered), ambient light (office light or shade light), and high light (flashlight or sunlight). For each set of 1000 data points, create a histogram, compute the mean, median, standard deviation and plot a Gaussian distribution curve on top of the histogram. 
+
 \input{assignment_directions}
         
-\subsubsection{Part 1}
 \begin{enumerate}[itemsep=-5pt]
-\item Include a video of you varying light conditions and watching the digital signal in the Plotter in Mu go up and down (make sure your face is in the video at some point and you state your name) - 50\%
-\item Plot voltage of the photocell vs time and include your code to plot it in the appendix. Make sure to plot the
-voltage and not the digital output - 50\%
-\end{enumerate}
-
-\subsubsection{Part 2}
-\begin{enumerate}[itemsep=-5pt]
-\item For the histograms take 1000 data points per histogram (To do
-that change your time.sleep to 0.05 seconds which is 20Hz. You then
-only need 50 seconds to get 1000 data points.)
-\item Include a video of your circuit and explain how you captured the data to store on your computer (make sure your face is in the video at some point and you state your name) - 25\%
-\item Include the mean, median, and standard deviation of all light levels in volts - 25\%
+\item Include a photo of your circuit and explain how you varied the light levels - 20\%
+\item Plot voltage of the photocell vs time for your first 30 seconds of data where you randomly vary light conditions - 20\%
+\item Include the mean, median, and standard deviation of all light levels in volts - 20\%
 \item Include 3 histogram plots of low light, ambient light and high
-(sunlight or flashlight) light levels. On top of the histogram I want you to plot the normal Gaussian distribution to see how close your histogram is to a Gaussian distribution  - 50\%
+light levels. On top of the histogram plot the normal Gaussian distribution to see how close your histogram is to a Gaussian distribution - 20\%
 \end{enumerate}
