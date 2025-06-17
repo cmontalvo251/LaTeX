@@ -1,6 +1,6 @@
 \newpage
 
-\section{Pulse Width Modulation (PWM), Servo Calibration (pulse =
+\section{Servo Calibration (PulseWidthModulation(PWM) =
   f(angle)) and Feedback Control}
 \label{s:pwm}
 
@@ -94,13 +94,12 @@ def angle2pulse(angle):
 Feedback control can be its own course or multiple courses but can be
 broken down into a few simple steps. The goal of feedback control is
 to drive the “state” of a “system” to a desired “command” by sending a
-“control” signal to the “system”. Figure \ref{f:feedback} shows a standard block diagram for a dynamic system. 
+“control” signal to the “system”. The figure below shows a standard block diagram for a dynamic system. 
 
-\begin{figure}[H]\label{f:feedback}
+\begin{figure}[H]
   \begin{center}
     \includegraphics[width=0.4\textwidth]{Figures/feedback.png}
   \end{center}
-  \caption{Standard Feedback Control Block Diagram of a Dynamic System}
 \end{figure}
 In this figure, R is the reference signal or the commanded signal. The reference signal feeds into a summation block where the reference signal is substracted from the measured signal. The measured signal is the output of the H block which represents the sensor. The output of the summation block is the error signal E. The error signal feeds into the controller C and outputs the control signal U to the plant system G. The output of the plant G is Y or the state. The state Y feeds into the sensor block H to measure this signal and out the measured signal to the summation block. I explain this in much more detail in a
 \href{https://www.youtube.com/watch?v=PAK5V8wzVXY&list=PL_D7_GvGz-v30U58EUUOdJGgO4u75DXoB&index=1}{controls
@@ -118,7 +117,7 @@ To measure the pitch angle using the accelerometer we are going to use the same 
 \begin{equation}
 \theta = tan^{-1}(x/y)\frac{180}{\pi}
 \end{equation}
-On the CPX specifically we want to import the math module and use the atan2 function. This measurement of the pitch angle would represent the H block in Figure \ref{f:feedback}.
+On the CPX specifically we want to import the math module and use the atan2 function. This measurement of the pitch angle would represent the H block in the figure above. 
 
 The elevator on an airplane is a control surface responsible for
 pitching the aircraft up and down. For this example we are going to
@@ -215,37 +214,27 @@ V & 15~m/s & $\rho$ & 1.225~$kg/m^3$ & $C_{m0}$ & -0.076 \\
 \end{tabular}
 \end{center}
 \end{table}
-Now that the dynamics are written, the second order equation can be integrated using a standard numerical tool. In this case assume the angular velocity is zero and the initial pitch angle is 5 degrees. Remember you need to simulate the pitch angle in radians. Your task below will be to simulate this system for various values of $k_p$ as well as experiment with different values of $k_p$ and comment on your results. Note that proportional control is not sufficient to stabilize your aircraft but I’ll leave that discussion to your controls professor. 
+Now that the dynamics are written, the second order equation can be integrated using a standard numerical tool. In this case we'll assume the angular velocity is zero and the initial pitch angle is 5 degrees remembering to convert this to radians first. Note that proportional control is not sufficient to stabilize your aircraft but I’ll leave that discussion to your controls professor. 
 
 \subsection{Assignment}
 
-\input{assignment_directions}
-\ \\
-\ \\
-\noindent {\bf For all videos - make sure your face is in the video and make sure you introduce yourself or you will receive a zero on the video portion.}
-\ \\
-\ \\
-\noindent {\bf Depending on the semester, you may need to return the servo - If it's required for you to return the servo after part3 and you don't you will receive a zero on all 3 parts.}
+This servo project can be split into 2 projects at your instructors discretion. The first part involves learning how to rotate the servo and then calibrating the servo so that degrees of rotation can be related to PWM in microseconds while the second part deals with feedback control. In part 1 ensure that you can rotate the servo and then experimentally determine the minimum and maximum PWM signal you can send to the servo before it stops rotating anymore. Then create a calibration equation and plot with degrees on the x-axis and PWM on the y-axis. Take at least 10 data points for your calibration equation and use a protractor on your computer screen to obtain angle in degrees of your servo. Your calibration equation needs to be linear. In part 2 you are to use the angle obtained by the accelerometer to feedback to the servo using proportional control. You are to do this for a $k_p$ value of 1 and 2. In addition, you are to simulate the second order system above for 10 seconds with varying values of $k_p$ and plotting the results.
 
-\ \\
+\input{assignment_directions}
+
 \subsubsection{Part 1}
 \begin{enumerate}[itemsep=-5pt]
-\item Send a video of your servo moving back and forth - 50\%
-\item Experimentally determine the minimum and maximum values of the servo and report the 2 PWM signals in milliSeconds. Give at least 2 decimal points in your calculation - 50\%
+\item Include 2 photos of your servo with one photo rotated to the maximum and the other photo rotated to the minimum degrees. Also, include a screenshot of Mu showing the PWM pulse in the serial monitor for both rotations. - 10\%
+\item Report the minimum and maximum values of your servo in a table. Be sure to report the PWM signals in milliSeconds as well as the angle of the servo in degrees. Give at least 2 decimal points in your calculation - 10\%
+\item Include your raw calibration data with PWM signal in one column and degrees in the other column - 10\%
+\item Include a Figure of your calibration data plotted in Python with your trend line on top - 20\%
+\item Write your regression equation as servo\_pulse = m*servo\_angle + b being sure to replace m and b with your actual values. Remember to round to appropriate significant figures - 10\% 
+\item Using your calibration equation imbedded in your Mu code, compute the pulse required to rotate your servo to 45 degrees. Include a photo of your servo rotated to 45 degrees and a screenshot of your calibration equation placed into Mu with your pulse value in the Serial monitor - 20\%
 \end{enumerate}
+
 \subsubsection{Part 2}
 \begin{enumerate}[itemsep=-5pt]
-\item Submit a video of you explaining how you took calibration data - 25\%
-\item Include a Figure of your your data plotted in Python with your trend line on top - 25\%
-\item Write your regression equation as servo\_pulse = m*servo\_angle + b - 25\%
-\item Submit a video of your servo moving through 0,45,90,135 using the output from your regression equation. The regression equation must be placed into your while True loop rather than computed ahead of time -  25\% 
-\end{enumerate}
-\subsubsection{Part 3}
-\begin{enumerate}[itemsep=-5pt]
-\item Simulate the second order system with $k_p=1$ and 2 and comment on the differences. - 10\%
-\item Explain your circuit and what wires go where as well as all the parts of the feedback control system starting with the accelerometer. Only spend a minute or less explaining this - 10\%
-\item Explain your code at a high level. Only spend a minute or less on how it works - 10\%
-\item Show your servo moving as you rotate the CPX with a $k_p=1$ - 25\%
-\item Show your servo moving as you rotate the CPX with a $k_p=2$ - 25\%
-\item Verify that your saturation filter works correctly by rotating your CPX past 90 degrees (You may need to increase the sensitivity of the servo depending on your feedback control law) - 20\% 
+\item Include an annotated photo of your circuit showing the accelerometer, wiring, and servo. - 20\%
+\item Include a photo of your CPX rotated to 45 degrees and your servo rotated with $k_p=1$ and 2. Have your servo held up to your protractor when rotated so readers can see the angle at which your servo is rotated. - 40\%
+\item Simulate the second order system above for 10 seconds with $k_p=1$ and 2. Plot $\theta$ vs time for both values of proportional gain. - 20\%
 \end{enumerate}
