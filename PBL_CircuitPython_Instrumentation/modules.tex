@@ -111,11 +111,9 @@ computed on line 48.
     \includegraphics[width=\textwidth]{Figures/sound_code.png}
   \end{center}
 \end{figure}
-When I run this code and talk normally into the microphone. I get this
+When I run this code and talk normally into the microphone, I get this
 output in the Plotter. You’ll notice that the data is pretty noisy in
-the beginning. It’s possible we could increase the number of samples
-we take each loop by editing line 30 but that would slow down our
-code. So there’s a tradeoff between filtering here and speed. That’s
+the beginning but then there are noticeable humps in the data. This is me saying something random into the microphone at normal volume. It’s possible we could increase the number of samples we take each loop by editing line 30 but that would slow down our code. So there’s a tradeoff between filtering here and speed. That’s
 something will investigate in some later labs. 
 \begin{figure}[H]
   \begin{center}
@@ -174,8 +172,8 @@ not just 1 value but 3 values. Accelerations in x,y and z or North,
 East, Down or Forward, Side to Side, Up and Down. Since it’s reading 3
 values we can’t just read 3 analog signals (we can but the
 accelerometer chip design didn’t want to do that) so instead we’re
-going to use the I2C (I like indigo and square C. So I squared C. Not
-12C or one two C. It’s I squared C) functionality. I2C is a type of
+going to use the I2C (I like "Indigo" and 2C like "Squared C". So "I Squared C". Not
+"12C" or "one two C". It’s "I squared C") functionality. I2C is a type of
 serial communication that allows computers to send strings rather than
 numbers. It’s a much more complex form of communication but since it’s
 standard we can just use the busio module which contains the I2C
