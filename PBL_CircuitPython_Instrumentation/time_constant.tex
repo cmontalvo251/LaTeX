@@ -2,6 +2,7 @@
 
 \section{Time Constant of a Thermistor}
 \label{s:time_constant}
+\label{s:thermistor}
 
 \subsection{Parts List}
 
@@ -20,8 +21,17 @@
 \end{enumerate}
 
 \subsection{Getting Started}
+For this lab we're going to use the thermistor located on Pin A9. In a previous lab we measured the analog signal from the pin and also used the {\it adafruit\_thermistor.py} module that converts the voltage from the thermistor to celsius. Here though we're going to explain a bit more about the thermistor. In this case, the thermistor is wired in a voltage divider circuit in series with a $10000~\Omega$ resistor. This means that the voltage across the thermistor can be converted to its resistance using the voltage divider equation below similar to the equation used for the photocell.
+\begin{equation}
+V_{thermistor} = V_{out}\frac{R_{thermistor}}{R_{series}+R_{thermistor}}
+\end{equation}
+Where $V_{out}=3.3V$ and $R_{series}=10000~\Omega$. The equation above can be inverted to obtain the resistance in the thermistor which can then be converted to Kelvin. This means that the digital output from the analog to digital converter can be converted to voltage and then to resistance as has been done for various ADC labs in this textbook. Remember that $V_{thermistor} = V_{out}D_o/65535$ where $D_o$ is the digital output from the ADC. Once you have the resistance from the thermistor, you can use a modified version of the \href{https://en.wikipedia.org/wiki/Steinhart%E2%80%93Hart_equation}{Steinhart-Hart} equation which is given below.
+\begin{equation}
+T_{thermistor}=\left(\frac{1}{T_0}+\frac{1}{\beta}log(R_{thermistor}/R_{series})\right)^{-1}
+\end{equation}
+where $\beta=3950$ is a heat transfer coefficient specific to the bulk semiconductor material over a given temperature range of interest and $T_0=298.15K$ is the nominal temperature of the semiconductor in Kelvin. Note that in the equation above, the output is in Kelvin.
 
-The basic form of a first order system can be shown below.
+For this lab though, we're not just going to measure the temperature from the thermistor, we're going to analyze the dynamics of the thermistor and how it responds to an abrupt change in temperature. It is said that a themistor can be modeled as a first order system. The basic form of a first order system can be shown below.
 \begin{equation}
 \dot{T} = \sigma (T_f - T)
 \end{equation}
@@ -72,12 +82,13 @@ What was interesting was that the time constant for heating up was 62.5 seconds 
 
 \subsection{Assignment}
 
-For this assignment, you are to change the ambient temperature of the CPX/CPB through heating or cooling and then record time and temperature while waiting for the CPX/CPB to return to ambient temperature. You are to then plot temperature as a function of time and then using the graph (not using a curve fit), estimate $T_0$, $T_f$,$\sigma$ and $\tau$. Finally, using equation \ref{e:thermistor}, plot the estimate of $T(t)$.
+For this assignment, you are to change the ambient temperature of the CPX/CPB through heating or cooling and then record time and voltage while waiting for the CPX/CPB to return to ambient temperature. You are to then plot voltage, resistance and temperature as a function of time and then using the graph of temperature (not using a curve fit), estimate $T_0$, $T_f$,$\sigma$ and $\tau$. Finally, using equation \ref{e:thermistor}, plot the estimate of $T(t)$.
 
 \input{assignment_directions}
 
 \begin{enumerate}[itemsep=-5pt]
 \item Take a picture of you heating or cooling the CPX/CPB - 20\%
-\item Plot your raw temperature data with time on the x-axis and temperature on the y-axis and overlay your fitted data on top of your measured data. Points will be given based on how well your fit is - 40\%
+\item Plot the raw voltage and resistance in the thermistor vs time - 20\%
+\item Plot your temperature data with time on the x-axis and temperature on the y-axis and overlay your fitted data on top of your measured data. Points will be given based on how well your fit is - 20\%
 \item Include a table of your estimated parameters - 20\%
 \end{enumerate}

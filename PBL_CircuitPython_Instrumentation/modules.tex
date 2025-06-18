@@ -59,8 +59,8 @@ you the low level control method}. \input{module_install}
 
 The light sensor on the CPX is just a simple photocell wired in series
 with a resistor. There is a lab on photocells (See
-chapter \ref{s:photocell} if you'd like to do that lab first to learn
-about photocells. The GND leg of the photocell is connected to pin
+chapter \ref{s:photocell} if you'd like to do that lab first to learn more
+about photocells. This lab is designed to simply teach you about the onboard sensors rather than how they work. The GND leg of the photocell is connected to pin
 A8. You can check the pin by looking at the graphic of an eye on the
 CPX and taking a look at the digital pin next to it. We’ve already
 learned how to {access analog pins (See chapter \ref{s:voltage}) in a
@@ -124,13 +124,13 @@ something will investigate in some later labs.
 The temperature sensor is actually
 a \href{https://en.wikipedia.org/wiki/Thermistor}{thermistor}. A
 thermistor is basically a thermometer resistor which means the
-resistance depends on temperature. This means that you can read the
-analog signal coming from the thermistor just by reading the analog
-signal from pin A9. If you look for the thermometer symbol on the CPX
+resistance depends on temperature. There is a lab on thermistors (See
+chapter \ref{s:thermistor} if you'd like to do that lab first to learn more
+about thermistors. Since this thermistor on the CPX/CPB is connected to an analog pin, you can read the analog signal coming from the thermistor just by reading the analog signal from pin A9. If you look for the thermometer symbol on the CPX
 you’ll see pin A9. Therefore, it is possible to just use the analogio
 library and just read in the analog voltage but in order to convert to
 celsius and then fahrenheit you need to use some heat transfer
-equations to convert the analog signal to celsius. Thankfully the
+equations to convert the analog signal to celsius. This is explained in more depth in Chapter \ref{s:thermistor}. Thankfully, the
 folks at Adafruit have done it again with an {\it
 adafruit\_thermistor} module. If you head over to
 their \href{https://github.com/adafruit/Adafruit_CircuitPython_Thermistor/blob/master/adafruit_thermistor.py}{github
@@ -138,7 +138,7 @@ on this module} you’ll see the relevant conversion under the
 definition temperature which at the time of this writing is on line
 86. \href{https://learn.adafruit.com/thermistor/circuitpython}{The
 Adafruit Learn system also does a bit of work to explain the
-conversion from voltage to temperature}. For now though we will just
+conversion from voltage to temperature} but I have also summarized it in Chapter \ref{s:thermistor}. For now though we will just
 appreciate the simplicity of the code below which is
 also \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Temp/record_temperature_thermistor.py}{on
 my Github}. 
