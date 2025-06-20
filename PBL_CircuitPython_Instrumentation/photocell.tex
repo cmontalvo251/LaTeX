@@ -26,7 +26,19 @@
 
 This lab is going to be similar to the potentiometer lab (See chapter \ref{s:voltage}). We are going to use a photocell though to vary the resistance instead of a potentiometer. A photocell (or Light Dependent Resistor, LDR) is a sensor whose resistance changes significantly based on the intensity of light falling on its sensitive surface. In dimmer light, its resistance is high, and in brighter light, its resistance is low. By integrating it into a simple voltage divider circuit similar to what you did for the potentiometer lab, you'll be able to read the voltage across the photocell and correlate that to light level. 
 
-Wiring a photocell is similar to a potentiometer and remember that you need a resistor in series with the photocell to create the voltage divider circuit. There is a relevant \href{https://learn.adafruit.com/photocells/circuitpython}{Adafruit Tutorial on Photocells} and the code required to measure the voltage if you’d like to read more about it. The lab this week requires you to do the same as the potentiometer lab. I’d like you to wire up the circuit, take data at the low and high value of the photocell by covering the sensor with your finger and then shining a light on it and plotting the entire data set in Python on your desktop computer. A photo of the circuit is shown below. An alligator clip is connected to 3.3V on the CPX and the other end is connected to either end of the photocell. The photocell is then in series with a resistor and the other end of the resistor is connected to GND via another alligator clip. Finally, take another alligator clip from pin A2 and plug it into the same row on the breadboard as the resistor and photocell. Building this circuit as a voltage divider will create the standard voltage divider law given by the equation below.
+Wiring a photocell is similar to a potentiometer and remember that you need a resistor in series with the photocell to create the voltage divider circuit. There is a relevant \href{https://learn.adafruit.com/photocells/circuitpython}{Adafruit Tutorial on Photocells} and the code required to measure the voltage if you’d like to read more about it. The photo below also shows a voltage divider circuit of a photocell using an \href{https://learn.adafruit.com/photocells/arduino-code}{Arduino} (Courtesy of \href{https://learn.adafruit.com/u/adafruit2}{Lady Ada} herself!).
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=\textwidth]{Figures/arduino_photocell.png}
+  \end{center}
+\end{figure}
+The lab this week requires you to do the same as the potentiometer lab. I’d like you to wire up the circuit, take data at the low and high value of the photocell by covering the sensor with your finger and then shining a light on it and plotting the entire data set in Python on your desktop computer. The wiring diagram was already presented and when I did the lab my example circuit is shown below. An alligator clip is connected to 3.3V on the CPX and the other end is connected to either end of the photocell. The photocell is then in series with a resistor and the other end of the resistor is connected to GND via another alligator clip. Finally, another alligator clip from pin A2 is plugged into the same row on the breadboard as the resistor and photocell. 
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=\textwidth]{Figures/photocell_circuit.jpeg}
+  \end{center}
+\end{figure}
+Building this circuit as a voltage divider will create the standard voltage divider law given by the equation below.
 \begin{equation}
 V_{photocell} = V_{out}\frac{R_{photocell}}{R_{series}+R_{photocell}}
 \end{equation}
@@ -34,13 +46,7 @@ In this case $V_{out}$ is 3.3V and $R_{series}$ is dependant on the resistor you
 \begin{equation}
 Lux = 500000R_{photocell}^{-0.7}
 \end{equation}
-where $R_{photocell}$ is the resistance of the photocell in Ohms.
-\begin{figure}[H]
-  \begin{center}
-    \includegraphics[width=\textwidth]{Figures/photocell_circuit.jpeg}
-  \end{center}
-\end{figure}
-Once you have the
+where $R_{photocell}$ is the resistance of the photocell in Ohms. Once you have the
 circuit wired properly you can use
 the \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Analog/analog_simple.py}{same
 code as the potentiometer lab}. The example screenshot below shows the
@@ -48,7 +54,6 @@ analog signal below showing a high spike where I placed a flashlight
 over the photocell and then a low spot where I covered the photocell
 with my finger. Remember that you can use any Analog pin on the CPX
 provided you change line 5 to the same pin. 
-
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=\textwidth]{Figures/photocell_mu.png}

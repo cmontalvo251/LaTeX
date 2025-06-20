@@ -33,7 +33,13 @@ For this lab we are going to learn how to drive a \href{https://www.adafruit.com
     \includegraphics[width=0.8\textwidth]{Figures/servo.jpeg}
   \end{center}
 \end{figure}
-As you can see, servos have 3 pins - the brown or black wire is GND, the red wire needs to go to a 5V signal so for the CPX it needs to go to the VOUT pin and the yellow or white wire is the signal wire which need to go to an analog port on the CPX that supports PWM signals. Which ones support PWM signals? \href{https://learn.adafruit.com/adafruit-circuit-playground-express/pinouts}{Adafruit Learn} has a great description of which pins support PWM signals but as a quick check you can use the following analog pins: A1, A2, A3, A6 and A7. In my circuit I just picked pin A2 since I’ve been using it so much in the past.
+As you can see, servos have 3 pins (GND, PWR, SIGNAL). A wiring diagram of a servo connected to the \href{https://learn.adafruit.com/adafruit-circuit-playground-express/circuitpython-servo}{CPX/CPB} is shown below (Couresy of \href{https://learn.adafruit.com/u/kattni}{Kattni Rembor}). 
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{Figures/circuitpython_CPXServo_bb.jpg}
+  \end{center}
+\end{figure}
+The brown or black wire is GND, the red wire needs to go to a 5V signal so for the CPX it needs to go to the VOUT pin and the yellow or white wire is the signal wire which need to go to an analog port on the CPX that supports PWM signals. Which ones support PWM signals? \href{https://learn.adafruit.com/adafruit-circuit-playground-express/pinouts}{Adafruit Learn} has a great description of which pins support PWM signals but as a quick check you can use the following analog pins: A1, A2, A3, A6 and A7. In my circuit I just picked pin A2 since I’ve been using it so much in the past.
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=0.8\textwidth]{Figures/servo_circuit.jpeg}
@@ -221,8 +227,9 @@ Now that the dynamics are written, the second order equation can be integrated u
 This servo project can be split into 2 projects at your instructors discretion. The first part involves learning how to rotate the servo and then calibrating the servo so that degrees of rotation can be related to PWM in microseconds while the second part deals with feedback control. In part 1 ensure that you can rotate the servo and then experimentally determine the minimum and maximum PWM signal you can send to the servo before it stops rotating anymore. Then create a calibration equation and plot with degrees on the x-axis and PWM on the y-axis. Take at least 10 data points for your calibration equation and use a protractor on your computer screen to obtain angle in degrees of your servo. Your calibration equation needs to be linear. In part 2 you are to use the angle obtained by the accelerometer to feedback to the servo using proportional control. You are to do this for a $k_p$ value of 1 and 2. In addition, you are to simulate the second order system above for 10 seconds with varying values of $k_p$ and plotting the results. {\bf Note, for this lab, once you have the minimum and maximum values of your servo, you need to add a saturation filter into your code so that the value sent to your servo is always within these bounds. Otherwise you could damage or even break your servo.}
 
 \input{assignment_directions}
-
-\subsubsection{Part 1}
+\ \\
+\ \\
+{\bf Part 1}
 \begin{enumerate}[itemsep=-5pt]
 \item Include 2 photos of your servo with one photo rotated to the maximum and the other photo rotated to the minimum degrees. Also, include a screenshot of Mu showing the PWM pulse in the serial monitor for both rotations. - 10\%
 \item Report the minimum and maximum values of your servo in a table. Be sure to report the PWM signals in milliSeconds as well as the angle of the servo in degrees. Give at least 2 decimal points in your calculation - 10\%
@@ -232,7 +239,7 @@ This servo project can be split into 2 projects at your instructors discretion. 
 \item Using your calibration equation imbedded in your Mu code, compute the pulse required to rotate your servo to 90 degrees. Report on how close it is to 1.5 ms. Include a photo of your servo rotated to 45 degrees and a screenshot of your calibration equation placed into Mu with your pulse value in the Serial monitor. The code must also show your saturation filter as well - 20\%
 \end{enumerate}
 
-\subsubsection{Part 2}
+\noindent {\bf Part 2}
 \begin{enumerate}[itemsep=-5pt]
 \item Include an annotated photo of your circuit showing the accelerometer, wiring, and servo. - 20\%
 \item Include a photo of your CPX rotated to 45 degrees and your servo rotated with $k_p=1$ and 2. Have your servo held up to your protractor when rotated so readers can see the angle at which your servo is rotated. - 40\%

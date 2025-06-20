@@ -22,13 +22,13 @@
 
 \subsection{Getting Started}
 
-Although a CPX has numerous sensors built in, you can easily augment the capabilities of the CPX using either I2C or just the ADC on board the CPX. In this lab, if you purchased a \href{https://www.amazon.com/Hobbypower-Airspeed-MPXV7002DP-Differential-controller/dp/B00WSFWO36/ref=sr_1_3?dchild=1&keywords=Airspeed+sensor+kit&qid=1590532161&sr=8-3}{pitot probe} you will be able to do this assignment. Since you don’t need the pitot probe for very long you can always borrow one from some other team. Let’s talk about the hardware and the wiring to get this to work.
+Although a CPX has numerous sensors built in, you can easily augment the capabilities of the CPX using either I2C or just the ADC on board the CPX. In this lab, if you purchased a \href{https://www.amazon.com/Hobbypower-Airspeed-MPXV7002DP-Differential-controller/dp/B00WSFWO36/ref=sr_1_3?dchild=1&keywords=Airspeed+sensor+kit&qid=1590532161&sr=8-3}{pitot probe} you will be able to do this assignment. Since you don’t need the pitot probe for very long you can always borrow one from some other team. Let’s talk about the hardware and the wiring to get this to work. First, pitot probes work by mechanically changing the dynamic pressure of the incoming airflow as shown in the \href{https://makersportal.com/blog/2019/02/06/arduino-pitot-tube-wind-speed-theory-and-experiment}{figure below} (Courtesy of \href{https://makersportal.com/blog?author=59b036fc6073554c1cfffef7}{Joshua Hrisko}).
 \begin{figure}[H]
   \begin{center}
-    \includegraphics[width=\textwidth]{Figures/pitot_probe_circuit.jpeg}
+    \includegraphics[width=\textwidth]{Figures/pitot_tube_drawing_transparent_cleaner.png}
   \end{center}
 \end{figure}
-The pitot probe has two pressure taps that measure ambient pressure and stagnation pressure. These taps move through two silicon tubes to a pressure transducer that has a strain gauge in separating both pressures. When the pressure on one side of the transducer is larger than the other, it will flex the membrane and create strain. This strain runs through a wheatstone bridge with a voltage offset to the pin labeled analog. The analog signal from the analog pin will be denoted as $V_{pitot}$. The pressure transducer used in this lab is the MPXV7002 which is a differential pressure sensor. The \href{https://www.nxp.com/docs/en/data-sheet/MPXV7002.pdf}{datasheet} indicates that the voltage offset of the pitot probe is 2.5V and when the change in voltage is proportional to the change in pressure in units of kPa. This means that $\Delta P$ is given by the equation below.
+The pitot probe has two pressure taps that measure static (ambient) pressure and dynamic (stagnation) pressure. These taps move through two silicon tubes to a pressure transducer that has a strain gauge that separates both pressures. When the pressure on one side of the transducer is larger than the other, it will flex the membrane and create strain. This strain runs through a wheatstone bridge with a voltage offset to the pin labeled analog. The analog signal from the analog pin will be denoted as $V_{pitot}$. The pressure transducer used in this lab is the MPXV7002 which is a differential pressure sensor. The \href{https://www.nxp.com/docs/en/data-sheet/MPXV7002.pdf}{datasheet} indicates that the voltage offset of the pitot probe is 2.5V and the change in voltage is proportional to the change in pressure in units of kPa. This means that $\Delta P$ is given by the equation below.
 \begin{equation}
 \Delta P_{kPa} = V_{pitot} - 2.5
 \end{equation}
@@ -36,8 +36,19 @@ remembering that $V_{pitot}=3.3D_o/65535$. Also note that 2.5V is the nominal vo
 \begin{equation*}
     U = \sqrt{\frac{2 \Delta P_{Pa}}{\rho}}
 \end{equation*}
-where $U$ is the wind speed in $m/s$, $\Delta P$ is the differential pressure (in Pascals), and $\rho=1.225~kg/m^3$ is the density of air. I done this pitot project before and have posted a video on Youtube about \href{https://youtu.be/jSLIRC1cfvE}{Converting Pitot Probe Data to Windspeed}. {\bf \it There is a typo in the video. V1 is supposed to have a sqrt())}.
-As for wiring up the circuit itself, the transducer has 3 pins, +5V, GND and Analog. It is pretty straightforward how to wire this up but remember that +5V needs to go to VOUT, GND to GND and Analog to any analog pin. I chose pin A2. At that point it’s very simple to just print the analog signal in bits to Serial. I’ve done this below. The code is the same \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Analog/analog_simple.py}{analog code} that we’ve used in the past.
+where $U$ is the wind speed in $m/s$, $\Delta P$ is the differential pressure (in Pascals), and $\rho=1.225~kg/m^3$ is the density of air. I've done this pitot project before and have posted a video on Youtube about \href{https://youtu.be/jSLIRC1cfvE}{Converting Pitot Probe Data to Windspeed}. {\bf \it There is a typo in the video. V1 is supposed to have a sqrt())}. As for wiring up the circuit itself, the transducer has 3 pins, +5V, GND and Analog. The figure below shows the transducer connected to an Arduino (Courtesy of \href{https://www.pinterest.com/pin/create/button/?guid=jWEbJ2QP0Vh9&url=https%3A%2F%2Fmakersportal.com%2Fblog%2F2019%2F02%2F06%2Farduino-pitot-tube-wind-speed-theory-and-experiment&media=https%3A%2F%2Fimages.squarespace-cdn.com%2Fcontent%2Fv1%2F59b037304c0dbfb092fbe894%2F1549565434223-TTB9OMIQ3FMP2JLZ0RX2%2FArduino%2BMPXV7002DP%2BWiring%2Bfor%2BDifferential%2BPressure%2BMeasurement&description=Arduino%20MPXV7002DP%20Wiring%20for%20Differential%20Pressure%20Measurement}{Pinterest}).
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=\textwidth]{Figures/Arduino+MPXV7002DP+Wiring+for+Differential+Pressure+Measurement.png}
+  \end{center}
+\end{figure}
+ It is pretty straightforward how to wire this up to a CPX/CPB but remember that +5V needs to go to VOUT, GND to GND and Analog to any analog pin. I chose pin A2 as shown in the Figure below. 
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=\textwidth]{Figures/pitot_probe_circuit.jpeg}
+  \end{center}
+\end{figure}
+At that point it’s very simple to just print the analog signal in bits to Serial. I’ve done this below. The code is the same \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Analog/analog_simple.py}{analog code} that we’ve used in the past.
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=0.5\textwidth]{Figures/analogio.png}

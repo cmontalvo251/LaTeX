@@ -20,7 +20,7 @@
 \item The VOUT and 3.3V pin are always "ON" even when code is not
   running on the CPX. So long as your CPX is plugged in via USB or a
   Lipo Battery
-\item LED are Light Emitting {\bf Diodes} which means current only flows in one direction
+\item LEDs are Light Emitting {\bf Diodes} which means current only flows in one direction
 \item LEDs need resistors in series otherwise they will get too hot and burn up
 \item Breadboard pinout diagrams
 \item Analog pins can be controlled by simply using the digitalio module
@@ -30,7 +30,7 @@
 In this project we’re going to use the same blink code as before but
 modify it to blink an external LED. The purpose of this lab is to
 familiarize yourself with the pins on the CPX and create a simple
-circuit using the 5V pin on the CPX and one of the Analog pins. Your
+circuit using the 5V (VOUT) pin on the CPX and one of the Analog pins. Your
 laptop has a battery with something between 10 to 20V. There are DC to
 DC converters in your laptop that provide 5V to your USB ports. These
 USB ports can be used to power your CPX as you have done in the past
@@ -56,20 +56,20 @@ binary a 0 (False) represents 0 volts and a 1 (True) represents
 for ground and you need to hook the negative end of your circuit to
 this and it also has VOUT which supplies 5V to any circuit you
 build. Hook the positive end of your circuit to the VOUT pin. There is
-also a port labeled 3.3V and obviously that outputs 3.3V
-
-You’re going to need to use a breadboard so if you’re not familiar
-with how breadboards work I would recommend watching this \href{https://www.youtube.com/watch?v=mE33WpRWrXs}{video on how
+also a port labeled 3.3V and obviously that outputs 3.3V. The Figure below shows an \href{https://learn.adafruit.com/circuitpython-digital-inputs-and-outputs/digital-outputs
+}{Arduino Metro} hooked up to an LED on a breadboard (Courtesy of \href{https://learn.adafruit.com/u/tdicola}{Tony Dicola}).
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=\textwidth]{Figures/circuitpython_01_digital_io_figure_1.png}
+  \end{center}
+\end{figure}
+If you’re not familiar with how breadboards work I would recommend watching this \href{https://www.youtube.com/watch?v=mE33WpRWrXs}{video on how
 breadboards work}. Your lab today specifically involves an external
-LED. You can read about
+LED as shown above. You can read about
 \href{https://learn.sparkfun.com/tutorials/light-emitting-diodes-leds/}{LEDs}
 more online if you wish. {\bf Remember that the long leg of the LED is 
 the positive end and the short leg is the negative end.} The task today
-is to wire an LED up to the CPX in the following ways
-
-{\bf Whenever you modify a circuit on the breadboard, always be sure
-  to remove power from the CPX. You can damage multiple components if
-  you’re not careful.}
+is to wire an LED up to the CPX in multiple ways. The figure above shows the LED connected to the A1 pin but we will be wiring up the LED to multiple pins on the CPX/CPB to gain understanding in how the circuit works. {\bf Note, whenever you modify a circuit on the breadboard, always be sure to remove power from the CPX. You can damage multiple components if you’re not careful.}
 
 \subsection{LED with no Code}
 

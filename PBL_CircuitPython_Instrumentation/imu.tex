@@ -36,7 +36,13 @@ The sensor above is the \href{https://www.adafruit.com/product/4485}{LSM6DS33+LI
     \includegraphics[width=\textwidth]{Figures/imu2.png}
   \end{center}
 \end{figure}
-When you open the packaging of this breakout board you’ll notice that the header pins are missing. First you’ll need to cut a row of 4 and 6 for the top and bottom side of the board and solder the header pins to sensor. If you’re taking my class you can stop by my lab one day and I’ll solder this for you or teach everyone about soldering during a lecture session of class. If you are taking this class elsewhere you have two options: try and find someone who can solder this real quick (only takes about 5 minutes) or buy your own soldering iron and try to solder yourself. Once the device is soldered you can "plug" it into a breadboard. Then, using 4 alligator clips you need VOUT (5V) to run to (VIN), GND to GND and then SDA to SDA and SCL to SCL.
+When you open the packaging of this breakout board you’ll notice that the header pins are missing. First you’ll need to cut a row of 4 and 6 for the top and bottom side of the board and {\bf solder the header pins to the sensor}. If you’re taking my class I can solder this for you or teach everyone about soldering during a lecture session of class. If you are taking this class elsewhere you have two options: try and find someone who can solder this real quick (only takes about 5 minutes) or buy your own soldering iron and try to solder yourself. Once the device is soldered you can "plug" it into a breadboard. The wiring for this system requires 4 wires. The figure below shows the IMU connected to \href{https://learn.adafruit.com/lis3mdl-triple-axis-magnetometer/python-circuitpython}{Feather M4} (Courtesy of \href{https://learn.adafruit.com/u/siddacious}{Bryan Siepert}). 
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=\textwidth]{Figures/sensors_python_feather_wiring_breadboard.png}
+  \end{center}
+\end{figure}
+The only difference between the wiring diagram above and the CPX/CPB is that you will be using 4 alligator clips. The rest is straightforward. You need VOUT (5V) to run to (VIN), GND to GND and then SDA to SDA and SCL to SCL.
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=\textwidth]{Figures/imu_circuit.jpeg}
