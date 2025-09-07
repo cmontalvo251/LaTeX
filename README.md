@@ -11,6 +11,7 @@ $ sudo apt-get install texlive-full
 No matter what you need biber and evince
 
 $ sudo apt-get install biber
+
 $ sudo apt-get install evince
 
 If you don't have the space to install texlive-full you can do
@@ -42,3 +43,11 @@ $ sudo mv /path/to/download/enumitem.sty ./
 $ sudo mktexlsr
 
 That will manually install enumitem. Repeat as new package errors come up.
+
+In the Help folder you will find tex2pdf. Use that to compile the main tex files. I typically copy that file into the sub folders and run 
+
+./tex2pdf main.tex
+
+if you need to use biber you will run 
+
+./tex2pdf main.tex usebiber
