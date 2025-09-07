@@ -25,14 +25,21 @@ where $\Delta \vec{x} = \vec{x} - \vec{x}_e$ and $\vec{x}_e$ is an
 equilibrium point. In this formulation ${\bf A} = \partial \vec{f}/\partial \vec{x}$. and 
 ${\bf B} = \partial \vec{g}/\partial \vec{x}$ which are partial derivatives of the state matrices.
 
+\subsection{Example First Order System Formulation}
+
+A first order system undergoing free motion will have dynamics that look like this
+\begin{equation} 
+\dot{q} + \sigma q = \sigma f
+\end{equation}
+where q is a generalized coordinate, $\sigma$ is the inverse of the time constant $tau$, and f is the forcing function. Examples of these types of systems in include thermistors, servos, and velocity equations for system dynamics. 
+
 \subsection{Example Second Order System Formulation}
 
 A second order system undergoing free motion will have dynamics that look like this
 \begin{equation}
 \ddot{q} + 2\zeta \omega_n \dot{q} + {\omega_n}^2 = \sigma f
 \end{equation}
-where $q$ is a generalized coordinate, $\sigma$ is a forcing term
-proportional to the mass of the object and the forcing function $f$,
+where $q$ is a generalized coordinate, $\sigma$ is the inverse of the time constant $tau$,f is th forcing function,
 $\omega_n$ is the natural frequency of the system and $\zeta$ is the
 damping ratio. Examples of these types of systems include mass, spring
 dampers in linear translation as well as torsional systems and
