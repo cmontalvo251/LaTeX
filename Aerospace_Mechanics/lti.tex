@@ -31,11 +31,11 @@ A first order system undergoing free motion will have dynamics that look like th
 \begin{equation} \label{e:first_order}
 \dot{q} + \sigma q = \sigma f
 \end{equation}
-where q is a generalized coordinate, $\sigma$ is the inverse of the time constant $tau$, and f is the forcing function. Examples of these types of systems in include thermistors, servos, and velocity equations for system dynamics. 
+\noindent where q is a generalized coordinate, $\sigma$ is the inverse of the time constant $\tau$, and f is the forcing function. Examples of these types of systems in include thermistors, servos, and velocity equations for system dynamics. 
 
 \subsection{First Order Equations of Motion for a Car}
 
-{\it Note, this section was written with the help of Github Copilot}\cite{GithubCopilot}.  Consider a car moving in one dimension. The primary forces acting on the car are the driving force from the tires, $F$, and a linear viscous drag force, $D = -cv$, where $c$ is the viscous drag coefficient and $v$ is the velocity of the car.
+Consider a car moving in one dimension. The primary forces acting on the car are the driving force from the tires, $F$, and a linear viscous drag force, $D = -cv$, where $c$ is the viscous drag coefficient and $v$ is the velocity of the car.
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[scale=1.2]
@@ -69,14 +69,42 @@ A second order system undergoing free motion will have dynamics that look like t
 \begin{equation}
 \ddot{q} + 2\zeta \omega_n \dot{q} + {\omega_n}^2 = \sigma f
 \end{equation}
-where $q$ is a generalized coordinate, $\sigma$ is the inverse of the time constant $tau$,f is th forcing function,
-$\omega_n$ is the natural frequency of the system and $\zeta$ is the
-damping ratio. Examples of these types of systems include mass, spring
-dampers in linear translation as well as torsional systems and
-penduluums. Anything that oscillates will exhibit this behavior. For a
-standard mass spring damper system as shown in Figure \ref{f:msd}
+where $q$ is a generalized coordinate, $\sigma$ is the inverse of the time constant $\tau$, f is the forcing function, $\omega_n$ is the natural frequency of the system and $\zeta$ is the damping ratio. Examples of these types of systems include mass, spring dampers in linear translation as well as torsional systems and penduluums. Anything that oscillates will exhibit this behavior. 
 
-\hl{INCLUDE MSD FIGURE}
+\subsection{Second Order Equations of Motion for a Mass Spring Damper System}
+
+A mass-spring-damper system is a classic example of a second-order system. The system consists of a mass $m$ attached to a spring with spring constant $k$ and a damper with damping coefficient $c$. The mass is free to move along a single axis $x$, and the system is subject to an external force $f$ as shown in Figure \ref{f:msd}.
+
+\hl{THIS FIGURE IS NOT QUITE RIGHT BUT WILL FIX LATER}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.2]
+        % Draw the wall
+        \draw[thick] (-1,0) -- (0,0);
+        \draw[thick] (-1,0.5) -- (0,0.5);
+        \foreach \y in {0,0.1,...,0.5}
+            \draw[thick] (-1,\y) -- (-1.2,\y+0.05);
+
+        % Draw the spring
+        \draw[thick,decorate,decoration={coil,aspect=0.5,segment length=4mm,amplitude=3mm}] (0,0.25) -- (2,0.25);
+
+        % Draw the damper
+        \draw[thick] (0,0.5) -- (0.5,0.5);
+        \draw[thick] (0.5,0.65) rectangle (1.0,0.35);
+        \draw[thick] (1.0,0.5) -- (1.5,0.5);
+
+        % Draw the mass
+        \draw[thick,fill=gray!20] (2,0) rectangle (3,0.5);
+
+        % Labels
+        \node at (2.5,0.25) {$m$};
+        \node[above] at (1.25,0.65) {$c$};
+        \node[below] at (1,0.1) {$k$};
+        \draw[->,thick] (3.2,0.25) -- ++(0.7,0) node[midway, above] {$x$};
+    \end{tikzpicture}
+    \caption{Mass-spring-damper system}
+    \label{f:msd}
+\end{figure}
 
 \hl{INCLUDE MSD EOM FORMULATIONS}
 
