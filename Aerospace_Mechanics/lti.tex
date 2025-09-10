@@ -16,7 +16,7 @@ terms
   \dot{\vec{x}} = \vec{f}(\vec{x}) + \vec{g}(\vec{x})\vec{u}
 \end{equation}
 where $\vec{u}$ is the control input which could be the forces and
-moments from reaction wheels or thrusters. The equation above can be
+moments from reaction wheels or thrusters for a spacecraft or lift and drag for an airplane. The vectors $f$ and $g$ represent the systems dynamics which is dependent on the system itself. Note that if the dynamics cannot be put into affine form, the system is highly nonlinear and the control system designed for that would require more sophisticated analysis like Lyapunov design or sliding mode control. That will be discussed in a later section. For the affine form however, the equation can be
 linearized to give the equation below. 
 \begin{equation}
   \Delta \dot{\vec{x}} = {\bf A}\Delta {\vec{x}} + {\bf B}\Delta \vec{u}
