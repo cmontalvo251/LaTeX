@@ -122,6 +122,24 @@ This second-order linear differential equation fully describes the dynamic respo
 
 \subsubsection{Characteristic and Particular Solutions}
 
+For a first order linear differential equation of the form
+\begin{equation}
+    \dot{q} + \sigma q = \sigma f
+\end{equation}
+the general solution is the sum of the homogeneous (characteristic) solution and a particular solution.
+
+The particular solution corresponds to the steady-state response when the forcing function $f$ is constant. Assume $f$ is a constant $f_0$. The particular solution $q_p$ satisfies:
+\begin{equation}
+    0 + \sigma q_p = \sigma f_0 \implies q_p = f_0
+\end{equation}
+Thus, the particular solution for a constant input is simply $q_p = f_0$.
+
+If $f$ is a function of time, $f(t)$, a particular solution can be found using the integrating factor method:
+\begin{equation}
+    q_p(t) = e^{-\sigma t} \int_0^t \sigma f(\tau) e^{\sigma \tau} d\tau
+\end{equation}
+This gives the forced response of the system to any input $f(t)$.
+
 \subsubsection{Laplace Solutions}
 
 \subsection{Time Response of First and Second Order Systems}
