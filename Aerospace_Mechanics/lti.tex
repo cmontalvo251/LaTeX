@@ -77,32 +77,32 @@ where $q$ is a generalized coordinate, $\sigma$ is the inverse of the time const
 
 A mass-spring-damper system is a classic example of a second-order system. The system consists of a mass $m$ attached to a spring with spring constant $k$ and a damper with damping coefficient $c$. The mass is free to move along a single axis $x$, and the system is subject to an external force $f$ as shown in Figure \ref{f:msd}.
 
-\hl{THIS FIGURE IS NOT QUITE RIGHT BUT WILL FIX LATER}
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[scale=1.2]
         % Draw the wall
-        \draw[thick] (-1,0) -- (0,0);
-        \draw[thick] (-1,0.5) -- (0,0.5);
-        \foreach \y in {0,0.1,...,0.5}
+        \draw[thick] (-1,.2) -- (0,0.2);
+        \draw[thick] (-1,0.8) -- (0,0.8);
+        \foreach \y in {0,0.1,...,1.0}
             \draw[thick] (-1,\y) -- (-1.2,\y+0.05);
 
         % Draw the spring
-        \draw[thick,decorate,decoration={coil,aspect=0.5,segment length=4mm,amplitude=3mm}] (0,0.05) -- (2,0.05);
+        \draw[thick,decorate,decoration={coil,aspect=0.5,segment length=4mm,amplitude=3mm}] (0,0.2) -- (2,0.2);
 
         % Draw the damper
-        \draw[thick] (0,0.5) -- (0.5,0.5);
-        \draw[thick] (0.5,0.65) rectangle (1.0,0.35);
-        \draw[thick] (1.0,0.5) -- (1.5,0.5);
+        \draw[thick] (0,0.8) -- (0.5,0.8);
+        \draw[thick] (0.5,1.0) rectangle (1.5,0.6);
+        \draw[thick] (1.5,0.8) -- (2.0,0.8);
 
         % Draw the mass
-        \draw[thick,fill=gray!20] (2,0) rectangle (3,0.5);
+        \draw[thick,fill=gray!20] (2,0) rectangle (3,1.0);
 
         % Labels
-        \node at (2.5,0.25) {$m$};
-        \node[above] at (1.25,0.65) {$c$};
-        \node[below] at (1,0.1) {$k$};
-        \draw[->,thick] (3.2,0.25) -- ++(0.7,0) node[midway, above] {$x$};
+        \node at (2.5,0.5) {$m$};
+        \node[above] at (1.25,1.0) {$c$};
+        \node[below] at (1,-0.1) {$k$};
+        \draw[->,thick,blue] (3.0,0.25) -- ++(0.7,0) node[midway, above] {$x$};
+        \draw[->,thick] (3.0,0.75) -- ++(0.7,0) node[midway, above] {$F$};
     \end{tikzpicture}
     \caption{Mass-spring-damper system}
     \label{f:msd}
@@ -120,25 +120,18 @@ This second-order linear differential equation fully describes the dynamic respo
 
 \subsection{Solutions to Differential Equations}
 
-\subsubsection{Characteristic and Particular Solutions}
+The differential equations presented in the previous section can be solved using a variety of methods. The most common methods are the characteristic and particular solution method and the Laplace transform method. The sections below will discuss both methods starting with the characteristic and particular solution method.
 
-For a first order linear differential equation of the form
-\begin{equation}
-    \dot{q} + \sigma q = \sigma f
-\end{equation}
-the general solution is the sum of the homogeneous (characteristic) solution and a particular solution.
+\subsubsection{Characteristic and Particular Solutions for First Order Systems}
 
-The particular solution corresponds to the steady-state response when the forcing function $f$ is constant. Assume $f$ is a constant $f_0$. The particular solution $q_p$ satisfies:
+First the first order system defined above will be solved first. For a first order linear differential equation of the form presented in equation \ref{e:first_order}, the general solution is the sum of the homogeneous (characteristic) solution and a particular solution. The particular solution corresponds to the steady-state response when the forcing function $f$ is constant. In this case assume $f$ is a step function which is just a constant $f_0$. The particular solution $q_p(t)=C$ where $C$ is a constant and thus $\dot{q_p}=\dot{C}=0.$ Plugging this into equation \ref{e:first_order} gives
 \begin{equation}
-    0 + \sigma q_p = \sigma f_0 \implies q_p = f_0
+    0 + \sigma q_p = \sigma f_0 
 \end{equation}
-Thus, the particular solution for a constant input is simply $q_p = f_0$.
+Thus, the particular solution for a constant input is simply $q_p = f_0$. If the forcing function is not constant then the particular solution will be a function of time and solving for the particular solution will be more difficult. Examples of this include sinusoidal forcing functions or exponentially decaying forcing functions. The solutions to these types of forcing functions can be found in many differential equations textbooks and will not be discussed here for the time being. The homogeneous solution is found by setting the forcing function to zero and solving the resulting equation. Thus, the homogeneous equation is
+\hl{INSERT homogeneous equation}
 
-If $f$ is a function of time, $f(t)$, a particular solution can be found using the integrating factor method:
-\begin{equation}
-    q_p(t) = e^{-\sigma t} \int_0^t \sigma f(\tau) e^{\sigma \tau} d\tau
-\end{equation}
-This gives the forced response of the system to any input $f(t)$.
+\subsubsection{Characteristic and Particular Solutions for Second Order Systems}
 
 \subsubsection{Laplace Solutions}
 
