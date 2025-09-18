@@ -128,8 +128,39 @@ First the first order system defined above will be solved first. For a first ord
 \begin{equation}
     0 + \sigma q_p = \sigma f_0 
 \end{equation}
-Thus, the particular solution for a constant input is simply $q_p = f_0$. If the forcing function is not constant then the particular solution will be a function of time and solving for the particular solution will be more difficult. Examples of this include sinusoidal forcing functions or exponentially decaying forcing functions. The solutions to these types of forcing functions can be found in many differential equations textbooks and will not be discussed here for the time being. The homogeneous solution is found by setting the forcing function to zero and solving the resulting equation. Thus, the homogeneous equation is
-\hl{INSERT homogeneous equation}
+Thus, the particular solution for a constant input is simply $q_p = f_0$. If the forcing function is not constant then the particular solution will be a function of time and solving for the particular solution will be more difficult. Examples of this include sinusoidal forcing functions or exponentially decaying forcing functions. The solutions to these types of forcing functions can be found in many differential equations textbooks and will not be discussed here for the time being. The homogeneous solution is found by setting the forcing function to zero and solving the resulting equation assuming that $q_h(t)=Ae^{st}$. Thus, the homogeneous equation is
+\begin{equation}
+    \dot{q_h} + \sigma q_h = Ase^{st} + \sigma Ae^{st} = Ae^{st}(s+\sigma) = 0
+\end{equation}
+In the equation above the result yields 3 equations that could be equal to zero. The first is $A=0$ which is a trivial solution and thus not considered. The second is $e^{st}=0$ which is never true for any real or complex value of s. The third is $s+\sigma=0$ which is the charactertic equation for the first order system. The solution to this equation yields the characteristic root $s=-\sigma$. Thus, the homogeneous solution is
+\begin{equation}
+    q_h(t) = Ae^{-\sigma t}
+\end{equation}
+where A is a constant determined by the initial conditions. The general solution is the sum of the homogeneous and particular solutions
+\begin{equation}
+    q(t) = q_h(t) + q_p(t) = Ae^{-\sigma t} + f_0
+\end{equation}
+The constant A can be determined by the initial condition $q(0)=q_0$ which yields
+\begin{equation}
+    q(0) = A + f_0 = q_0 \implies A = q_0 - f_0
+\end{equation}
+Thus, the final solution to the first order system is 
+\begin{equation}
+    q(t) = q_0 - f_0 + Ae^{-\sigma t}
+\end{equation}
+or more simply
+\begin{equation}
+    q(t) = f_0 + (q_0 - f_0)e^{-\sigma t}
+\end{equation}
+In the case of the car example the solution would be
+\begin{equation}
+    v(t) = \frac{F_0}{c} + \left(v_0 - \frac{F_0}{c}\right)e^{-\frac{c}{m}t}
+\end{equation}
+noting that $\sigma = c/m$,$F_0 = cf_0$ and $v_0$ is the initial velocity of the car. Typically for these types of systems the initial velocity is zero so the equation simplifies to
+\begin{equation}
+    v(t) = \frac{F_0}{c}\left(1 - e^{-\frac{c}{m}t}\right)
+\end{equation}
+which shows that the car will asymptotically approach a steady state velocity of $F_0/c$. This will be plotted later in the time response section for open loop analysis.
 
 \subsubsection{Characteristic and Particular Solutions for Second Order Systems}
 
