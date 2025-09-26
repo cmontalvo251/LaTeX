@@ -77,32 +77,32 @@ where $q$ is a generalized coordinate, $\sigma$ is the inverse of the time const
 
 A mass-spring-damper system is a classic example of a second-order system. The system consists of a mass $m$ attached to a spring with spring constant $k$ and a damper with damping coefficient $c$. The mass is free to move along a single axis $x$, and the system is subject to an external force $f$ as shown in Figure \ref{f:msd}.
 
-\hl{THIS FIGURE IS NOT QUITE RIGHT BUT WILL FIX LATER}
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[scale=1.2]
         % Draw the wall
-        \draw[thick] (-1,0) -- (0,0);
-        \draw[thick] (-1,0.5) -- (0,0.5);
-        \foreach \y in {0,0.1,...,0.5}
+        \draw[thick] (-1,.2) -- (0,0.2);
+        \draw[thick] (-1,0.8) -- (0,0.8);
+        \foreach \y in {0,0.1,...,1.0}
             \draw[thick] (-1,\y) -- (-1.2,\y+0.05);
 
         % Draw the spring
-        \draw[thick,decorate,decoration={coil,aspect=0.5,segment length=4mm,amplitude=3mm}] (0,0.05) -- (2,0.05);
+        \draw[thick,decorate,decoration={coil,aspect=0.5,segment length=4mm,amplitude=3mm}] (0,0.2) -- (2,0.2);
 
         % Draw the damper
-        \draw[thick] (0,0.5) -- (0.5,0.5);
-        \draw[thick] (0.5,0.65) rectangle (1.0,0.35);
-        \draw[thick] (1.0,0.5) -- (1.5,0.5);
+        \draw[thick] (0,0.8) -- (0.5,0.8);
+        \draw[thick] (0.5,1.0) rectangle (1.5,0.6);
+        \draw[thick] (1.5,0.8) -- (2.0,0.8);
 
         % Draw the mass
-        \draw[thick,fill=gray!20] (2,0) rectangle (3,0.5);
+        \draw[thick,fill=gray!20] (2,0) rectangle (3,1.0);
 
         % Labels
-        \node at (2.5,0.25) {$m$};
-        \node[above] at (1.25,0.65) {$c$};
-        \node[below] at (1,0.1) {$k$};
-        \draw[->,thick] (3.2,0.25) -- ++(0.7,0) node[midway, above] {$x$};
+        \node at (2.5,0.5) {$m$};
+        \node[above] at (1.25,1.0) {$c$};
+        \node[below] at (1,-0.1) {$k$};
+        \draw[->,thick,blue] (3.0,0.25) -- ++(0.7,0) node[midway, above] {$x$};
+        \draw[->,thick] (3.0,0.75) -- ++(0.7,0) node[midway, above] {$F$};
     \end{tikzpicture}
     \caption{Mass-spring-damper system}
     \label{f:msd}
@@ -120,25 +120,49 @@ This second-order linear differential equation fully describes the dynamic respo
 
 \subsection{Solutions to Differential Equations}
 
-\subsubsection{Characteristic and Particular Solutions}
+The differential equations presented in the previous section can be solved using a variety of methods. The most common methods are the characteristic and particular solution method and the Laplace transform method. The sections below will discuss both methods starting with the characteristic and particular solution method.
 
-For a first order linear differential equation of the form
-\begin{equation}
-    \dot{q} + \sigma q = \sigma f
-\end{equation}
-the general solution is the sum of the homogeneous (characteristic) solution and a particular solution.
+\subsubsection{Characteristic and Particular Solutions for First Order Systems}
 
-The particular solution corresponds to the steady-state response when the forcing function $f$ is constant. Assume $f$ is a constant $f_0$. The particular solution $q_p$ satisfies:
+First the first order system defined above will be solved first. For a first order linear differential equation of the form presented in equation \ref{e:first_order}, the general solution is the sum of the homogeneous (characteristic) solution and a particular solution. The particular solution corresponds to the steady-state response when the forcing function $f$ is constant. In this case assume $f$ is a step function which is just a constant $f_0$. The particular solution $q_p(t)=C$ where $C$ is a constant and thus $\dot{q_p}=\dot{C}=0.$ Plugging this into equation \ref{e:first_order} gives
 \begin{equation}
-    0 + \sigma q_p = \sigma f_0 \implies q_p = f_0
+    0 + \sigma q_p = \sigma f_0 
 \end{equation}
-Thus, the particular solution for a constant input is simply $q_p = f_0$.
+Thus, the particular solution for a constant input is simply $q_p = f_0$. If the forcing function is not constant then the particular solution will be a function of time and solving for the particular solution will be more difficult. Examples of this include sinusoidal forcing functions or exponentially decaying forcing functions. The solutions to these types of forcing functions can be found in many differential equations textbooks and will not be discussed here for the time being. The homogeneous solution is found by setting the forcing function to zero and solving the resulting equation assuming that $q_h(t)=Ae^{st}$. Thus, the homogeneous equation is
+\begin{equation}
+    \dot{q_h} + \sigma q_h = Ase^{st} + \sigma Ae^{st} = Ae^{st}(s+\sigma) = 0
+\end{equation}
+In the equation above the result yields 3 equations that could be equal to zero. The first is $A=0$ which is a trivial solution and thus not considered. The second is $e^{st}=0$ which is never true for any real or complex value of s. The third is $s+\sigma=0$ which is the charactertic equation for the first order system. The solution to this equation yields the characteristic root $s=-\sigma$. Thus, the homogeneous solution is
+\begin{equation}
+    q_h(t) = Ae^{-\sigma t}
+\end{equation}
+where A is a constant determined by the initial conditions. The general solution is the sum of the homogeneous and particular solutions
+\begin{equation}
+    q(t) = q_h(t) + q_p(t) = Ae^{-\sigma t} + f_0
+\end{equation}
+The constant A can be determined by the initial condition $q(0)=q_0$ which yields
+\begin{equation}
+    q(0) = A + f_0 = q_0 \implies A = q_0 - f_0
+\end{equation}
+Thus, the final solution to the first order system is 
+\begin{equation}
+    q(t) = q_0 - f_0 + Ae^{-\sigma t}
+\end{equation}
+or more simply
+\begin{equation}
+    q(t) = f_0 + (q_0 - f_0)e^{-\sigma t}
+\end{equation}
+In the case of the car example the solution would be
+\begin{equation}
+    v(t) = \frac{F_0}{c} + \left(v_0 - \frac{F_0}{c}\right)e^{-\frac{c}{m}t}
+\end{equation}
+noting that $\sigma = c/m$,$F_0 = cf_0$ and $v_0$ is the initial velocity of the car. Typically for these types of systems the initial velocity is zero so the equation simplifies to
+\begin{equation}
+    v(t) = \frac{F_0}{c}\left(1 - e^{-\frac{c}{m}t}\right)
+\end{equation}
+which shows that the car will asymptotically approach a steady state velocity of $F_0/c$. This will be plotted later in the time response section for open loop analysis.
 
-If $f$ is a function of time, $f(t)$, a particular solution can be found using the integrating factor method:
-\begin{equation}
-    q_p(t) = e^{-\sigma t} \int_0^t \sigma f(\tau) e^{\sigma \tau} d\tau
-\end{equation}
-This gives the forced response of the system to any input $f(t)$.
+\subsubsection{Characteristic and Particular Solutions for Second Order Systems}
 
 \subsubsection{Laplace Solutions}
 
