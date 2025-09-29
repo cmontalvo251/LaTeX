@@ -27,6 +27,8 @@ ${\bf B} = \partial \vec{g}/\partial \vec{x}$ which are partial derivatives of t
 
 \subsection{First and Second Order System Examples}
 
+The linear systems of equations derived above are in state space form. That is the vector $\vec{x}$ contains all the states of the system. However, it is often easier to understand the dynamics of a system when it is in the form of a single differential equation with all states and derivatives shown in the same equation. Practical examples also help the undergraduate controls engineer as math with practical context is the best way to learn in my humble opinion. The sections below will discuss first and second order systems which are the most common types of systems encountered in engineering applications. Note that higher order systems can be reduced to first and second order systems by using techniques such as root locus or pole placement since higher order systems typically have high frequency dynamics that can be ignored for control purposes. For the most part, first and second order systems are all that is needed to understand the basics of control systems and represent the majority of systems encountered in practice.
+
 \subsubsection{Example First Order System Formulation}
 
 A first order system undergoing free motion will have dynamics that look like this
@@ -164,7 +166,63 @@ which shows that the car will asymptotically approach a steady state velocity of
 
 \subsubsection{Characteristic and Particular Solutions for Second Order Systems}
 
-\subsubsection{Laplace Solutions}
+The solution to second order systems is quite complex given the nature of solving a second order differential equation. The general solution is again the sum of the homogeneous and particular solutions and assume the initial conditions are zero. The major difficulty with second order systems is that the solution to the homogenous characteristic eqaution can be real, repeated or imaginary roots. The roots effect the overall solution and will be discussed later. To start the particular solution is very simple and is again found by assuming a constant forcing function $f_0$ such that $q_p(t)=C$ where $C$ is a constant and thus $\dot{q_p}=\dot{C}=0$ and $\ddot{q_p}=\ddot{C}=0$. Plugging this into equation \ref{e:second_order} gives the eqaution below:
+
+\begin{equation}
+    0 + 0 + {\omega_n}^2 q_p = {\omega_n}^2 f_0
+\end{equation}
+Thus, the particular solution for a constant input is simply $q_p = f_0$. If the forcing function is not constant then the particular solution will be a function of time and solving for the particular solution will be more difficult. Examples of this include sinusoidal forcing functions or exponentially decaying forcing functions. The solutions to these types of forcing functions can be found in many differential equations textbooks and will not be discussed here for the time being. The homogeneous solution is found by setting the forcing function to zero and solving the resulting equation assuming that $q_h(t)=Ae^{st}$. Thus the homogeneous equation is
+\begin{equation}
+    \begin{matrix}
+    \ddot{q_h} + 2\zeta \omega_n \dot{q_h} + {\omega_n}^2 q_h = 0 \\
+    A s^2 e^{st} + 2\zeta \omega_n A s e^{st} + {\omega_n}^2 A e^{st} = 0 \\
+    Ae^{st}(s^2 + 2\zeta \omega_n s + {\omega_n}^2) = 0
+    \end{matrix}
+\end{equation}
+In the equation above the result yields 3 equations that could be equal to zero. The first is $A=0$ which is a trivial solution and thus not considered. The second is $e^{st}=0$ which is never true for any real or complex value of s. The third is $s^2 + 2\zeta \omega_n s + {\omega_n}^2 = 0$ which is the charactertic equation for the second order system. The solution to this equation yields the characteristic roots which as stated above can have real, repeated or imaginary roots. The characteristic roots are found using the quadratic formula and are given as
+\begin{equation}
+    s = -\zeta \omega_n \pm \omega_n \sqrt{\zeta^2 - 1}
+\end{equation}
+The nature of the roots depends on the value of the damping ratio $\zeta$. The three cases are underdamped ($0<\zeta<1$), critically damped ($\zeta=1$), and overdamped ($\zeta>1$). Each case will be discussed below.
+\begin{itemize}
+    \item {\bf Underdamped ($0<\zeta<1$)}: In this case, the roots are complex conjugates ($s_{12}=-\zeta w_n \pm \omega_d j$), leading to oscillatory behavior. The homogeneous solution is given by:
+    \begin{equation}
+        q_h(t) = e^{-\zeta \omega_n t} \left( A_1 \cos(\omega_d t) + A_2 \sin(\omega_d t) \right)
+    \end{equation}
+    where $\omega_d = \omega_n \sqrt{1 - \zeta^2}$ is the damped natural frequency, and $A_1$ and $A_2$ are constants determined by initial conditions.
+
+    \item {\bf Critically Damped ($\zeta=1$)}: In this case, the roots are real and repeated ($s_{12}=-\omega_n$). The homogeneous solution is given by:
+    \begin{equation}
+        q_h(t) = (A_1 + A_2 t) e^{-\omega_n t}
+    \end{equation}
+
+    \item {\bf Overdamped ($\zeta>1$)}: In this case, the roots are real and distinct ($s_{12}=-\zeta \omega_n \pm \omega_n \sqrt{\zeta^2-1}$). The homogeneous solution is given by:
+    \begin{equation}
+        q_h(t) = A_1 e^{s_1 t} + A_2 e^{s_2 t}
+    \end{equation}
+\end{itemize}
+The general solution is the sum of the homogeneous and particular solutions
+\begin{equation}
+    q(t) = q_h(t) + q_p(t) = q_h(t) + f_0
+\end{equation}
+The constants $A_1$ and $A_2$ can be determined by the initial conditions $q(0)=q_0$ and $\dot{q}(0)=\dot{q_0}$. The final solution will depend on the damping ratio $\zeta$ and the initial conditions. For the case where the initial conditions are zero the final solutions for each case are shown below.
+\begin{itemize}
+    \item {\bf Underdamped ($0<\zeta<1$)}:
+    \begin{equation}
+        q(t) = f_0 \left( 1 - e^{-\zeta \omega_n t} \left( \cos(\omega_d t) + \frac{\zeta}{\sqrt{1-\zeta^2}} \sin(\omega_d t) \right) \right)
+    \end{equation}
+    \item {\bf Critically Damped ($\zeta=1$)}:
+    \begin{equation}
+        q(t) = f_0 \left( 1 - (1 + \omega_n t) e^{-\omega_n t} \right)
+    \end{equation}
+    \item {\bf Overdamped ($\zeta>1$)}:
+    \begin{equation}
+        q(t) = f_0 \left( 1 - \frac{s_2 e^{s_1 t} - s_1 e^{s_2 t}}{s_2 - s_1} \right)
+    \end{equation}
+\end{itemize}
+In the case of the mass-spring-damper example, recall that $f_0=F_0/k$, $\omega_n = \sqrt{k/m}$, and $\zeta = c/(2\sqrt{mk})$.
+
+\subsection{Laplace Solutions}
 
 \subsection{Time Response of First and Second Order Systems}
 
