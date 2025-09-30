@@ -159,7 +159,7 @@ In the case of the car example the solution would be
     v(t) = \frac{F_0}{c} + \left(v_0 - \frac{F_0}{c}\right)e^{-\frac{c}{m}t}
 \end{equation}
 noting that $\sigma = c/m$,$F_0 = cf_0$ and $v_0$ is the initial velocity of the car. Typically for these types of systems the initial velocity is zero so the equation simplifies to
-\begin{equation}
+\begin{equation}\label{e:first_order_solution}
     v(t) = \frac{F_0}{c}\left(1 - e^{-\frac{c}{m}t}\right)
 \end{equation}
 which shows that the car will asymptotically approach a steady state velocity of $F_0/c$. This will be plotted later in the time response section for open loop analysis.
@@ -224,7 +224,142 @@ In the case of the mass-spring-damper example, recall that $f_0=F_0/k$, $\omega_
 
 \subsection{Laplace Solutions}
 
+Another method to solve linear differential equations is the Laplace transform method. The Laplace transform converts a time-domain differential equation into an algebraic equation in the s-domain, which can be easier to manipulate and solve. The Laplace domain and algebraic equations are very useful for control system dynamics and every undergraduate controls engineer should learn its fundamentals. The Laplace transform of a function $f(t)$ is defined as 
+\begin{equation}
+    F(s) = \mathcal{L}\{f(t)\} = \int_0^{\infty} f(t) e^{-st} dt
+\end{equation}
+where $s$ is a complex variable similar to the $s$ in the $Ae^{st}$ equations discussed earlier. The inverse Laplace transform is given by 
+\begin{equation}
+    f(t) = \mathcal{L}^{-1}\{F(s)\} = \frac{1}{2\pi j} \lim_{T \to \infty} \int_{\gamma - jT}^{\gamma + jT} F(s) e^{st} ds
+\end{equation}
+where $\gamma$ is a real number such that all singularities of $F(s)$ are to the left of the line $Re(s) = \gamma$. Note that these integrals are very complex and not typically solved by hand but rather looked up in a table of Laplace transforms. Some common Laplace transforms are shown below
+\renewcommand{\arraystretch}{1.5} % Increase row spacing by 1.5x
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Time Domain $f(t)$ & Laplace Transform $\mathcal{L}\{f(t)\}$ & Description \\
+\hline
+$u(t)$ & $\frac{1}{s}$ & Unit step \\
+$t$ & $\frac{1}{s^2}$ & Ramp \\
+$e^{at}$ & $\frac{1}{s-a}$ & Exponential \\
+$sin(at)$ & $\frac{a}{s^2 + a^2}$ & Sine \\
+$cos(at)$ & $\frac{s}{s^2 + a^2}$ & Cosine \\
+$t^2$ & $\frac{2}{s^3}$ & Quadratic \\
+$te^{at}$ & $\frac{1}{(s-a)^2}$ & Repeated Root \\
+$e^{at}sin(bt)$ & $\frac{b}{(s-a)^2 + b^2}$ & Underdamped Sine \\
+$e^{at}cos(bt)$ & $\frac{s-a}{(s-a)^2 + b^2}$ & Underdamped Cosine \\
+$\dot{f}(t)$ & $sF(s) - f(0)$ & First derivative \\
+$\ddot{f}(t)$ & $s^2F(s) - sf(0) - \dot{f}(0)$ & Second derivative \\
+\hline
+\end{tabular}
+\caption{Common Laplace transforms}
+\end{table}
+\renewcommand{\arraystretch}{1} % Reset 
+where $u(t)$ is the unit step function where $u(t)=0$ for $t<0$ and $u(t)=1$ for $t\geq0$. The undergraduate student may look at these equations and wonder how exactly these functions are helpful. To illustrate their usefulness the first and second order systems defined above will be solved using the Laplace transform method.
+
+\subsubsection{Laplace Solution for First Order Systems}
+
+Taking the Laplace transform of equation \ref{e:first_order} and assuming zero initial conditions gives 
+\begin{equation}
+    sQ(s) + \sigma Q(s) = \sigma F(s)
+\end{equation}
+where $Q(s)$ is the Laplace transform of $q(t)$ and $F(s)$ is the Laplace transform of $f(t)$. Rearranging gives the equation below
+\begin{equation}
+    \frac{Q(s)}{F{s}} = G(s) = \frac{\sigma}{(s+\sigma)}
+\end{equation}
+The function $G(s)$ is called the transfer function of the system and is a very important function in control systems. The transfer function relates the output of the system $Q(s)$ to the input of the system $F(s)$ in the Laplace domain. The transfer function can be used to analyze the stability and performance of the system. The transfer function can also be used to design controllers for the system which will be discussed later. Let's now assume that the forcing function is a step function such that $f(t)=f_0u(t)$ where $u(t)$ is the unit step function. The Laplace transform of a step function is $F(s)=f_0/s$. Plugging this into the equation above gives
+\begin{equation}
+    Q(s) = G(s)F(s) = \frac{\sigma}{s+\sigma}\frac{f_0}{s} = \frac{\sigma f_0}{s(s+\sigma)}
+\end{equation}
+The solution to the equation above can be found by taking the inverse Laplace transform. However, the equation above is not in the standard table of Laplace transforms. Thus partial fraction decomposition is needed to get $Q(s)$ into a form that can be used for inverse Laplace. The equation can be rewritten using partial fractions as
+\begin{equation}
+    Q(s) = \frac{\sigma f_0}{s(s+\sigma)} = \frac{A}{s} + \frac{B}{s+\sigma}
+\end{equation}
+where $A$ and $B$ are constants to be determined. Multiplying both sides by the denominator on the left side gives
+\begin{equation}
+    \sigma f_0 = A(s+\sigma) + Bs
+\end{equation}
+Setting $s=0$ gives $A=\sigma f_0/\sigma = f_0$. Setting $s=-\sigma$ gives $B=-\sigma f_0/\sigma = -f_0$. Thus, the equation can be rewritten as
+\begin{equation}
+    Q(s) = \frac{f_0}{s} - \frac{f_0}{s+\sigma}
+\end{equation}
+Taking the inverse Laplace transform gives
+\begin{equation}
+    q(t) = f_0 - f_0 e^{-\sigma t} = f_0(1 - e^{-\sigma t})
+\end{equation}
+substituting back in the values for $\sigma$ and $f_0$ gives
+\begin{equation}
+    v(t) = \frac{F_0}{c}(1 - e^{-\frac{c}{m}t})
+\end{equation}
+which is the same solution as derived using the characteristic and particular solution method assuming zero initial conditions as given by equation \ref{e:first_order_solution}.
+
+\subsubsection{Laplace Solution for Second Order Systems}
+
+Taking the Laplace transform of equation \ref{e:second_order} and assuming zero initial conditions gives
+\begin{equation}
+    s^2 Q(s) + 2\zeta \omega_n s Q(s) + {\omega_n}^2 Q(s) = {\omega_n}^2 F(s)
+\end{equation}
+Rearranging just as before gives the equation below 
+\begin{equation}
+    \frac{Q(s)}{F(s)} = G(s) = \frac{{\omega_n}^2}{s^2 + 2\zeta \omega_n s + {\omega_n}^2}
+\end{equation}
+where again $G(s)$ is the transfer function of the system. Let's again assume that the forcing function is a step function such that $f(t)=f_0u(t)$. Plugging the Laplace transform of $F(s)$ just as before gives
+\begin{equation}
+    Q(s) = G(s)F(s) = \frac{{\omega_n}^2}{s^2 + 2\zeta \omega_n s + {\omega_n}^2}\frac{f_0}{s} = \frac{{\omega_n}^2 f_0}{s(s^2 + 2\zeta \omega_n s + {\omega_n}^2)}
+\end{equation}
+The solution to the equation above again can be found by taking the inverse Laplace transform. However, again the equation above is not in the standard table of Laplace transforms. Thus partial fraction decomposition is needed to get $Q(s)$ into a form that can be used for inverse Laplace. The equation can be rewritten using partial fractions as
+\begin{equation}
+    Q(s) = \frac{{\omega_n}^2 f_0}{s(s^2 + 2\zeta \omega_n s + {\omega_n}^2)} = \frac{A}{s} + \frac{Bs + C}{s^2 + 2\zeta \omega_n s + {\omega_n}^2}
+\end{equation}
+where $A$, $B$ and $C$ are constants to be determined. Multiplying both sides by the denominator on the left side gives
+\begin{equation}
+    {\omega_n}^2 f_0 = A(s^2 + 2\zeta \omega_n s + {\omega_n}^2) + (Bs + C)s
+\end{equation}
+Setting $s=0$ gives $A={\omega_n}^2 f_0/{\omega_n}^2 = f_0$. Setting $s=j\omega_n(-\zeta + \sqrt{\zeta^2 - 1})$ and $s=j\omega_n(-\zeta - \sqrt{\zeta^2 - 1})$ gives two equations that can be solved simultaneously to find $B$ and $C$. The final results are $B=-f_0$ and $C=-2\zeta \omega_n f_0$. Thus, the equation can be rewritten as
+\begin{equation}
+    Q(s) = \frac{f_0}{s} - \frac{f_0 s + 2\zeta \omega_n f_0}{s^2 + 2\zeta \omega_n s + {\omega_n}^2}
+\end{equation}
+The first term of the equation is simply the Laplace transform of a step function. The second term can be solved using the table of Laplace transforms. The final solution depends on the value of the damping ratio $\zeta$ just as before. The final solutions for each case assuming zero initial conditions are shown below. It is left to the reader to verify that these solutions match those derived using the characteristic and particular solution method. The underdamped solution is solved by completing the square in the denominator and using the Laplace transform of the underdamped sine and cosine functions. The critically damped and overdamped solutions are solved using the Laplace transforms of repeated roots and real distinct roots respectively.
+\begin{itemize}
+    \item {\bf Underdamped ($0<\zeta<1$)}:
+    \begin{equation}
+        q(t) = f_0 \left( 1 - e^{-\zeta \omega_n t} \left( \cos(\omega_d t) + \frac{\zeta}{\sqrt{1-\zeta^2}} \sin(\omega_d t) \right) \right)
+    \end{equation}
+    \item {\bf Critically Damped ($\zeta=1$)}:
+    \begin{equation}
+        q(t) = f_0 \left( 1 - (1 + \omega_n t) e^{-\omega_n t} \right)
+    \end{equation}
+    \item {\bf Overdamped ($\zeta>1$)}:
+    \begin{equation}
+        q(t) = f_0 \left( 1 - \frac{s_2 e^{s_1 t} - s_1 e^{s_2 t}}{s_2 - s_1} \right)
+    \end{equation}
+\end{itemize}
+Notice again that the solutions are the same as those derived using the characteristic and particular solution method assuming zero initial conditions. It is possible that the undergraduate engineer still does not see the usefulness of the Laplace transform method. The true power of the Laplace transform method is in the transfer function. The transfer function can be used to analyze the stability and performance of the system as well as design controllers for the system which will be discussed in the sections below.
+
 \subsection{Time Response of First and Second Order Systems}
+
+Now that the solutions to the first and second order systems have been derived using both the characteristic and particular solution method as well as the Laplace transform method, the time response of these systems can be analyzed. The time response of a system is the output of the system as a function of time given a specific input. The time response can be used to analyze the stability and performance of the system. 
+
+\subsubsection{Time Response of First Order Systems}
+
+First, let's plot the time response of the first order system given by equation \ref{e:first_order_solution}. The parameters for the system are chosen to be $F_0=1000~N$, $c=50~Ns/m$, and $m=1000~kg$. The initial velocity is assumed to be zero. In order to show the time response however, 3 different curves will be placed on the graph. The first will be the analytic solution to the first order system, the second is the Laplace transform solution using the control systems toolbox in Python and the last is the numerical integration of the equations of motion. The python code used to generate this is shown in the Figure below and also available on \href{https://github.com/cmontalvo251/Python/blob/master/controls/first_order_system.py}{GitHub}.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{Figures/first_order_code.png}
+\caption{Python code to generate time response of first order system}
+\label{f:first_order_code}
+\end{figure}
+Note the code is commented to help the reader understand what is happening. Note the benefit of using the control systems toolbox in Python. The time response can be generated by first creating the transfer function and then applying a step to the transfer function. This will come in handy later when it is necessary to apply a control system to the transfer function before inversing back to the time domain. The numerical integration is also useful when the equations of motion are known and the control system designer wants to work in the time doman rather than the laplace domain. Both have their pros and cons. The numerical integration is done using the scipy.integrate.odeint function which is a simple way to numerically integrate ordinary differential equations. The results of the time response are shown in Figure \ref{f:first_order_response}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figures/first_order_response.png}
+    \caption{Time response of first order system}
+    \label{f:first_order_response}
+\end{figure}
+\noindent The time response shows that the velocity of the car asymptotically approaches a steady state value of $F_0/c = 20~m/s$. The time constant of the system is $\tau = m/c = 20~s$. The time constant is the time it takes for the system to reach 63.2\% of its steady state value. The settling time $T_s=4\tau$ is the time the system takes to get within 2\% of its final value. In this case that is $80~s$. The time response can be used to analyze the stability and performance of the system. In this case, the system is stable and the performance is acceptable given the parameters chosen. 
+
+\subsubsection{Time Response of Second Order Systems}
 
 \subsection{Proportional Derivative Integral Control}
 
