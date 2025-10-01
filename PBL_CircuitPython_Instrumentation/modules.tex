@@ -124,13 +124,23 @@ something will investigate in some later labs.
 The temperature sensor is actually
 a \href{https://en.wikipedia.org/wiki/Thermistor}{thermistor}. A
 thermistor is basically a thermometer resistor which means the
-resistance depends on temperature. There is a lab on thermistors (See
-chapter \ref{s:thermistor} if you'd like to do that lab first to learn more
-about thermistors. Since this thermistor on the CPX/CPB is connected to an analog pin, you can read the analog signal coming from the thermistor just by reading the analog signal from pin A9. If you look for the thermometer symbol on the CPX
+resistance depends on temperature. Since this thermistor on the CPX/CPB is connected to an analog pin, you can read the analog signal coming from the thermistor just by reading the analog signal from pin A9. If you look for the thermometer symbol on the CPX
 you’ll see pin A9. Therefore, it is possible to just use the analogio
 library and just read in the analog voltage but in order to convert to
 celsius and then fahrenheit you need to use some heat transfer
-equations to convert the analog signal to celsius. This is explained in more depth in Chapter \ref{s:thermistor}. Thankfully, the
+equations to convert the analog signal to celsius.
+
+In this case, the thermistor is wired in a voltage divider circuit in series with a $10000~\Omega$ resistor. This means that the voltage across the thermistor can be converted to its resistance using the voltage divider equation below similar to the equation used for the photocell.
+\begin{equation}
+V_{thermistor} = V_{out}\frac{R_{thermistor}}{R_{series}+R_{thermistor}}
+\end{equation}
+Where $V_{out}=3.3V$ and $R_{series}=10000~\Omega$. The equation above can be inverted to obtain the resistance in the thermistor which can then be converted to Kelvin. This means that the digital output from the analog to digital converter can be converted to voltage and then to resistance as has been done for various ADC labs in this textbook. Remember that $V_{thermistor} = V_{out}D_o/65535$ where $D_o$ is the digital output from the ADC. Once you have the resistance from the thermistor, you can use a modified version of the \href{https://en.wikipedia.org/wiki/Steinhart%E2%80%93Hart_equation}{Steinhart-Hart} equation which is given below.
+\begin{equation}
+T_{thermistor}=\left(\frac{1}{T_0}+\frac{1}{\beta}log(R_{thermistor}/R_{series})\right)^{-1}
+\end{equation}
+where $\beta=3950$ is a heat transfer coefficient specific to the bulk semiconductor material over a given temperature range of interest and $T_0=298.15K$ is the nominal temperature of the semiconductor in Kelvin. Note that in the equation above, the output is in Kelvin.
+
+Thankfully, the
 folks at Adafruit have done it again with an {\it
 adafruit\_thermistor} module. If you head over to
 their \href{https://github.com/adafruit/Adafruit_CircuitPython_Thermistor/blob/master/adafruit_thermistor.py}{github
@@ -138,7 +148,7 @@ on this module} you’ll see the relevant conversion under the
 definition temperature which at the time of this writing is on line
 86. \href{https://learn.adafruit.com/thermistor/circuitpython}{The
 Adafruit Learn system also does a bit of work to explain the
-conversion from voltage to temperature} but I have also summarized it in Chapter \ref{s:thermistor}. For now though we will just
+conversion from voltage to temperature} but I have also summarized it above and in Chapter \ref{s:thermistor}. For now though we will just
 appreciate the simplicity of the code below which is
 also \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Temp/record_temperature_thermistor.py}{on
 my Github}. 
