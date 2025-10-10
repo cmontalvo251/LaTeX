@@ -1,4 +1,4 @@
-\section{Linear Time Invariant Systems and Controls}
+\section{Linear Time Invariant Systems}
 
 There is a branch of controls called Linear Time Invariant (LTI)
 Systems that is often taught at the undergraduate level. Although
@@ -384,82 +384,3 @@ Note the code is commented to help the reader understand what is happening. Note
 \subsubsection{Roots of the Characteristic Equation}
 
 \subsubsection{Poles of the Transfer Function}
-
-\subsection{Proportional Derivative Integral Control}
-
-\subsubsection{Bang Bang Control of a Satellite}
-
-\subsubsection{Proportional Control of a Satellite}
-
-\hl{include graphic of Feedback.png}
-
-\subsubsection{Proportional Derivative Control of a Satellite}
-
-\subsubsection{Proportional Control of a Car}
-
-\subsubsection{Proportional Integral Control of a Car}
-
-\subsubsection{Proportional Integral Derivative Control of an Aircraft}
-
-\subsection{Inner and Outer Loop Control of an Aircraft}
-
-\subsubsection{Velocity Control}
-
-\subsubsection{Altitude Control}
-
-\subsubsection{Roll Angle Control}
-
-\subsubsection{Heading Angle Control of a Car}
-
-\subsubsection{Heading Angle Control of an Airplane}
-
-\subsubsection{Waypoint COntrol of a Car}
-
-\subsubsection{Waypoint Control of an Airplane}
-
-\subsection{Lyapunov Control}
-
-\subsection{Sliding Mode Control}
-
-\subsection{Adaptive Control}
-
-\subsection{Controllability}
-
-Controllability is formally stated as a system where any initial
-state $x(0)=x_0$ and final state $x_1,t_1>0$, there exists a piecewise
-continuous input $u(t)$ such that $x(t_1)=x_1$. 
-For a fixed wing aircraft the system has 12 states with 8 dynamic
-modes and 4 zero or rigid body modes. For a fixed wing aircraft the system has 12 states with 8 dynamic
-modes and 4 zero or rigid body modes. A conventional aircraft has 4
-controls to control these 12 modes. The easiest way to test the 
-controllability of a system  is to compute the
-controllability matrix. However, the controllability matrix must be
-computed using a linearized model such that
-$\dot{\vec{x}}=A\vec{x}+B\vec{u}$. In order to do this the aircraft
-must be in equilibrium. For this example the aircraft is
-set with an initial velocity of $20~m/s$ at an altitude of
-$200~m$. The altitude command is set to $200~m$ and the heading
-command is set to zero. Given the zero heading angle command and the
-symmetry of the configurations investigated the rudder and aileron
-commands are set to zero. Thus, only the thrust and elevator controls
-are activated for the trimming procedure. Each configuration is
-simulated for 200 seconds or until the derivatives of all states
-except $\dot{x}$ are within a required tolerance. Using this
-equilibrium point a linear model can be computed by using forward
-finite differencing assuming that the
-aircraft model is put in the form $\dot{\vec{x}} = F(\vec{x},\vec{u})$.
-\begin{equation}
-\dot{\vec{\delta x}} = \frac{F(\vec{x_0}+\Delta \vec{x_0},\vec{u_0})-F(\vec{x_0},\vec{u_0})}{\Delta
-  \vec{x}}\vec{\delta x} + \frac{F(\vec{x_0},\vec{u_0}+\Delta
-  \vec{u})-F(\vec{x_0},\vec{u_0})}{\Delta \vec{u}}\vec{\delta u}
-\end{equation}
-This linear model is the classic linear model where
-$\dot{\vec{\delta x}}=A\vec{\delta{x}}+B\vec{\delta{u}}$. Using this linear model, the
-controllability matrix can be computed as
-\begin{equation}
-W_C = [B~AB~A^2B~A^3B~...~A^{N-1}B]
-\end{equation}
-where N is the number of states in the system. With the controllability
-matrix formulated, the rank of the matrix is computed. If the
-$rank(W_C)=N$ the system is said to be controllable.
-
