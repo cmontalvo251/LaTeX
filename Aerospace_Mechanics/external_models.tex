@@ -8,7 +8,7 @@ Library model which uses the EMM2015 magnetic field model. The
 gravitational model comes from the EGM2008 model
 \cite{GeographicLib}.
 
-\subsection{GPS Coordinates to Cartesian Coordinates (Flat Earth Approximation)}
+\subsection{GPS Coordinates to Cartesian Coordinates (Flat Earth Approximation)}\label{s:llh_to_cartesian}
 
 All external models below imply a spherical world with an Earth Centered Inertial (ECI) frame at the center of the planet. However, often times for small UAV applications it is useful to convert the GPS coordinates (latitude, longitude, altitude, $(\lambda_{LAT},\lambda_{LON},h)$) to a flat earth approximation where the x-axis is pointing North, the y-axis is pointing east and the z-axis is pointing towards the center of the planet. This is similar to spherical coordinates which is explained later on but in this case the axis system is cartesian rather than spherical. This is useful in obtaining the position of the vehicle which can be used to approximate heading and speed which again is explained in another section. The equations to convert LLH (latitude,longitude, altitude) to a cartesian coordinate system are given below. Note that these equations assume that the vehicle creates an origin point to define as the center of the inertial frame which is on the surface of the planet rather than the center of the planet $\lambda_{LAT,0},\lambda_{LON,0}$. Typically when the vehicle gets its first valid GPS coordinate, that point is set as the origin.
 \begin{equation}
