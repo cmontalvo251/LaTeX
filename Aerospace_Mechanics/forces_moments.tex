@@ -112,6 +112,35 @@ center of mass of the thruster.
 \begin{equation}\label{e:propulsion}
   \vec{M}_P = p\sum\limits_{i=1}^{N_P}\sigma_i{\bf S}(\vec{r}_{Pi})\hat{n}_{Pi}
 \end{equation}
+Note that the total thrust equation is given as 
+\begin{equation}
+  T = \dot{m}V_e + A(p_e - p_0)
+\end{equation}
+where $V_e$ is the exhaust velocity, $A$ is the area of the nozzle, and $p_e$ and $p_0$ are the pressures at the exit of the nozzle and the ambient environment. It's easy to see that the thrust at sea-level would be lower than the thrust in a vacuum since $p_0$ is much higher at sea-level and almost zero in a vacuum. For typical hobbyist rockets it is assumed that $p_e = p_0$ and thus the thrust is simply equal to $\dot{m}V_e$. The exit velocity is given as $I_{sp}g_0$ where $g_0$ is the standard gravity of $9.81~m/s^2$. This means that the mass flow can be given as 
+\begin{equation}
+  \dot{m} = \frac{T}{I_{sp}g_0}
+\end{equation}
+which is similar to the equation explained above. Now in order to obtain the delta V of the satellite, the rocket equation is used. The rocket equation is given as 
+\begin{equation}
+  T = m\frac{dV}{dt}
+\end{equation}
+where the sum of the forces is equal to the time rate of velocity. Replacing the left side of the equation with the thrust equation gives
+\begin{equation}
+  -\frac{dm}{dt}I_{sp}g_0 = m\frac{dV}{dt}
+\end{equation}
+Note that mathematically the mass flow rate is negative since the mass of the satellite is decreasing as the propellant is being expelled which is why a minus signs was added. We can then combine like terms and cancel out the dt on both sides to obtain
+\begin{equation}
+  -I_{sp}g_0\frac{dm}{m} = dV
+\end{equation}
+Note that mathematicians would scoff if they read that we are dividing dt since dt is infinitesmially small and cancelling out the dt is similar to dividing by zero. The proper way to "cancel" the dt term would be to perform a change of variables but ultimately you arrive at the same solution. Thus an an engineer I would say "close enough. just like an aymptote." Where a mathematician would say "an asymtote never approaches zero" an engineer like myself would say "but it's basically zero" and move on. So, moving on, integrating both sides gives
+\begin{equation}
+  -I_{sp}g_0\int\limits_{m_i}^{m_f}\frac{dm}{m} = \int\limits_{V_i}^{V_f}dV
+\end{equation}
+which reduces to
+\begin{equation}
+  I_{sp}g_0\ln\left(\frac{m_i}{m_f}\right) = V_f - V_i = \Delta V
+\end{equation}
+where the minus sign was removed by inverting the mass ratio which is a property of natural logarithms. The equation above is the standard rocket equation cited in many textbooks and sources \cite{qp8,qp9}.
 
 \subsection{Magnetorquer Model}
 

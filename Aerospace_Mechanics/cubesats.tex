@@ -1,28 +1,16 @@
 
-\section{GNC Design for CubeSATs}
-
-\subsection{Guidance Navigation and Controls}
+\section{Guidance Navigation and Control Design for CubeSATs}
 
 Every vehicle must be able to maintain a specific position within
-its flight or orbit as well as point in a specific direction to achieve its
-mission. Mission goals have specific trajectories or orbits that must
-be reached and maintained, and this section is intended to explain
-how this is done from a guidance navigation and controls
-perspective. The basis for the guidance, navigation, and control (GNC)
-subsystem are attitude control, attitude estimation, and position
-estimation. Attitude describes which direction the vehicle is
-pointing in three-dimensional space. Attitude control is the act of controlling
-the orientation of the vehicle while attitude estimation is the
-process of determining the precise direction of the vehicle in order
-to perform attitude control. Position estimation primarily involves
-integration schemes or GPS in order to determine the position of the
-vehicle on the surface of the planet. While performing the mission,
-the vehicle will continually use this subsystem to document the
-position. The basis of these techniques follows an understanding of
-spaceflight mechanics and systems engineering. Thus, the following
-approach will help garner a better understanding of an academic
-approach to the GNC subsystem and what methods are used to convey each
-component of the subsystem. 
+its flight or orbit as well as point in a specific direction to achieve its mission. Mission goals have specific trajectories or orbits that must be reached and maintained, and this section is intended to explain how this is done from a guidance navigation and controls perspective. The basis for the guidance, navigation, and control (GNC) subsystem are attitude control, attitude estimation, and position estimation. Attitude describes which direction the vehicle is pointing in three-dimensional space. Attitude control is the act of controlling the orientation of the vehicle while attitude estimation is the process of determining the precise direction of the vehicle in order to perform attitude control. 
+
+Vehicle State estimation is a fundamental portion of GNC and
+requires the vehicle to determine it's orientation with respect to an
+inertial frame as well as its position from an inertial reference
+point. Some sensors are specific to the vehicle application but here
+this section will discuss some of the major state estimation sensors.
+
+Position estimation primarily involves integration schemes or GPS in order to determine the position of the vehicle on the surface of the planet. While performing the mission, the vehicle will continually use this subsystem to document the position. The basis of these techniques follows an understanding of spaceflight mechanics and systems engineering. Thus, the following approach will help garner a better understanding of an academic approach to the GNC subsystem and what methods are used to convey each component of the subsystem. 
 
 The GNC subsystem is critical for the survival of the vehicle. It
 is the system that determines the vehicles orientation and position
@@ -34,12 +22,7 @@ trajectory. Similar to guidance, navigation is the system's way of
 leading the vehicle in space and keeping it on its intended
 path. When people think of navigation they typically refer to Global
 Positioning Systems (GPS) in their car or on their phones. This same
-idea applies to aerospace systems as well. A GPS is a common device used for
-navigation on a vehicle and these components are discussed more
-further in this section. In order to have a successful flight and
-achieve the intended mission goal the vehicle needs to be stable and
-controlled in space. There are many different components different
-aerospace vehicles use to accomplish this. Satellites
+idea applies to aerospace systems as well. A GPS is a common device used for navigation on a vehicle and these components are discussed more further in this section. In order to have a successful flight and achieve the intended mission goal the vehicle needs to be stable and controlled in space. There are many different components different aerospace vehicles use to accomplish this. Satellites
 use reaction wheels and gimbaled thrusters to name a few while
 aircraft use aerodynamic surfaces.
 
@@ -271,7 +254,6 @@ stages.
   \end{center}
   \caption{TVC Diagram\cite{qp22}}
 \end{figure}
-%\subsubsection{Pointing Analysis}
 
 \subsubsection{Reaction Control System (RCS)}
 
@@ -353,6 +335,40 @@ and/or the Moon thus it is possible to design an
 attitude determination algorithm that utilizes the Sun's ephemeris data
 along with the Moon's ephemeris data in the event that the startracker
 is obscured by the Sun/Moon.
+
+\subsubsection{Inertial Measurement Unit}
+
+An inertial measurement unit (IMU) is a combination of three
+sensors. An accelerometer, rate gyro and magnetometer. A magnetometer
+is a device that measures the local magnetic field in the body frame
+$\hat{\beta}_{B} = [\hat{\beta}_x,\hat{\beta}_y,\hat{\beta}_z]^T$\cite{qp33}. Note that the $\hat{}$ implies a measurement rather than the truth signal. Measurements from sensors are prone to bias, drift, scale factor, misalignment, noise and other sources of error that must be accounted for.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/Magnetometer}
+  \end{center}
+  \caption{Example Magnetometer \cite{qp34}}
+\end{figure}
+A rate gyroscope, commonly referred to as a rate gyro measures the
+angular velocity also in the body frame $\hat{\omega}_{B/I}=[\hat{g}_x,\hat{g}_y,\hat{g}_z]^T$. 
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/RateGyro}
+  \end{center}
+  \caption{Example IMU with Integrated Rate Gyro \cite{qp35}}
+\end{figure}
+Accelerometers are sensors used to measure acceleration at a point P
+on a rigid body $\hat{a}_{B/I}=[\hat{a}_x,\hat{a}_y,\hat{a}_z]^T$. For simplicity however, it
+is assumed that point P on the rigid body is the center of mass point
+C therefore the accelerometer is measuring the acceleration of the
+body itself in the body frame with respect to an inertial frame
+$B/I$. 
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/Accelerometer}
+  \end{center}
+  \caption{Example Accelerometer \cite{qp36}}
+\end{figure}
+As mentioned before, the IMU consists of 3 sensors all returning 3 measurments. This results in 9 scalar quantities being returned from this sensor which is where the term 9DOF gets it origin. In reality DOF means Degrees of Freedom which is contrary to the standard 6DOF simulation models explained above. However, the sensor community chooses to coin the term 9DOF to highlight the 9 different scalar values returned from IMUs. It is possible to obtain a 10DOF sensor which also returns pressure or temperature data. 
 
 \subsubsection{StarTracker}
 
@@ -458,6 +474,31 @@ attitude control in the sense that the orbit plays a large role in
 determining the proper component. The major options for attitude
 estimation are Global Positioning Systems and the Ground Station
 Network. 
+
+The Global Positioning System (GPS) was developed in order to allow
+accurate determination of geographical locations by military and civil
+users. It works by using satellites in Earth’s orbit to transmit data
+which makes it possible to measure the distance between the satellites
+and the operator. This form of signal communication is incredibly
+accurate and used heavily for attitude estimation. Up to 30 GPS
+satellites are currently in orbit, mostly in MEO, at altitudes around
+20,000 km. There will be between four and eight of them above any site
+on the Earth at any time\cite{qp38}. These satellites continuously emit
+coded high-frequency radio signals which may be received by special
+GPS receivers. These signals contain information about the exact
+orbits of the satellites and the time of atomic clocks onboard. When
+signals from three or more satellites are received, the GPS receiver
+will compute the best possible location of the user by
+triangulation. Much like when on Earth, a GPS can be used for
+navigation in space. The GPS receiver on board the satellite will also
+receive its longitude, latitude, and altitude as long as it is within
+the GPS constellation.
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[height=50mm]{Figures/GPS}
+  \end{center}
+  \caption{Example GPS Receiver \cite{qp32}}
+\end{figure}
 
 \subsection{Trade Studies}
 
