@@ -23,7 +23,7 @@ linearized to give the equation below.
 \end{equation}
 where $\Delta \vec{x} = \vec{x} - \vec{x}_e$ and $\vec{x}_e$ is an
 equilibrium point. In this formulation ${\bf A} = \partial \vec{f}/\partial \vec{x}$. and 
-${\bf B} = \partial \vec{g}/\partial \vec{x}$ which are partial derivatives of the state matrices.
+${\bf B} = \partial \vec{g}/\partial \vec{x}$ which are partial derivatives of the state matrices. Note that an equilibrium point is a point where the system is at rest and not changing. Mathematically this means that $\dot{x}_e = 0$. When linearizing a system it is important to choose an equilibrium point that is relevant to the system. For example, for an aircraft the equilibrium point could be straight and level flight at a constant velocity. For a spacecraft it could be a circular orbit at a constant altitude. The linearized equations of motion are only valid for small perturbations around the equilibrium point. If the system deviates too far from the equilibrium point, the linearized equations may no longer accurately represent the system's dynamics.
 
 \subsection{General Formulation of Differential Equations}
 
@@ -187,11 +187,11 @@ This is a classic second order system where $\omega_n = 0$ and $\zeta = 0$. This
 
 For an aircraft we assume that the aircraft is symmetric about the longitudinal axis and that the aircraft is only pitching about its center of mass. The pitch dynamics of an aircraft are similar to a spring mass damper since there is a constant restoring moment given by $C_{m\alpha}$ due to the aerodynamic forces acting on the aircraft as well as a damping term $C_{mq}$ also created by aerodynamic forces. Using the aerodynamic equations given in Equation \ref{e:LMN}, the pitch dynamics of an aircraft are given as
 \begin{equation}
-    I_{yy}\ddot{\alpha} = \vec{M_C} = \frac{1}{2}\rho V^2 S \bar{c} (C_{m\alpha}\alpha + C_{mq}\frac{\bar{c}}{2V}\dot{\alpha} + C_{m\delta_e}\delta_e)
+    I_{yy}\ddot{\theta} = \vec{M_C} = \frac{1}{2}\rho V^2 S \bar{c} (C_{m\alpha}\theta + C_{mq}\frac{\bar{c}}{2V}\dot{\theta} + C_{m\delta_e}\delta_e)
 \end{equation}
-Note that in this case we assume that $\theta=\alpha$ the angle of attack which is not necessarily true but for quick motion about the pitch axis this can be assumed to be true. Again the moment of inertia is $I_{yy}$ and the pitch angle is $\alpha$. The aerodynamic force is given by the dynamic pressure $q = (1/2)\rho V^2$ where $\rho$ is the density of air, $V$ is the velocity of the aircraft (assumed to be constant for pure pitching), $S$ is the reference area and $\bar{c}$ is the mean aerodynamic chord. The moment coefficients are $C_{m\alpha}$ which is the restoring moment coefficient, $C_{mq}$ which is the damping moment coefficient and $C_{m\delta_e}$ which is the control moment coefficient due to elevator deflection $\delta_e$. Rearranging the equation into standard form yields
+Note that in this case we assume that $\theta=\alpha$ the angle of attack which is not necessarily true but for quick motion about the pitch axis this can be assumed to be true. Again the moment of inertia is $I_{yy}$ and the pitch angle is $\theta$. The aerodynamic force is given by the dynamic pressure $q = (1/2)\rho V^2$ where $\rho$ is the density of air, $V$ is the velocity of the aircraft (assumed to be constant for pure pitching), $S$ is the reference area and $\bar{c}$ is the mean aerodynamic chord. The moment coefficients are $C_{m\alpha}$ which is the restoring moment coefficient, $C_{mq}$ which is the damping moment coefficient and $C_{m\delta_e}$ which is the control moment coefficient due to elevator deflection $\delta_e$. Rearranging the equation into standard form yields
 \begin{equation}
-    \ddot{\alpha} + \left(-\frac{\rho V^2 S \bar{c}^2 C_{mq}}{4I_{yy} V}\right)\dot{\alpha} + \left(-\frac{\rho V^2 S \bar{c} C_{m\alpha}}{2I_{yy}}\right)\alpha = -\frac{\rho V^2 S \bar{c} C_{m\delta_e}}{2I_{yy}}\delta_e
+    \ddot{\theta} + \left(-\frac{\rho V^2 S \bar{c}^2 C_{mq}}{4I_{yy} V}\right)\dot{\theta} + \left(-\frac{\rho V^2 S \bar{c} C_{m\alpha}}{2I_{yy}}\right)\theta = -\frac{\rho V^2 S \bar{c} C_{m\delta_e}}{2I_{yy}}\delta_e
 \end{equation}
 which is in the standard form of second order systems with a natural frequency and damping ratio given as 
 \begin{equation}
@@ -201,7 +201,7 @@ Note that $C_{m\alpha}$ and $C_{mq}$ are typically negative which makes both $\o
 \begin{equation}
     \delta_e = f \frac{C_{m\alpha}}{C_{m\delta_e}}
 \end{equation}
-results in the same equation as equation \ref{e:second_order} provided you subsitute $\alpha$ with the generalized q coordinate.
+results in the same equation as equation \ref{e:second_order} provided you subsitute $\theta$ with the generalized q coordinate.
 
 \subsubsection{Pitch Dynamics of a Rocket}
 
@@ -215,7 +215,7 @@ Here thrust acts at an angle $\beta$ with respect to the centerline of the rocke
 \begin{equation}
     J\ddot{\theta} = \vec{M_C} = -D a \sin{\theta} + \frac{Tb}{2} \sin(\beta)
 \end{equation}
-First you'll see that the aerodynamic force which is restoring is nonlinear due to the $\sin{\theta}$ term. Furthermore, the thrust force $T$ acts through the angle $\beta$ leading to a problem where the thrust force $T$ could change in addition to the angle $\beta$. Two control terms would represent a multi-input system which requires the use of optimization to determine the best course of action. Since the focus of this chapter is on Single-Input-Single-Ouput (SISO) systems, the force $T$ will be represented as a constant. Thus, the control term for this system will actually be the angle $\beta$. However, note that the control term is also nonlinear. Both $sin()$ terms can be linearized for small angles such that $\sin{\theta} \approx \theta$ and $\sin{\beta} \approx \beta$. The equation of motion then becomes
+First you'll see that the aerodynamic force which is restoring is nonlinear due to the $\sin{\theta}$ term. Furthermore, the thrust force $T$ acts through the angle $\beta$ leading to a problem where the thrust force $T$ could change in addition to the angle $\beta$. Two control terms would represent a multi-input system which requires the use of optimization to determine the best course of action. Since the focus of this chapter is on Single-Input-Single-Ouput (SISO) systems, the force $T$ will be represented as a constant. Thus, the control term for this system will actually be the angle $\beta$. However, note that the control term is also nonlinear. Both $sin()$ terms can be linearized for small angles such that $\sin{\theta} \approx \theta$ and $\sin{\beta} \approx \beta$. Note that $\theta=0$ is the equilibrium position in this case. The equation of motion then becomes
 \begin{equation}
     J\ddot{\theta} + D a \theta = T \frac{b}{2} \beta
 \end{equation}
@@ -229,9 +229,44 @@ If $(\pi/(J8))\rho V^2 d^2 a = {\omega_n}^2$, $Tb/(2J) \beta = \kappa {\omega_n}
 \end{equation}
 In addition, it is clear that the damping ratio $\zeta$ is zero. 
 
-\subsubsection{Pitch Dynamics of an Inverted Pendulum}
+\subsubsection{Pitch Dynamics of a Pendulum}
 
-\hl{This section is incomplete and will be finished later.}
+The dynamics of a penduluum are intereting for two reasons. First, the system is non-linear in the angle $\theta$ and the system has an infinite number of equilibrium points. Half of the equilibrium points are also unstable. For the sake of this problem though we will restrict the system to be between $-\pi/2$ and $\pi/2$ which means the system will only have 3 equilibrium points. The first is $\theta=0$ and the other two are $\theta=-\pi/2$ and $\theta=\pi/2$. Obviously the second two equilibrium points are the same. To formulate the dynamics we start with the figure below
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.2]
+        % Draw the pivot point
+        \filldraw[black] (0,0) circle (2pt);
+        
+        % Draw the rod
+        \draw[thick] (0,0) -- (2.5,-3);
+        
+        % Draw the bob
+        \filldraw[black] (2.5,-3) circle (6pt);
+        
+        % Draw the angle theta
+        \draw[->,thick,blue] (0,-1) arc[start angle=-90,end angle=-50,radius=1];
+        \node at (0.3,-1.5) {$\theta$};
+        
+        % Draw the forces
+        \draw[->,thick] (2.5,-3) -- ++(0,-1) node[midway, right] {$mg$};
+        
+        % Draw the length of the pendulum
+        \draw[dashed] (0,0) -- (0,-3);
+        \node at (1.5,-1.3) {$L$};
+    \end{tikzpicture}
+    \caption{Pendulum Free Body Diagram}
+\end{figure}
+The pendulum consists of a mass $m$ attached to a rigid, massless rod of length $L$. The pendulum swings about a pivot point under the influence of gravity, which exerts a downward force $mg$ on the mass. An external force $F$ acts tangentially to the arc of the pendulum's swing, creating a torque about the pivot point. The angle $\theta$ represents the angular displacement of the pendulum from the vertical equilibrium position. The equation of motion for the pendulum can be derived using Newton's second law for rotational motion, which states that the sum of torques acting on a body equals the moment of inertia times its angular acceleration. The moment of inertia $J$ for a point mass at a distance $L$ from the pivot is given by $J = mL^2$. The torque generated by the gravitational force is $\tau_g = -mgL \sin{\theta}$, where the negative sign indicates that gravity acts to restore the pendulum to its equilibrium position. The torque generated by the external force is $\tau_F = FL \cos{\theta}$. Thus, the equation of motion is given as
+\begin{equation}
+    J\ddot{\theta} = \vec{M_C} = -mgL \sin{\theta} + FL \cos{\theta}
+\end{equation}
+Rearranging the equation yields
+\begin{equation}
+    \ddot{\theta} + \frac{g}{L} \sin{\theta} = \frac{F}{mL} \cos{\theta}
+\end{equation}
+This equation is nonlinear due to the $\sin{\theta}$ and $\cos{\theta}$ terms. 
+
 
 \subsection{Characteristic and Particular Solutions to Differential Equations}
 
