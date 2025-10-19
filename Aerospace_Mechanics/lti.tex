@@ -716,29 +716,53 @@ recall also that the time domain solution to this system due to a step function 
 \begin{equation}
     x(t) = f_0 t - \frac{f_0}{\sigma} (1 - e^{-\sigma t})
 \end{equation}
-Plotted in the time domain the system accelerated and then attained a constant velocity. The poles of the system are located at $s=0$ and $s=-\sigma$. The pole at $s=-\sigma$ has a negative real part and thus is stable. The pole at $s=0$ has a real part equal to zero and thus is marginally stable. This is because the position of the car will continue to increase linearly over time due to the constant velocity. However, the velocity of the car will reach a steady state value and not diverge to infinity. Thus, the system is considered stable for velocity. Remember the transfer function for velocity is found by simply multiplying the position transfer function by $s$ or taking the derivative in the time domain. The transfer function for velocity is given as
+Plotted in the time domain the system accelerated and then attained a constant velocity. The poles of the system are located at $s=0$ and $s=-\sigma$. The pole at $s=-\sigma$ has a negative real part and thus is stable. This is due to the $1/(s+\sigma)$ term which translates to the $e^{-\sigma t}$ term in the time domain. The pole at $s=0$ has a real part equal to zero and thus is marginally stable as given by the $1/s$ term in the laplace domain and the $f_0 t$ term in the time domain. The marginal stability is apparent because the position of the car will continue to increase linearly over time due to the constant velocity. However, the velocity of the car will reach a steady state value and not diverge to infinity. Thus, the system is considered stable for velocity. Remember the transfer function for velocity is found by simply multiplying the position transfer function by $s$ or taking the derivative in the time domain. The transfer function for velocity is given as
 \begin{equation}
     \frac{V(s)}{F(s)}= G(s) = \frac{\sigma}{s+\sigma}
 \end{equation}
-The pole of the system is located at $s=-\sigma$. The pole has a negative real part and thus is stable. This is because the velocity of the car will reach a steady state value and not diverge to infinity. Examining both systems in the laplace domain is much easier than examining the time domain solutions because you can simply look at the poles of the system. It is also beneficial to plot the poles of the system on a real-imaginary plot as shown in Figure \ref{f:car_poles}.
-
+while the time domain solution to this system due to a step function was given as
+\begin{equation}
+    v(t) = f_0 (1 - e^{-\sigma t})
+\end{equation}
+The pole of the velocity system is located at $s=-\sigma$ again from the $1/(s+\sigma)$ term in the laplace domain and the $e^{-\sigma t}$ term in the time domain. The pole has a negative real part and thus is stable. This is because the velocity of the car will reach a steady state value and not diverge to infinity. Examining both systems in the laplace domain is much easier than examining the time domain solutions because you can simply look at the poles of the transfer function. It is also beneficial to plot the poles of the system on a real-imaginary plot as shown in Figure \ref{f:car_poles}.
 \begin{figure}[H]
 \centering
 \begin{subfigure}[b]{0.48\textwidth}
 \centering
-%\includegraphics[width=\linewidth]{Figures/car_position_poles.png}
+\includegraphics[width=\linewidth]{Figures/car_position_poles.png}
 \end{subfigure}
 \hfill
 \begin{subfigure}[b]{0.48\textwidth}
 \centering
-%\includegraphics[width=\linewidth]{Figures/car_velocity_poles.png}
-\label{fig:two}
+\includegraphics[width=\linewidth]{Figures/car_velocity_poles.png}
 \end{subfigure}
 \caption{Poles of Car System (Position (left) and Velocity (right))}
 \label{f:car_poles}
 \end{figure}
+Notice that the poles of the position system are located at $s=0$ and $s=-\sigma$ while the pole of the velocity system is located at $s=-\sigma$. The position system has one marginally stable pole and one stable pole while the velocity system has one stable pole. Thus, the position system is marginally stable while the velocity system is stable. Remember if at least one pole is marginally stable and none are unstable the system is considered marginally stable. If all poles are stable the system is considered stable.
 
 \subsubsection{Position of a Mass Spring Damper}
+
+As derived earlier the transfer function for the position of the mass spring damper is given as 
+\begin{equation}
+    \frac{X(s)}{F(s)}= G(s) = \frac{{\omega_n}^2}{s^2 + 2\zeta \omega_n s + {\omega_n}^2}
+\end{equation}
+recall also that the time domain solution to this system due to a step function was given as 
+\begin{equation}
+    x(t) = f_0 \left( 1 - e^{-\zeta \omega_n t} \left( \cos(\omega_d t) + \frac{\zeta}{\sqrt{1-\zeta^2}} \sin(\omega_d t) \right) \right)
+\end{equation}
+for the underdamped case. Plotted in the time domain the system oscillated and then attained a steady state value. The poles of the system are located at 
+\begin{equation}
+    s = -\zeta \omega_n \pm j \omega_n \sqrt{1-\zeta^2}
+\end{equation}
+The real part of the poles is $-\zeta \omega_n$ which is negative for all positive values of $\zeta$ and $\omega_n$. Thus, the system is stable for all positive values of $\zeta$ and $\omega_n$. Examining the system in the laplace domain is much easier than examining the time domain solutions because you can simply look at the poles of the transfer function. It is also beneficial to plot the poles of the system on a real-imaginary plot as shown in Figure \ref{f:mass_spring_damper_poles}.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{Figures/mass_spring_damper_poles.png}
+\caption{Poles of Mass Spring Damper System}
+\label{f:mass_spring_damper_poles}
+\end{figure}
+Notice that the poles of the mass spring damper system are located in the left half of the complex plane. The real part of the poles is negative and thus the system is stable. The imaginary part of the poles determines the frequency of oscillation while the real part of the poles determines the rate of decay. The further left the poles are located in the complex plane, the faster the system will decay to its steady state value. Thus again the transfer function shows it's usefuleness in determining the stability of a system as well as whether it oscillates or not. In this case the system is stable (left half plane) and oscillatory (imaginary part non-zero).
 
 \subsubsection{Attitude Dynamics of a Satellite or Quadcopter}
 
