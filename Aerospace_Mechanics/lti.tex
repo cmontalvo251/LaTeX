@@ -1,4 +1,4 @@
-\section{Linear Time Invariant Systems}
+\section{Linear Time Invariant Systems}\label{s:lti}
 
 There is a branch of controls called Linear Time Invariant (LTI)
 Systems that is often taught at the undergraduate level. Although
@@ -16,7 +16,7 @@ terms
   \dot{\vec{x}} = \vec{f}(\vec{x}) + \vec{g}(\vec{x})\vec{u}
 \end{equation}
 where $\vec{u}$ is the control input which could be the forces and
-moments from reaction wheels or thrusters for a spacecraft or lift and drag for an airplane. The vectors $f$ and $g$ represent the systems dynamics which is dependent on the system itself. Note that if the dynamics cannot be put into affine form, the system is highly nonlinear and the control system designed for that would require more sophisticated analysis like Lyapunov design or sliding mode control. That will be discussed in a later section. For the affine form however, the equation can be
+moments from reaction wheels or thrusters for a spacecraft or lift and drag for an airplane. The vectors $f$ and $g$ represent the systems dynamics which is dependent on the system itself. Note that if the dynamics cannot be put into affine form, the system is highly nonlinear and the control system designed for that would require more sophisticated analysis like Lyapunov design or sliding mode control. That will be discussed in section \ref{s:nonlinear_controls}. For the affine form however, the equation can be
 linearized to give the equation below. 
 \begin{equation}\label{e:linearize}
   \Delta \dot{\vec{x}} = {\bf A}\Delta {\vec{x}} + {\bf B}\Delta \vec{u}
@@ -168,7 +168,7 @@ For a satellite undergoing free 1-D rotational motion the dynamics are quite int
     \caption{Satellite with reaction control thrusters}\label{f:satellite}
 \end{figure}
 
-The equation of motion for the satellite can be derived from Newton's second law for rotational motion, which states that the sum of torques acting on a body equals the moment of inertia times its angular acceleration as derived in Section \ref{s:rotational_motion}. The full equation is repeated here for clarity.
+The equation of motion for the satellite can be derived from Newton's second law for rotational motion, which states that the sum of torques acting on a body equals the moment of inertia times its angular acceleration as derived in section \ref{s:rotational_motion}. The full equation is repeated here for clarity.
 \begin{equation}
 \vec{M}_C = \dot{{\bf I}}\vec{\omega}_{B/I} + {\bf I}_C\frac{{}^Bd (\vec{\omega}_{B/I})}{dt} + {\bf
   S}(\vec{\omega}_{B/I}){\bf I}_C\vec{\omega}_{B/I}
@@ -181,7 +181,7 @@ where $\vec{\alpha}_{B/I}$ is the angular acceleration of the satellite. The tor
 \begin{equation}
 \ddot{\theta} = \frac{2Fd}{J}
 \end{equation}
-This is a classic second order system where $\omega_n = 0$ and $\zeta = 0$. This means that the system is marginally stable and will not return to equilibrium after a disturbance. Stability will be discussed in a later section. Letting $F=f\frac{J}{2d}$ results in $\ddot{\theta}=f$ which is almost the same equation as equation \ref{e:second_order} but where the natural frequency and damping ratio are both zero. 
+This is a classic second order system where $\omega_n = 0$ and $\zeta = 0$. This means that the system is marginally stable and will not return to equilibrium after a disturbance. Stability will be discussed in section \ref{s:stability}. Letting $F=f\frac{J}{2d}$ results in $\ddot{\theta}=f$ which is almost the same equation as equation \ref{e:second_order} but where the natural frequency and damping ratio are both zero. 
 
 \subsubsection{Pitch Dynamics of an Aircraft}
 
@@ -265,7 +265,7 @@ Rearranging and substituting the moment of inertia yields
 \begin{equation}
     \ddot{\theta} = \frac{\tau}{mL} - \frac{g}{L} \sin{\theta}
 \end{equation}
-This equation is close to the second order equations where the damping ratio is zero but it is nonlinear due to the $\sin{\theta}$ and $\cos{\theta}$ terms. In this case the system can be linearized about the equilibrium point $\theta=0$ but can also be linearized about the equilibrium point $\theta=\pi$ if the pendulum is inverted. In order to linearize the equations of motion you need to use equation \ref{e:linearize} from the linearization section. Note that in this case the matrices $A$ and $B$ are expanded out instead of using matrix notation.
+This equation is close to the second order equations where the damping ratio is zero but it is nonlinear due to the $\sin{\theta}$ and $\cos{\theta}$ terms. In this case the system can be linearized about the equilibrium point $\theta=0$ but can also be linearized about the equilibrium point $\theta=\pi$ if the pendulum is inverted. In order to linearize the equations of motion you need to use equation \ref{e:linearize}. Note that in this case the matrices $A$ and $B$ are expanded out instead of using matrix notation.
 \begin{equation}
     \Delta \ddot{\theta} = \frac{\partial f}{\partial \dot{\theta}} \Delta \dot{\theta} + \frac{\partial f}{\partial \theta}\Delta \theta + \frac{\partial g}{\partial \tau} \Delta \tau 
 \end{equation}
@@ -285,7 +285,7 @@ which is in the standard form of second order systems where ${\omega_n}^2 = g/L$
 \begin{equation}
     \ddot{\theta} - \frac{g}{L}\theta = \frac{1}{mL} \tau
 \end{equation}
-which is again in the standard form of second order systems except that the constant term is negative which means the system is actually unstable. More on this system will be discussed in the stability section. Furthermore, the solution is also quite different and will be explored in the sections that follow.
+which is again in the standard form of second order systems except that the constant term is negative which means the system is actually unstable. More on this system will be discussed in the section \ref{s:stability}. Furthermore, the solution is also quite different and will be explored in the sections that follow.
 
 \subsection{Characteristic and Particular Solutions to Differential Equations}
 
@@ -329,7 +329,7 @@ noting that $\sigma = c/m$,$F_0 = cf_0$ and $v_0$ is the initial velocity of the
 \begin{equation}\label{e:first_order_solution}
     v(t) = \frac{F_0}{c}\left(1 - e^{-\frac{c}{m}t}\right)
 \end{equation}
-which shows that the car will asymptotically approach a steady state velocity of $F_0/c$. This will be plotted later in the time response section for open loop analysis.
+which shows that the car will asymptotically approach a steady state velocity of $F_0/c$. This will be plotted later in section \ref{s:time_response} for open loop analysis.
 
 \subsubsection{General Second Order Systems}
 
@@ -618,89 +618,4 @@ The solution to the equation above can be found by taking the inverse Laplace tr
     q(t) = \frac{f_0}{2}t^2
 \end{equation}
 which is the same solution as derived using the characteristic and particular solution method assuming zero initial conditions. In the case of the satellite example, recall that $f_0 = \frac{2F_0 d}{J}$.
-
-\subsection{Open Loop Time Response}
-
-Now that the solutions to the first and second order systems have been derived using both the characteristic and particular solution method as well as the Laplace transform method, the time response of these systems can be analyzed. The time response of a system is the output of the system as a function of time given a specific input. The time response can be used to analyze the stability and performance of the system. 
-
-\subsubsection{Position and Velocity Response of a Car}
-
-First, let's plot the time response of the first order system given by equation \ref{e:first_order_solution} as well as the second order solution given by equation \ref{e:position_car_solution}. The parameters for the system are chosen to be $F_0=1000~N$, $c=50~Ns/m$, and $m=1000~kg$. The initial velocity and position are assumed to be zero. In order to show the time response however, 3 different curves will be placed on the graph. The first will be the analytic solution to the first and second order system, the second is the Laplace transform solution using the control systems toolbox in Python and the last is the numerical integration of the equations of motion. The python code used to generate this is shown in the Figure below and also available on \href{https://github.com/cmontalvo251/Python/blob/master/controls/first_order_system.py}{GitHub}.
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.48\textwidth}
-\centering
-\includegraphics[width=\linewidth]{Figures/car_code_1.png}
-\end{minipage}\hfill
-\begin{minipage}{0.48\textwidth}
-\centering
-\includegraphics[width=\linewidth]{Figures/car_code_2.png}
-\end{minipage}
-\caption{Python code to generate the time response of a car}
-\label{f:car_code}
-\end{figure}
-Note the code is commented to help the reader understand what is happening. Note the benefit of using the control systems toolbox in Python. The time response can be generated by first creating the transfer function and then applying a step to the transfer function. This will come in handy later when it is necessary to apply a control system to the transfer function before inversing back to the time domain. The numerical integration is also useful when the equations of motion are known and the control system designer wants to work in the time doman rather than the laplace domain. It's also very helpful when the system is non-linear since transfer functions only work for linear systems. All three methods have their pros and cons. The numerical integration is done using the scipy.integrate.odeint function which is a simple way to numerically integrate ordinary differential equations. The results of the time response are shown in Figure \ref{f:car_response}.
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.48\textwidth}
-\centering
-\includegraphics[width=\linewidth]{Figures/car_velocity_response.png}
-\end{minipage}\hfill
-\begin{minipage}{0.48\textwidth}
-\centering
-\includegraphics[width=\linewidth]{Figures/car_position_response.png}
-\end{minipage}
-\caption{Time response of the position (right) and velocity (left) of a car}
-\label{f:car_response}
-\end{figure}
-\noindent The time response shows that the velocity of the car asymptotically approaches a steady state value of $F_0/c = 20~m/s$. The time constant of the system is $\tau = m/c = 20~s$. The time constant is the time it takes for the system to reach 63.2\% of its steady state value. The settling time $T_s=4\tau$ is the time the system takes to get within 2\% of its final value. In this case that is $80~s$. The time response can be used to analyze the stability and performance of the system. In this case, the system is stable and the performance is acceptable given the parameters chosen. However, examining the position of the car shows that the position will continue to increase linearly over time. This is because the car is moving at a constant velocity. The position of the car will not reach a steady state value but rather continue to increase linearly over time. This is an example of a marginally stable system. The velocity of the car is stable while the position of the car is marginally stable.
-
-\subsubsection{Position of a Mass Spring Damper}
-
-Simulating the mass spring damper is very similar to the car example. The parameters for the system are chosen to be $F_0=1000~N$, $k=2000~N/m$, $c=50~Ns/m$, and $m=100~kg$. The initial position and velocity are assumed to be zero. The python code used to generate this is shown in the Figure below and also available on \href{https://github.com/cmontalvo251/Python/blob/master/controls/mass_spring_damper.py}{GitHub}. 
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.48\textwidth}
-\centering
-\includegraphics[width=\linewidth]{Figures/mass_spring_damper_code_1.png}
-\end{minipage}\hfill
-\begin{minipage}{0.48\textwidth}
-\centering
-\includegraphics[width=\linewidth]{Figures/mass_spring_damper_code_2.png}
-\end{minipage}
-\caption{Python code to generate the time response of a mass spring damper}
-\label{f:mass_spring_damper_code}
-\end{figure}
-Note the code is commented to help the reader understand what is happening. Again, the simulation is run by integrating the equations of motion, applying a step response to the transfer function and also plotting the analytic solution. The results of the time response are shown in Figure \ref{f:mass_spring_damper_response}.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\linewidth]{Figures/mass_spring_damper_response.png}
-\caption{Time response of the position of a mass spring damper}
-\label{f:mass_spring_damper_response}
-\end{figure}
-\noindent The time response shows that the position of the mass spring damper reaches a steady state value of $F_0/k = 0.5~m$. The time constant of the system is $\tau = 2m/c = 4~s$. The natural frequency of the system is $\omega_n = \sqrt{k/m} = 4.47~rad/s$. The damping ratio of the system is $\zeta = c/(2 m\omega_n) = 0.056 (underdamped)$. The settling time $T_s=4/(\zeta \omega_n)$ is the time the system takes to get within 2\% of its final value. In this case that is $16~s$. Notice that $T_s=4\tau$ where again $\tau = 4~s$. The time response can be used to analyze the stability and performance of the system. In this case, the system is stable and the performance is acceptable given the parameters chosen. Here are some useful equations for natural frequency, settling time and other second order parameters.
-\begin{equation}
-    \begin{matrix}
-    \omega_n = \sqrt{\frac{k}{m}} & T_s = \frac{4}{\zeta \omega_n} & \tau = \frac{2m}{c} \\
-    \zeta = \frac{c}{2m\omega_n} & \omega_d = \omega_n \sqrt{1-\zeta^2} & T_s = 4\tau \\
-    \omega_n = 2\pi f & f = \frac{1}{T} & \tau = \frac{1}{\zeta \omega_n} 
-    \end{matrix}
-\end{equation}
-
-\subsubsection{Attitude of a Satellite or Quadcopter}
-
-Recall for the satellite/quadcopter example the equation of motion was given as $\ddot{\theta} = \frac{2F d}{J}$ and the transfer function was given as $\frac{\Theta(s)}{F(s)}= G(s) = \frac{2d}{Js^2}$. The solution to this system due to a step function was shown in the general solution to second order systems with the special case that the natural frequency and damping ratio was zero. The solution then given as $\theta(t) = \frac{F_0 d}{J} t^2$ which increases quadratically over time. The python code used to generate this is also available on \href{https://github.com/cmontalvo251/Python/blob/master/controls/satellite.py}{Github}. The code is not shown here as it is very similar to the previous two examples. Again the code is commented to help the reader understand what is happening. The simulation is run by integrating the equations of motion, applying a step response to the transfer function and also plotting the analytic solution. The results of the time response are shown in Figure \ref{f:satellite_response}. For this specific case $F_0=0.1~N$ , $d=0.5~m$ and $J=10~kg-m^2$.
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\linewidth]{Figures/satellite_response.png}
-\caption{Time response of the attitude of a satellite/quadcopter}
-\label{f:satellite_response}
-\end{figure}
-\noindent The time response shows that the attitude of the satellite/quadcopter increases quadratically over time. This is because there is no restoring moment or damping moment acting on the system. The system is marginally stable as the attitude will continue to increase over time and this will be discussed in more detail in the Stability section.
-
-\subsubsection{Pitch Response of an Aircraft}
-
-\subsubsection{Pitch Response of a Rocket}
-
-\subsubsection{Angle of an Inverted Pendulum}
 

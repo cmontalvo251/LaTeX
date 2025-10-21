@@ -1,4 +1,4 @@
-\subsection{Stability}
+\subsection{Stability}\label{s:stability}
 
 Stability of open or even closed loop systems is an important concept in control systems. An open loop system is stable if the output of the system remains bounded for a bounded input. In other words, if the input to the system is a step function, the output of the system will reach a steady state value and not diverge to infinity. The stability of a system can be analyzed using the characteristic equation of the system which was shown in the solution to multiple differential equations. The astute reader will have also noticed that the denominator of the transfer function is identical to the characteristic equation. The roots of the characteristic equation are often called the poles of the system and can be used interchangeably. Thus, the benefit of a transfer function is that stability can be ascertained immediately by looking at the denominator of the transfer function. In the Chapter on feedback control it will be shown that control systems in the laplace domain can be applied by simply multiplying different control systems and examining the resulting closed loop transfer function for stability. When designing controllers in the time domain it is almost impossible to gaurantee closed loop stability. However, with transfer functions, after a bit of algebraic manipulation stability can be ascertained. 
 
@@ -8,7 +8,7 @@ So what do the poles or roots of the characteristic equation tell you? Remember 
     \item {\bf Unstable}: Any pole has a positive real part. $Re(s) > 0$
     \item {\bf Marginally Stable}: Any pole has a real part equal to zero. $Re(s) = 0$
 \end{itemize}
-Note that for the sections that follow code has been added to all the python scripts in the Time Response section such as \href{https://github.com/cmontalvo251/Python/blob/master/controls/satellite.py}{satellite.py} or \href{https://github.com/cmontalvo251/Python/blob/master/controls/mass_spring_damper.py}{mass\_spring\_damper.py}. The code added plots the poles of each system on a real-imaginary plot to visually show the stability of each system. For clarity on the code, the Figure below shows the relevant function used to plot the poles of each system which again has been added to Github.
+Note that for the sections that follow code has been added to all the python scripts in section \ref{s:time_response} such as \href{https://github.com/cmontalvo251/Python/blob/master/controls/satellite.py}{satellite.py} or \href{https://github.com/cmontalvo251/Python/blob/master/controls/mass_spring_damper.py}{mass\_spring\_damper.py}. The code added plots the poles of each system on a real-imaginary plot to visually show the stability of each system. For clarity on the code, the Figure below shows the relevant function used to plot the poles of each system which again has been added to Github.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\linewidth]{Figures/pole_zero_code.png}
@@ -86,6 +86,23 @@ As derived earlier, the transfer function of this system is given as $\frac{\The
 Notice that the poles of the satellite/quadcopter system are located at $s=0$ and $s=0$. Both poles have real parts equal to zero and thus the system is marginally stable and increases quadratically over time. A single pole at zero would increase linearly but two poles at the origin increases quadratically.
 
 \subsubsection{Pitch Dynamics of an Aircraft}
+
+The poles of the aircraft are similar to the spring mass damper given the second order nature of the system. Using the characteristic equation of $s^2 + \lambda_1s + \lambda_2=0$ the poles of the system are located at $s_{12} = -\lambda_1 \pm \sqrt{\lambda_1^2 - 4\lambda_2}$. The stability of the system depends on the values of $\lambda_1$ and $\lambda_2$ which depend on the aerodynamic stability derivatives $C_{mq}$ and $C_{m\alpha}$. In this case if $C_{m\alpha}$ is negative, $\lambda_2$ will be positive and the descriminant under the square root will be negative and thus imaginary. If instead $C_{m\alpha}$ is positive, $\lambda_2$ will be negative and then the descriminant will be a positive number. This will cause the poles to become real and distinct. If any pole is positive in the right half plane (RHP) the system is unstable.Using the same code from section \ref{s:aircraft_pitch_response} the poles of the transfer function can be plotted on a pole zero map.
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{Figures/aircraft_dynamics_poles_stable.png}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{Figures/aircraft_dynamics_poles_unstable.png}
+\end{subfigure}
+\caption{Attitude Response of an Aircraft ($C_{m\alpha}=-2.19$ left) ; ($C_{m\alpha}=2.19$ right)}
+\label{f:aircraft_poles}
+\end{figure}
+Again as can be seen in the left figure the poles are in the left hand plane (LHP) and thus the time response is stable. However, for the situation where $C_{m\alpha}$ is positive, the poles are real and distinct with one positive and one negative. Since one pole is positive the entire system is unstable. 
 
 \subsubsection{Pitch Dynamics of a Rocket}
 
