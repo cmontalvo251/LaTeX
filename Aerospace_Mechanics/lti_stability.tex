@@ -79,7 +79,7 @@ Notice that the poles of the mass spring damper system are located in the left h
 As derived earlier, the transfer function of this system is given as $\frac{\Theta(s)}{F(s)}= G(s) = \frac{2d}{Js^2}$. The poles of the system are located at $s=0$ and $s=0$. Both poles have real parts equal to zero and thus the system is marginally stable because they are on the y-axis of the real-imaginary plane. Physically, this marginal stability is because the angle of the satellite/quadcopter will continue to increase quadratically over time due to the constant angular acceleration from a constant force from the propellor/thrusters. The marginal stability can be seen in the time domain with the system increasing as $t^2$. However, examining the system in the laplace domain is much easier than examining the time domain solutions because you can simply look at the poles of the transfer function. Again, it is beneficial to plot the poles of the system on a real-imaginary plot as shown in Figure \ref{f:satellite_poles}.
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.4\linewidth]{Figures/satellite_poles.png}
+\includegraphics[width=0.48\linewidth]{Figures/satellite_poles.png}
 \caption{Poles of Satellite/Quadcopter System}
 \label{f:satellite_poles}
 \end{figure}
@@ -105,5 +105,14 @@ The poles of the aircraft are similar to the spring mass damper given the second
 Again as can be seen in the left figure the poles are in the left hand plane (LHP) and thus the time response is stable. However, for the situation where $C_{m\alpha}$ is positive, the poles are real and distinct with one positive and one negative. Since one pole is positive the entire system is unstable. 
 
 \subsubsection{Pitch Dynamics of a Rocket}
+
+As derived earlier, the transfer function of this system is given as $\frac{\Theta(s)}{F(s)}= G(s) = \frac{\kappa}{s^2+\lambda}$ where $\kappa$ and $\lambda$ are defined in section \ref{s:rocket_response}. The poles of the system are located at $s=\pm j\sqrt{\lambda}$. Using the same time response code and the pole zero map generation, the poles can be plotted on the real/imaginary axes as shown in Figure \ref{f:rocket_poles}.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.48\linewidth]{Figures/rocket_poles.png}
+\caption{Poles of Rocket System}
+\label{f:rocket_poles}
+\end{figure}
+Notice that the poles are purely imaginary which means they lie on the boundary of the left and right half plane. Because they lie on the axis the system is marginally stable. It doesn't settle out but also don't increase off to infinity. Furthermore, both poles are are imaginary which means they system oscillates. Once again the transfer function shows the open loop system dynamics by just examining the roots of the denominator. 
 
 \subsubsection{Angle of an Inverted Pendulum}
