@@ -166,4 +166,27 @@ The analytic solution is then the same for the second order case assuming that t
 
 \subsubsection{Angle of an Inverted Pendulum}
 
-\hl{Remember since you ran out of your quota for Copilot you can add Gemini back into VS code. The directions are in your personal Gemini and make sure to add it to your VS_Code_Installation_Guide.md}
+The time response for the inverted pendulum will be similar to the time response of the aircraft because it is second order, it oscillates and it can be either stable or unstable depending on the equilibrium point chosen for the linearization. Recall the equations of motion for the penduluum are 
+\begin{equation}
+    \ddot{\theta} \pm \frac{g}{L}\theta = \frac{1}{mL} \tau
+\end{equation}
+Where the $\pm$ is positive when the equilibrium point of $\theta=0$ is chosen and negative when the equilibrium point of $\theta=\pi$ is chosen. The transfer function of this system is then
+\begin{equation}
+  \frac{\Theta(s)}{T(s)} = G(s) = \frac{1/m}{Ls^2 \pm g}
+\end{equation}
+Simulating this system is exactly the same as has been done in the previous sections and again can be found on \href{https://github.com/cmontalvo251/Python/blob/master/controls/pendulum.py}{GitHub}. Assuming $m=3~kg$, $L=2~m$ and gravity set to $g=9.81~m/s^2$ the time response can be simulated and is shown shown below.
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{Figures/pendulum_response_stable.png}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{Figures/pendulum_response_unstable.png}
+\end{subfigure}
+\caption{Pendulum Response ($\theta_e=0$ left) ; ($\theta_e=\pi$ right)}
+\label{f:pendulum_response}
+\end{figure}
+Here it is easy to see that in the case of the pendulum pointing down, the pendulum just oscillates forever. However, in the case where the pendulum is straight up, the pendulum diverges off to infinity. In reality, for the nonlinear system the penduluum would just move to a stable equilibrium point but that type of nonlinear analysis will be discussed in section \ref{s:nonlinear_controls}.

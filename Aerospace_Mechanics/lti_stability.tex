@@ -116,3 +116,24 @@ As derived earlier, the transfer function of this system is given as $\frac{\The
 Notice that the poles are purely imaginary which means they lie on the boundary of the left and right half plane. Because they lie on the axis the system is marginally stable. It doesn't settle out but also don't increase off to infinity. Furthermore, both poles are are imaginary which means they system oscillates. Once again the transfer function shows the open loop system dynamics by just examining the roots of the denominator. 
 
 \subsubsection{Angle of an Inverted Pendulum}
+
+Recall that the transfer function of the inverted penduluum is given by
+\begin{equation}
+  \frac{\Theta(s)}{T(s)} = G(s) = \frac{1/m}{Ls^2 \pm g}
+\end{equation}
+Looking at the transfer function like has been done in the past, specifically the poles, the characteristic equation is $Ls^2 \pm g$ which leads to stable poles $s_{12} = \pm j \sqrt{g/L}$ and unstable poles $s_{12} = \pm \sqrt{g/L}.$ A simple glance would indicate that the poles are identical but notice that when $\pm$ is positive the poles are purely imaginary indicating a marginally stable system and then when $\pm$ is negative the poles are real, distinct and one is positive. This implies that that the system is unstable since even one positive pole makes the system untable. This is why the time response of the system with the equilibrium point $\theta=\pi$ diverges to infinity. The poles plotted on a real and imaginary axis can be see in the Figures below:
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{Figures/pendulum_poles_stable.png}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{Figures/pendulum_poles_unstable.png}
+\end{subfigure}
+\caption{Pendulum Poles ($\theta_e=0$ left) ; ($\theta_e=\pi$ right)}
+\label{f:pendulum_poles}
+\end{figure}
+These two pole maps show the importance of analyzing the open stability of a system especially non-linear systems. In the case where the pendulum is facing down a control system is not necessary provided small oscillations are tolerable. However, for the case where the pendulum is straight up, a control system is required to prevent the system falling over. For systems like a Segway, a control system would be necessary to keep the system upright and the poles from transfer are direct indicators of the stability of these open loop systems.
