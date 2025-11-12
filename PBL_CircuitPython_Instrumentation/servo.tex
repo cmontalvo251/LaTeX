@@ -121,7 +121,7 @@ I created in parts 1 and 2.
 
 To measure the pitch angle using the accelerometer we are going to use the same equation that we used when measuring the angle of a pendulum (See chapter \ref{s:pendulum}). I’m going to rotate the CPX in the X/Z plane which can be done by rotating the USB cable where it plugs into the CPX. In this case we can ignore the Y axis data. If you print the raw accelerometer data, you’ll notice that when you place the CPX directly onto a flat surface, the x and y axes read a value around 0, while the z axis reads around gravity (9.81$m/s^2$). If you then rotate the sensor clockwise 90 degrees, the x axis is reading about gravity while the z axis is now zero. This means we can form a triangle and get the angle using these two axes using the equation below which gives angle in degrees.
 \begin{equation}
-\theta = tan^{-1}(x/y)\frac{180}{\pi}
+\theta = tan^{-1}(x/z)\frac{180}{\pi}
 \end{equation}
 On the CPX specifically we want to import the math module and use the atan2 function. This measurement of the pitch angle would represent the H block in the figure above. 
 
@@ -188,7 +188,7 @@ Finally, we can then use our calibration coefficients (See chapter \ref{s:pwm}) 
 \end{equation}
 So now I have an equation that relates the pitch angle from the airplane $\theta$ to the elevator deflection angle $\delta_e$. I can then relate the servo deflection angle to servo deflection angle ($s$) and then finally the servo deflection angle to PWM signal $\mu$. With these 3 equations I can now program my servo to respond to changes in the pitch angle of the CPX. 
 
-Using the accelerometer to measure pitch and the servo to deflect the elevator I can put the entire system together. Pictured below is my code which again is also \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Servo/feedback_control_servo.py}{online on Github}. {\bf Note that the version on Github is constantly edited and as such will be slightly different than the version below.}
+Using the accelerometer to measure pitch and the servo to deflect the elevator I can put the entire system together. Pictured below is my code which again is also \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/Servo/feedback_control_servo_pwmio.py}{online on Github}. {\bf Note that the version on Github is constantly edited and as such will be slightly different than the version below.}
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=0.8\textwidth]{Figures/feedback1.png}
