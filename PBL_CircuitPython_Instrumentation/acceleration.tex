@@ -27,7 +27,34 @@ The code for this lab is to have the CPX log acceleration. So when you’re done
     \includegraphics[width=0.8\textwidth]{Figures/accelerometer_code1.png}
   \end{center}
 \end{figure}
-The code on Github has a sleep of 0.1 seconds but make sure to have the CPX take data as fast as possible. A sleep of 0.01 is probably good. You will probably get a lot of data points for this experiment. Once your code is working, place the CPX on your dashboard with one of the axes of the accelerometer pointing towards the nose of your car. Try and place the CPX on as flat a surface as possible. You can use 3M tape or duct tape or hot glue. Just make sure you don’t damage your car and make sure the CPX is well anchored to the dashboard. This way when the car accelerates, the CPX will measure that acceleration. Note, if you’d like to do this with a bike or some other motor vehicle that is just fine. Just make sure to take pictures and videos when you do the experiment. I suggest you do this in a parking lot for safety reasons. I am not responsible for any damage done to your vehicle or anyone else because you are doing this project. Once you have the CPX anchored, accelerate your vehicle to 20 mph (or however fast you are comfortable driving) and then slam on the brakes. Once your data is logged, plot your acceleration in Python on your desktop computer. After doing the experiment myself, this is what my acceleration plot looks like. I had to clip the time series to only include the part from where I accelerated and decelerated quickly. I also subtracted the first data point from each accelerometer axis to zero it out and subtract off the bias. Since I took some data for a bit before I started moving I could have averaged the first few data points to obtain the bias. \href{https://www.youtube.com/watch?v=e4xs9Ky7_YI&feature=youtu.be}{I’ve done this in a Youtube video if you’re unsure what I mean}. Instead just to get something working properly I went ahead and just used the first data point.
+The code on Github has a sleep of 0.1 seconds but make sure to have
+the CPX take data as fast as possible. A sleep of 0.01 is probably
+good. You will probably get a lot of data points for this
+experiment. Once your code is working, place the CPX on your dashboard
+with one of the axes of the accelerometer pointing towards the nose of
+your car. Try and place the CPX on as flat a surface as possible. You
+can use 3M tape or duct tape or hot glue. Just make sure you don’t
+damage your car and make sure the CPX is well anchored to the
+dashboard. This way when the car accelerates, the CPX will measure
+that acceleration. Note, if you’d like to do this with a bike or some
+other motor vehicle that is just fine. Just make sure to take pictures
+and videos when you do the experiment. I suggest you do this in a
+parking lot for safety reasons. I am not responsible for any damage
+done to your vehicle or anyone else because you are doing this
+project. Once you have the CPX anchored, accelerate your vehicle to 20
+mph (or however fast you are comfortable driving) and then slam on the
+brakes. Once your data is logged, plot your acceleration in Python on
+your desktop computer. After doing the experiment myself, this is what
+my acceleration plot looks like. I had to clip the time series to only
+include the part from where I accelerated and decelerated quickly. I
+also subtracted the first data point from each accelerometer axis to
+zero it out and subtract off the bias. Since I took some data for a
+bit before I started moving I could have averaged the first few data
+points to obtain the
+bias. \href{https://www.youtube.com/watch?v=e4xs9Ky7_YI&feature=youtu.be}{I’ve
+done this in a Youtube video if you’re unsure what I mean}. Instead
+just to get something working properly I went ahead and just used the
+first data point. 
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=\textwidth]{Figures/accelerometer_plots.png}
@@ -43,7 +70,16 @@ This of course assumes the initial velocity is zero. Notice that I take the indi
     \includegraphics[width=\textwidth]{Figures/accelerometer_integration.png}
   \end{center}
 \end{figure}
-This is why speedometers are used. They are just much more accurate than integrating acceleration which is prone to bias and drift. \href{https://github.com/cmontalvo251/Python/tree/master/instrumentation/cpx_assignments/Velocity_from_Acceleration}{This folder on Github has some codes that will help with your project}. {\bf Note, that some of those codes have a bias filter, truncation filter and complementary filter. That code may not work for you and you may need to tune the filters for your specific data set. Make sure to understand what each filter does and think about how it applies to your data set otherwise your code may throw an error due to the differences in your data set.}
+This is why speedometers are used. They are just much more accurate
+than integrating acceleration which is prone to bias and
+drift. \href{https://github.com/cmontalvo251/Microcontrollers/blob/master/Circuit_Playground/CircuitPython/cpx_assignments/Velocity_from_Acceleration/velocity_from_acceleration.py}{This
+folder on Github has some codes that will help with your
+project}. {\bf Note, that some of those codes have a bias filter,
+truncation filter and complementary filter. That code may not work for
+you and you may need to tune the filters for your specific data
+set. Make sure to understand what each filter does and think about how
+it applies to your data set otherwise your code may throw an error due
+to the differences in your data set.} 
 
 \subsection{Assignment}
 
