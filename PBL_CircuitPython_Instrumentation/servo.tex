@@ -202,7 +202,7 @@ The first 22 lines here will hopefully seem familiar. Line 1-7 are import comman
 \end{figure}
 Line 39 uses the calibration equation from the previous experiment to convert servo angle to pulse width. You’ll need to replace these numbers with your servo since all servos are different. Line 41 uses the definition created on lines 10-13 to convert pulse width to duty cycle. Line 43 makes the servo move. Line 44 prints everything to Serial for debugging purposes and line 45 pauses the script for 0.1 seconds which helps with some twitchiness in the servo. When I did this I didn’t have to program a complementary filter so I guess the servo may have it’s own low pass filter. Either way this circuit is ready to be placed on an aircraft. Whether or not it is effective is a completely different story. We could take an entire aircraft design course or an undergraduate controls and systems dynamics course but to start let's just simulate this control system and see how it does. First we need to write the dynamic equation for pitch of an aircraft. That is shown below.
 \begin{equation}
-\frac{J}{q_{\infty}S\bar{c}}\ddot{\theta} + \frac{\bar{c}}{2V}C_{mq}\dot{\theta} + C_{m\alpha}\theta = C_{m\delta_e}\delta_e + C_{m0}
+\frac{J}{q_{\infty}S\bar{c}}\ddot{\theta} - \frac{\bar{c}}{2V}C_{mq}\dot{\theta} - C_{m\alpha}\theta = C_{m\delta_e}\delta_e + C_{m0}
 \end{equation}
 In the equation above $J$ is the inertia of the aircraft, $C_{m0},C_{mq},C_{m\alpha}$ and $C_{m\delta_e}$ are non-dimensional coefficients, $\bar{c}$ is the mean aerodynamic chord, V is the velocity, $\bar{c}$ is the mean aerodynamic chord, S is the planform area of the wing and $q_{\infty}$ is the dynamic pressure. The dynamic pressure is given by the equation below
 \begin{equation}
@@ -243,5 +243,5 @@ This servo project can be split into 2 projects at your instructors discretion. 
 \begin{enumerate}[itemsep=-5pt]
 \item Include an annotated photo of your circuit showing the accelerometer, wiring, and servo. - 20\%
 \item Include a photo of your CPX rotated to 45 degrees and your servo rotated with $k_p=1$ and 2. Have your servo held up to your protractor when rotated so readers can see the angle at which your servo is rotated. - 40\%
-\item Simulate the second order system above for 10 seconds with $k_p=1$ and 2. Plot $\theta$ vs time for both values of proportional gain. - 20\%
+\item Simulate the second order system above for 10 seconds with $k_p=-1$ and $k_p=-10$ for a $\theta_c=45^o$. Plot $\theta$ vs time for both values of proportional gain. - 20\%
 \end{enumerate}

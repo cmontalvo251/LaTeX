@@ -191,7 +191,7 @@ For an aircraft we assume that the aircraft is symmetric about the longitudinal 
 \end{equation}
 Note that in this case we assume that $\theta=\alpha$ the angle of attack which is not necessarily true but for quick motion about the pitch axis this can be assumed to be true. Again the moment of inertia is $I_{yy}$ and the pitch angle is $\theta$. The aerodynamic force is given by the dynamic pressure $q = (1/2)\rho V^2$ where $\rho$ is the density of air, $V$ is the velocity of the aircraft (assumed to be constant for pure pitching), $S$ is the reference area and $\bar{c}$ is the mean aerodynamic chord. The moment coefficients are $C_{m\alpha}$ which is the restoring moment coefficient, $C_{mq}$ which is the damping moment coefficient and $C_{m\delta_e}$ which is the control moment coefficient due to elevator deflection $\delta_e$. Rearranging the equation into standard form yields
 \begin{equation}
-    \ddot{\theta} + \left(-\frac{\rho V^2 S \bar{c}^2 C_{mq}}{4I_{yy} V}\right)\dot{\theta} + \left(-\frac{\rho V^2 S \bar{c} C_{m\alpha}}{2I_{yy}}\right)\theta = -\frac{\rho V^2 S \bar{c} C_{m\delta_e}}{2I_{yy}}\delta_e
+    \ddot{\theta} + \left(-\frac{\rho V^2 S \bar{c}^2 C_{mq}}{4I_{yy} V}\right)\dot{\theta} + \left(-\frac{\rho V^2 S \bar{c} C_{m\alpha}}{2I_{yy}}\right)\theta = \frac{\rho V^2 S \bar{c} C_{m\delta_e}}{2I_{yy}}\delta_e
 \end{equation}
 which is in the standard form of second order systems with a natural frequency and damping ratio given as 
 \begin{equation}
