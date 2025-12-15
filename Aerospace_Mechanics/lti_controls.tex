@@ -6,6 +6,17 @@ control. The sections that follow will provide many examples for linear time inv
 
 \hl{include graphic of Feedback.png}
 
+In the graphic above a basic feedback control system is shown. The system
+consists of a plant, controller, reference input, and feedback path. The
+plant is the system to be controlled. The controller is the algorithm
+that computes the control input to the plant based on the error between
+the reference input and the feedback signal. The reference input is the
+desired state of the system. The feedback path is the measurement of
+the system state. The controller uses the error signal, which is the
+difference between the reference input and the feedback signal, to
+compute the control input to the plant. The goal of the controller is
+to drive the error signal to zero.
+
 \subsection{Controllability}
 
 Before beginning to talk about control there is a necessary discussion about controllability. Controllability is formally stated as a system where any initial state $x(0)=x_0$ and final state $x_1,t_1>0$, there exists a piecewise continuous input $u(t)$ such that $x(t_1)=x_1$. What this means is that a system is controllable if it can be driven from any initial state to any final state in a finite time. This is an important concept because if a system is not controllable then no matter how good the control system is it will never be able to drive the system to the desired state.
