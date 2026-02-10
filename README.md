@@ -2,7 +2,7 @@
 
 All of my textbooks written for various classes
 
-0. INSTALLATION
+If you want to compile the raw text files here's how to do that on Linux 
 
 If you have the space I strongly recommend you just run
 
