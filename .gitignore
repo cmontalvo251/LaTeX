@@ -4,6 +4,9 @@ ASAC_Derivations
 *.zip
 *.log
 *.out
+*.log
+stage/
+web/
 *.backup.*
 Graphics
 1D_Linear_Systems_Analysis

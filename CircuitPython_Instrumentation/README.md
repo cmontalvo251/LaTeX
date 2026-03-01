@@ -1,6 +1,6 @@
 Using PreTeXt on Ubuntu 24.03
 
-1.) First install pretext
+<!-- First install pretext -->
 
 pip3 install pretext
 
@@ -8,26 +8,43 @@ If this gives you an error about breaking system packages go ahead and do that
 
 pip3 install pretext --break-system-packages
 
-2.) Then open ~/.bashrc and add the following line of code
+<!-- Then open ~/.bashrc and add the following line of code -->
 
 PATH+='~/.local/bin'
 
 this way your terminal can find pretext
 
-3.) Oscar Levin has created a pretext-tools in vs code so grab that from the extension tab
+<!--Oscar Levin has created a 'pretext-tools' in vs code so grab that from the exta tab -->
 
-4.) You need to have a 'source' folder in the repo with all your .ptx files.
+<!--This is how you make a comment in PreTeXt -->
 
-5.) <!--This is how you make a comment in PreTeXt -->
+<!-- It's a much better idea to run 'pretext new' to create a new project. -->
 
-6.) Running 'pretext build pdf' will compile your project into a pdf.   
+You can try 'pretext init' to update an existing project but better to just start from scratch.
 
-7.) Running 'pretext build html' will build your project into an html file 
+Running 'pretext new' defaults to 'pretext new book' and creates a new project
 
-8.) but you need npm first so run 'sudo apt install npm'
+This creates all the req*.txt and project.ptx files as well as a bunch of stuff in source
 
-9.) You may need to run 'sudo apt update' and 'sudo apt upgrade' first of course
+Note that this also creates its own .git folder so if you're already in an existing repo make sure you delete that folder to preserve the old git url.
 
-10.) I'd recommend creating an 'output' folder an 'assets' folder 
+<!-- Running 'pretext build pdf' will compile your project into a pdf.   -->
 
-11.) and a 'generated-assets' folder
+You can also run 'pretext build print' and it will do the same thing
+
+<!-- Running 'pretext build html' will build your project into an html file. -->
+
+you can also run pretext build web and it will do the same thing
+
+but you need npm first so run 'sudo apt install npm'
+
+You may need to run 'sudo apt update' and 'sudo apt upgrade' first of course
+
+'pretext view html' will open your newly created html or 'pretext view web'. 
+
+Alternatively you can open the index.html file in the 
+
+'output/web' folder and it will open in your default web browser
+
+<!-- -->
+

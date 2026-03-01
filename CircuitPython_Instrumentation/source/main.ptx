@@ -1,59 +1,22 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<pretext xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en-US">
-<docinfo>
-<macros>
-\newcommand{\sref}[1]{$^{[\ref{#1}]}$}
-\newcommand{\dref}[2]{$^{[\ref{#1}-\ref{#2}]}$}
-\newcommand{\eqnref}[1]{\eqref{#1}}
-\newcommand{\class}[1]{\texttt{#1}}
-\newcommand{\package}[1]{\texttt{#1}}
-\newcommand{\file}[1]{\texttt{#1}}
-\newcommand{\BibTeX}{Bib\TeX}
-</macros>
+<?xml version="1.0" encoding="utf-8"?>
 
-<latex-image-preamble>
-\usepackage{tikz}
-\usepackage{tkz-graph}
-\usepackage{tkz-euclide}
-\usetikzlibrary{patterns}
-\usetikzlibrary{positioning}
-\usetikzlibrary{matrix,arrows}
-\usetikzlibrary{calc}
-\usetikzlibrary{shapes}
-\usetikzlibrary{through,intersections,decorations,shadows,fadings}
-\usepackage{pgfplots}
+<pretext xml:lang="en-US" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <!-- we first include a file which contains the docinfo element: -->
+  <xi:include href="./docinfo.ptx" />
 
-</latex-image-preamble>
+  <book xml:id="my-great-book">
+    <title>My Great Book</title>
+    <subtitle>An example to get you started</subtitle>
 
-</docinfo>
+    <!-- Include frontmatter -->
+    <xi:include href="./frontmatter.ptx" />
 
-<book>
+    <!-- Include chapters -->
+    <xi:include href="./ch-chapter-title.ptx" />
 
-<!-- Title -->
-<title> Project Based Engineering Instrumentation with CircuitPython </title>
 
-<!--Front Matter -->
-<frontmatter>
-    <!--- Empty Bibinfo for the time being-->    
-    <bibinfo></bibinfo>
-    <!-- Create the title page -->
-    <titlepage>
-        <titlepage-items></titlepage-items>
-    </titlepage>
-</frontmatter>
+    <!-- Include backmatter -->
+    <xi:include href="./backmatter.ptx" />
 
-<!-- First chapter which is just a dummy chapter for now -->
-<chapter xml:id="ch-1">
-    <title>Introduction</title>
-
-    <!-- Dummy Section -->
-    <section>
-        <title>What is CircuitPython?</title>
-        <p>CircuitPython is a programming language designed for microcontrollers, based on the popular Python programming language. It is developed by Adafruit Industries and is specifically tailored for use in embedded systems and hardware projects. CircuitPython allows developers to write code that can run directly on microcontroller boards, making it easier to create interactive projects and prototypes.</p>
-    </section>
-    
-</chapter>
-
-</book>
-
+  </book>
 </pretext>

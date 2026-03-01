@@ -1,0 +1,2 @@
+# This file was automatically generated with PreTeXt 2.37.1.
+pretext == 2.37.1
