@@ -46,5 +46,9 @@ Alternatively you can open the index.html file in the
 
 'output/web' folder and it will open in your default web browser
 
-<!-- -->
+<!--In order to deploy you need to have your project.ptx file in the root dir -->
+
+This means you need to edit the project.ptx file and then move it to the root dir
+You'll see that there are a number of directions in the project.ptx file so it's pretty
+straightforward
 
