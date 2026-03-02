@@ -50,5 +50,6 @@ Alternatively you can open the index.html file in the
 
 This means you need to edit the project.ptx file and then move it to the root dir
 You'll see that there are a number of directions in the project.ptx file so it's pretty
-straightforward
+straightforward. Note however that Dr. Levin suggests that each book have its own
+repo. 
 
