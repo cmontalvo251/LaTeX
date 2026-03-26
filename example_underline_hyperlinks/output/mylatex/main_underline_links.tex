@@ -1,0 +1,82 @@
+\documentclass{book}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{enumitem}
+\usepackage{mathabx}
+\usepackage{comment}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{natbib} %REMOVE THIS IF YOU DON'T WANT BRACKETS ON YOUR PAPER
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{color,soul}
+\usepackage[font=normalsize,labelfont=bf]{caption}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{xcolor}
+
+\newcommand{\sref}[1]{$^{[\ref{#1}]}$}
+\newcommand{\dref}[2]{$^{[\ref{#1}-\ref{#2}]}$}
+
+ % Define commands to assure consistent treatment throughout document
+\newcommand{\eqnref}[1]{(\ref{#1})}
+\newcommand{\class}[1]{\texttt{#1}}
+\newcommand{\package}[1]{\texttt{#1}}
+\newcommand{\file}[1]{\texttt{#1}}
+\newcommand{\BibTeX}{\textsc{Bib}\TeX}
+\def\beq{\begin{equation}}
+\def\eeq{\end{equation}}
+\def\beqn{\begin{matrix}}
+\def\eeqn{\end{matrix}}
+
+\hypersetup{%
+  colorlinks=true,% hyperlinks will be black
+  linkcolor=blue,
+  linkbordercolor=red,% hyperlink borders will be red
+   %pdfborderstyle={/S/U/W 1}% border style will be underline of width 1pt
+}
+
+\makeatletter
+\Hy@AtBeginDocument{%
+  \def\@pdfborder{0 0 1}% Overrides border definition set with colorlinks=true
+  \def\@pdfborderstyle{/S/U/W 1}% Overrides border style set with colorlinks=true
+                                % Hyperlink border style will be underline of width 1pt
+}
+\makeatother
+
+\begin{document}
+%% bottom alignment is explicit, since it normally depends on oneside, twoside
+\raggedbottom
+%
+%
+\typeout{************************************************}
+\typeout{Chapter 1 Hyperlinks}
+\typeout{************************************************}
+%
+\begin{chapter}{Hyperlinks}
+This chapter will talk about hyperlinks%
+%
+%
+\typeout{************************************************}
+\typeout{Section 1.1 Hyperlink Example}
+\typeout{************************************************}
+%
+\begin{section}{Section}
+    \label{section1}
+Here is an example of a hyperlink to \href{https://www.google.com}{Google} using the \emph{url} command.%
+\end{section}
+%
+%
+\typeout{************************************************}
+\typeout{Section 1.2 Another Hyperlink Example}
+\typeout{************************************************}
+%
+\begin{section}{Section}
+Here is another example of a hyperlink except we're going to refer to \hyperref[section1]{Section~{\ref{section1}}} using the \emph{xref} command.%
+\end{section}
+\end{chapter}
+\end{document}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<pretext xml:lang="en-US" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <book xml:id="my-great-book">
+    <title>My Great Book</title>
+    <subtitle>to help hyperlinks get underlined</subtitle>
+
+    <chapter xml:id="chapter1" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Hyperlinks</title>
+
+    <introduction>
+      <p>This chapter will talk about hyperlinks </p>
+    </introduction>
+
+    <section xml:id="section1">
+      <title>Hyperlink Example</title>
+      <p>Here is an example of a hyperlink to <url href="https://www.google.com">Google</url> using the <em>url</em> command.</p>
+    </section>
+    <section xml:id="section2">
+      <title>Another Hyperlink Example</title>
+      <p>Here is another example of a hyperlink except we're going to refer to <xref ref="section1"/> using the <em>xref</em> command.</p>
+    </section>
+    </chapter>
+
+  </book>
+</pretext>
