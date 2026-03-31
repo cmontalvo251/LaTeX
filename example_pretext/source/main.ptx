@@ -20,6 +20,49 @@
       <title>Another Hyperlink Example</title>
       <p>Here is another example of a hyperlink except we're going to refer to <xref ref="section1"/> using the <em>xref</em> command.</p>
     </section>
+
+    <section xml:id="table">
+      <title>A Table</title>
+      <p>Here is a table
+        <table xml:id="table-edf-thrust-data">
+    <title>EDF Propulsion System: Thrust vs. Current</title>
+    <tabular>
+        <row header="yes" bottom="medium">
+            <cell>Throttle (%)</cell>
+            <cell>Current (A)</cell>
+            <cell>Voltage (V)</cell>
+            <cell>Thrust (gf)</cell>
+        </row>
+        
+        <row>
+            <cell>25</cell>
+            <cell>4.2</cell>
+            <cell>12.4</cell>
+            <cell>180</cell>
+        </row>
+        <row highlight="green">
+            <cell colors="red">50</cell>
+            <cell><alert>12.8</alert></cell>
+            <cell>11.9</cell>
+            <cell>450</cell>
+        </row>
+        <row bg-color="yellow!50">
+            <cell>75</cell>
+            <cell>28.5</cell>
+            <cell>11.2</cell>
+            <cell>820</cell>
+        </row>
+        <row>
+            <cell>100</cell>
+            <cell>45.2</cell>
+            <cell>10.5</cell>
+            <cell>1150</cell>
+        </row>
+    </tabular>
+</table>
+</p>
+</section>
+
     </chapter>
 
   </book>

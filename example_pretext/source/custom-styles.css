@@ -1,0 +1,16 @@
+/* Make the header blue with white text */
+#table-edf-thrust-data .header-row {
+    background-color: #003f5c;
+    color: #ffffff;
+}
+
+/* Highlight the Thrust column (the 4th column) in light yellow */
+#table-edf-thrust-data td:nth-child(4) {
+    background-color: #fff9c4;
+    font-weight: bold;
+}
+
+/* Zebra stripe the other rows */
+#table-edf-thrust-data tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
