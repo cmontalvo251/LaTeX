@@ -2,6 +2,7 @@ tex2pdf
 ASAC_Derivations
 *.docx
 *.zip
+.cache
 *.log
 *.out
 *.log
