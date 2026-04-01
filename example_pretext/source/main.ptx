@@ -5,15 +5,24 @@
     <title>My Great Book</title>
     <subtitle>to help hyperlinks get underlined</subtitle>
 
+    <frontmatter>
+      <!-- Table of contents is automatic. This just generates the title page--> 
+      <titlepage>
+        <titlepage-items/>
+      </titlepage>
+    </frontmatter>
+
+
     <chapter xml:id="chapter1" xmlns:xi="http://www.w3.org/2001/XInclude">
     <title>Hyperlinks</title>
-
-    <introduction>
-      <p>This chapter will talk about hyperlinks </p>
-    </introduction>
-
+    <introduction><p>How to make hyperlinks in PreTeXt</p></introduction>
+    <section xml:id="section0">
+      <title>Introduction</title>
+      <p>To make a hyperlink in PreTeXt</p>
+    </section>
     <section xml:id="section1">
       <title>Hyperlink Example</title>
+      <subtitle>Testing section subtitles</subtitle>
       <p>Here is an example of a hyperlink to <url href="https://www.google.com">Google</url> using the <em>url</em> command.</p>
     </section>
     <section xml:id="section2">
@@ -63,7 +72,30 @@
 </p>
 </section>
 
-    </chapter>
+<section xml:id="sec-list-example">
+  <title>list example</title>
+  <p>Here is an example of a list</p>
+  <ol>
+    <li><p>First item</p></li>
+    <li><p>Second item</p></li>
+  </ol> 
+  <ul>
+    <li><p>First item in unordered list</p> </li>
+    <li><p>Second item in unordered list</p> </li>
+  </ul>
+  <dl>
+    <li><title>First:</title><p>Item</p></li>
+    <li><title>Second:</title><p>Item</p></li>
+  </dl>
+  <list xml:id="my-list">
+    <title>My List</title>
+    <ol>
+    <li><p>First item in list</p></li>
+    <li><p>Second item in list</p></li>
+  </ol>
+</list>
+</section>
 
-  </book>
+    </chapter>
+    </book>
 </pretext>
