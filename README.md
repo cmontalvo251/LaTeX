@@ -1,6 +1,6 @@
 # LaTeX
 
-All of my textbooks written for various classes
+Some of my textbooks written for various classes (Many have moved to PreTeXt)
 
 If you want to compile the raw text files here's how to do that on Linux 
 
